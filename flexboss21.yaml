@@ -176,7 +176,89 @@ sensor:
     address: 9
     unit_of_measurement: "W"
     value_type: U_WORD
-  
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Charge"
+    id: bat_charge
+    register_type: read
+    address: 10
+    unit_of_measurement: "W"
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Discharge"
+    id: bat_discharge
+    register_type: read
+    address: 11
+    unit_of_measurement: "W"
+    value_type: U_WORD
+
+    # this is Phase R or Split Phase grid voltage
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Voltage"
+    id: grid_volt
+    register_type: read
+    register_count: 4
+    address: 12
+    unit_of_measurement: "V"
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+    # this is Phase S grid voltage
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "S-Phase Grid Voltage"
+    id: grid_volt_S
+    register_type: read
+    register_count: 4
+    address: 13
+    unit_of_measurement: "V"
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+    # this is Phase T grid voltage
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "T-Phase Grid Voltage"
+    id: grid_volt_T
+    register_type: read
+    register_count: 4
+    address: 14
+    unit_of_measurement: "V"
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Frequency"
+    id: grid_freq
+    register_type: read
+    address: 15
+    unit_of_measurement: "Hz"
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Output Power"
+    id: Pinv
+    register_type: read
+    #register_count: 6
+    address: 17
+    unit_of_measurement: "W"
+    value_type: U_WORD
+    
 # Ethernet Controller
 ethernet:
   type: IP101
