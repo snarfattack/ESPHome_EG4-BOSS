@@ -149,7 +149,34 @@ sensor:
           // EG4_cca-1C1212: reg 5 appears packed as 0xHHLL (HH=SOH, LL=SOC)
           int soh = (int(x) >> 8);
           return soh;
+          
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV1 Power"
+    id: pv1_pow
+    register_type: read
+    address: 7
+    unit_of_measurement: "W"
+    value_type: U_WORD
+ 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV2 Power"
+    id: pv2_pow
+    register_type: read
+    address: 8
+    unit_of_measurement: "W"
+    value_type: U_WORD
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV3 Power"
+    id: pv3_pow
+    register_type: read
+    address: 9
+    unit_of_measurement: "W"
+    value_type: U_WORD
+  
 # Ethernet Controller
 ethernet:
   type: IP101
