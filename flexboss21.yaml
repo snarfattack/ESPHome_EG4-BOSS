@@ -686,6 +686,7 @@ sensor:
     id: FaultCode
     register_type: read
     address: 60
+    accuracy_decimals: 0
     value_type: U_DWORD_R
 
   - platform: modbus_controller
@@ -694,6 +695,7 @@ sensor:
     id: WarningCode
     register_type: read
     address: 62
+    accuracy_decimals: 0
     value_type: U_DWORD_R
 
 
