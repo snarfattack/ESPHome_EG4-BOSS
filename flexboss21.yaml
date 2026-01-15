@@ -699,7 +699,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Internal Ring Temperature"
-    id: tinner
+    id: Tinner
     register_type: read
     address: 64
     device_class: temperature
@@ -748,6 +748,9 @@ sensor:
     address: 69
     accuracy_decimals: 0
     value_type: U_DWORD_R
+    unit_of_measurement: 's'
+    state_class: total_increasing
+    device_class: duration
 
 text_sensor:
   - platform: modbus_controller
