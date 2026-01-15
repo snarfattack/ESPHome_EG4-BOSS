@@ -277,10 +277,103 @@ sensor:
     address: 18
     unit_of_measurement: Amps
     value_type: U_WORD
-    entity_category: diagnostic
     filters: 
       - multiply: 0.01
-    
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Power Factor"
+    id: PF
+    register_type: read
+    #register_count: 6
+    address: 19
+    #unit_of_measurement: "W"
+    value_type: S_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "R-Phase EPS Voltage"
+    id: VepsR
+    register_type: read
+    address: 20
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+       - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "S-Phase EPS Voltage"
+    id: VepsS
+    register_type: read
+    address: 20
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+       - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "T-Phase EPS Voltage"
+    id: VepsT
+    register_type: read
+    address: 20
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+       - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Port Frequency"
+    id: Feps
+    register_type: read
+    address: 23
+    unit_of_measurement: "Hz"
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Port Power"
+    id: Peps
+    register_type: read
+    address: 24
+    unit_of_measurement: "W"
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Apparent Power"
+    id: Seps
+    register_type: read
+    address: 25
+    unit_of_measurement: "VA"
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Export power to Grid"
+    id: Ptogrid
+    register_type: read
+    address: 26
+    unit_of_measurement: "W"
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Import power from Grid"
+    id: Ptouser
+    register_type: read
+    address: 27
+    unit_of_measurement: "W"
+    value_type: U_WORD
+
 # Ethernet Controller
 ethernet:
   type: IP101
