@@ -768,7 +768,7 @@ text_sensor:
       if (x == "0002") return std::string("Programming");
       if (x == "0004") return std::string("PV On-Grid");
       if (x == "0008") return std::string("PV Charge");
-      if (x == "000C") return std::string("PV Charge + On-Grid");
+      if (x == "000c") return std::string("PV Charge + On-Grid");
       if (x == "0010") return std::string("Battery On-Grid");
       if (x == "0014") return std::string("PV + Battery On-Grid");
       if (x == "0020") return std::string("AC Charge");
@@ -777,7 +777,7 @@ text_sensor:
       if (x == "0060") return std::string("Off-Grid + Battery Charging (AC-Coupled)");
       if (x == "0080") return std::string("PV Off-Grid (Not Recommended)");
       if (x == "0088") return std::string("PV Charge + Off-Grid");
-      if (x == "00C0") return std::string("PV + Battery Off-Grid");
+      if (x == "00c0") return std::string("PV + Battery Off-Grid");
       // Fallback: If the code is not recognized, show the raw hex value.
       return std::string("Unknown (0x") + x + ")";
 
