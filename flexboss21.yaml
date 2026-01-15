@@ -148,43 +148,6 @@ sensor:
     state_class: measurement
     accuracy_decimals: 0
 
-#  - platform: modbus_controller
-#    modbus_controller_id: inverter_1
-#    name: "Battery State of Charge"
-#    id: SOC
-#    address: 5
-#    register_type: read
-#    #register_count: 1
-#    value_type: U_WORD
-#    unit_of_measurement: "%"
-#    device_class: battery
-#    accuracy_decimals: 0
-#    filters:
-#      - lambda: |-
-#          // EG4_cca-1C1212: reg 5 appears packed as 0xHHLL (HH=SOH, LL=SOC)
-#          int soc = (int(x) & 0xFF);
-#          // Optional safety clamp:
-#          //if (soc < 0) soc = 0;
-#          //if (soc > 100) soc = 100;
-#          return soc;
-
-#  - platform: modbus_controller
-#    modbus_controller_id: inverter_1
-#    name: "Battery State of Health"
-#    id: SOH
-#    address: 5
-#    register_type: read
-#    #register_count: 1
-#    value_type: U_WORD
-#    unit_of_measurement: "%"
-#    device_class: battery
-#    accuracy_decimals: 0
-#    filters:
-#      - lambda: |-
-#          // EG4_cca-1C1212: reg 5 appears packed as 0xHHLL (HH=SOH, LL=SOC)
-#          int soh = (int(x) >> 8);
-#          return soh;
-          
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV1 Power"
@@ -782,7 +745,7 @@ sensor:
     name: "Runtime"
     id: RunningTime
     register_type: read
-    address: 62
+    address: 69
     accuracy_decimals: 0
     value_type: U_DWORD_R
 
