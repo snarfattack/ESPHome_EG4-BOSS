@@ -67,7 +67,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV1 Voltage"
-    id: pv1_volt
+    id: Vpv1
     register_type: read
     address: 1
     unit_of_measurement: "V"
@@ -79,7 +79,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV2 Voltage"
-    id: pv2_volt
+    id: Vpv2
     register_type: read
     address: 2
     unit_of_measurement: "V"
@@ -91,7 +91,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV3 Voltage"
-    id: pv3_volt
+    id: Vpv3
     register_type: read
     address: 3
     unit_of_measurement: "V"
@@ -103,7 +103,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery Voltage"
-    id: vbat
+    id: Vbat
     register_type: read
     address: 4
     unit_of_measurement: "V"
@@ -116,10 +116,10 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery State of Charge"
-    id: bat_soc
+    id: SOC
     address: 5
     register_type: read
-    register_count: 1
+    #register_count: 1
     value_type: U_WORD
     unit_of_measurement: "%"
     device_class: battery
@@ -136,10 +136,10 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery State of Health"
-    id: bat_soh
+    id: SOH
     address: 5
     register_type: read
-    register_count: 1
+    #register_count: 1
     value_type: U_WORD
     unit_of_measurement: "%"
     device_class: battery
@@ -153,7 +153,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV1 Power"
-    id: pv1_pow
+    id: Ppv1
     register_type: read
     address: 7
     unit_of_measurement: "W"
@@ -162,7 +162,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV2 Power"
-    id: pv2_pow
+    id: Ppv2
     register_type: read
     address: 8
     unit_of_measurement: "W"
@@ -171,7 +171,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV3 Power"
-    id: pv3_pow
+    id: Ppv3
     register_type: read
     address: 9
     unit_of_measurement: "W"
@@ -180,7 +180,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery Charge"
-    id: bat_charge
+    id: Pcharge
     register_type: read
     address: 10
     unit_of_measurement: "W"
@@ -189,7 +189,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery Discharge"
-    id: bat_discharge
+    id: Pdischarge
     register_type: read
     address: 11
     unit_of_measurement: "W"
@@ -199,9 +199,9 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Grid Voltage"
-    id: grid_volt
+    id: VacR
     register_type: read
-    register_count: 4
+    #register_count: 4
     address: 12
     unit_of_measurement: "V"
     accuracy_decimals: 2
@@ -213,9 +213,9 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "S-Phase Grid Voltage"
-    id: grid_volt_S
+    id: VacS
     register_type: read
-    register_count: 4
+    #register_count: 4
     address: 13
     unit_of_measurement: "V"
     accuracy_decimals: 2
@@ -227,9 +227,9 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "T-Phase Grid Voltage"
-    id: grid_volt_T
+    id: VacT
     register_type: read
-    register_count: 4
+    #register_count: 4
     address: 14
     unit_of_measurement: "V"
     accuracy_decimals: 2
@@ -240,7 +240,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Grid Frequency"
-    id: grid_freq
+    id: Fac
     register_type: read
     address: 15
     unit_of_measurement: "Hz"
@@ -251,13 +251,35 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Inverter Output Power"
+    name: "Inverter Grid port Output Power"
     id: Pinv
+    register_type: read
+    #register_count: 6
+    address: 16
+    unit_of_measurement: "W"
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AC Charging Rectified Power"
+    id: Prec
     register_type: read
     #register_count: 6
     address: 17
     unit_of_measurement: "W"
     value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Current RMS"
+    id: IinvRMS
+    register_type: read
+    address: 18
+    unit_of_measurement: Amps
+    value_type: U_WORD
+    entity_category: diagnostic
+    filters: 
+      - multiply: 0.01
     
 # Ethernet Controller
 ethernet:
