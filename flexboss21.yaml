@@ -539,6 +539,169 @@ sensor:
     value_type: U_WORD
     filters:
       - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV1 cumulative power generation"
+    id: Epv1_all
+    register_type: read
+    address: 40
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV2 cumulative power generation"
+    id: Epv2_all
+    register_type: read
+    address: 42
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV3 cumulative power generation"
+    id: Epv3_all
+    register_type: read
+    address: 44
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Cumulative power generation"
+    id: Einv_all
+    register_type: read
+    address: 46
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AC Charging Rectified Cumulative power generation"
+    id: Erec_all
+    register_type: read
+    address: 48
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Charge Cumulative power generation"
+    id: Echg_all
+    register_type: read
+    address: 50
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Discharge Cumulative power generation"
+    id: Edischg_all
+    register_type: read
+    address: 52
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Off Grid Inverter Cumulative power generation"
+    id: Eeps_all
+    register_type: read
+    address: 54
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Export to Grid Cumulative power generation"
+    id: Etogrid_all
+    register_type: read
+    address: 56
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Import from Grid Cumulative power generation"
+    id: Etouser_all
+    register_type: read
+    address: 58
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Fault Codes"
+    id: FaultCode
+    register_type: read
+    address: 60
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Warning Code"
+    id: WarningCode
+    register_type: read
+    address: 62
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
 
 text_sensor:
   - platform: modbus_controller
