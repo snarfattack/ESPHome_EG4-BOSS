@@ -548,27 +548,26 @@ text_sensor:
     register_type: read
     address: 0
     raw_encode: HEXBYTES     # read the 16-bit value as a 4-char hex string
-    entity_category: diagnostic
-     lambda: |-
-       // x is the hex string, for example: "0000", "0010", "00C0".
-       // Map values exactly as listed in the table; do not use bitmasking.
-       if (x == "0000") return std::string("Standby");
-       if (x == "0001") return std::string("Fault");
-       if (x == "0002") return std::string("Programming");
-       if (x == "0004") return std::string("PV On-Grid");
-       if (x == "0008") return std::string("PV Charge");
-       if (x == "000C") return std::string("PV Charge + On-Grid");
-       if (x == "0010") return std::string("Battery On-Grid");
-       if (x == "0014") return std::string("PV + Battery On-Grid");
-       if (x == "0020") return std::string("AC Charge");
-       if (x == "0028") return std::string("PV + AC Charge");
-       if (x == "0040") return std::string("Battery Off-Grid");
-       if (x == "0060") return std::string("Off-Grid + Battery Charging (AC-Coupled)");
-       if (x == "0080") return std::string("PV Off-Grid (Not Recommended)");
-       if (x == "0088") return std::string("PV Charge + Off-Grid");
-       if (x == "00C0") return std::string("PV + Battery Off-Grid");
-       // Fallback: If the code is not recognized, show the raw hex value.
-       return std::string("Unknown (0x") + x + ")";
+    lambda: |-
+      // x is the hex string, for example: "0000", "0010", "00C0".
+      // Map values exactly as listed in the table; do not use bitmasking.
+      if (x == "0000") return std::string("Standby");
+      if (x == "0001") return std::string("Fault");
+      if (x == "0002") return std::string("Programming");
+      if (x == "0004") return std::string("PV On-Grid");
+      if (x == "0008") return std::string("PV Charge");
+      if (x == "000C") return std::string("PV Charge + On-Grid");
+      if (x == "0010") return std::string("Battery On-Grid");
+      if (x == "0014") return std::string("PV + Battery On-Grid");
+      if (x == "0020") return std::string("AC Charge");
+      if (x == "0028") return std::string("PV + AC Charge");
+      if (x == "0040") return std::string("Battery Off-Grid");
+      if (x == "0060") return std::string("Off-Grid + Battery Charging (AC-Coupled)");
+      if (x == "0080") return std::string("PV Off-Grid (Not Recommended)");
+      if (x == "0088") return std::string("PV Charge + Off-Grid");
+      if (x == "00C0") return std::string("PV + Battery Off-Grid");
+      // Fallback: If the code is not recognized, show the raw hex value.
+      return std::string("Unknown (0x") + x + ")";
 
 
 # Ethernet Controller
