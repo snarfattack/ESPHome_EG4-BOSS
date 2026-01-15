@@ -698,6 +698,49 @@ sensor:
     accuracy_decimals: 0
     value_type: U_DWORD_R
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Internal Ring Temperature"
+    id: tinner
+    register_type: read
+    address: 64
+    device_class: temperature
+    unit_of_measurement: "°C"
+    value_type: S_WORD
+    state_class: measurement
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Radiator 1 Temperature"
+    id: Tradiator1
+    register_type: read
+    address: 65
+    device_class: temperature
+    unit_of_measurement: "°C"
+    value_type: S_WORD
+    state_class: measurement
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Radiator 2 Temperature"
+    id: Tradiator2
+    register_type: read
+    address: 66
+    device_class: temperature
+    unit_of_measurement: "°C"
+    value_type: S_WORD
+    state_class: measurement
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Temperature"
+    id: Tbat
+    register_type: read
+    address: 67
+    device_class: temperature
+    unit_of_measurement: "°C"
+    value_type: S_WORD
+    state_class: measurement
 
 text_sensor:
   - platform: modbus_controller
