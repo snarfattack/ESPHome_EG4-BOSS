@@ -550,7 +550,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
       
@@ -564,7 +564,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
       
@@ -578,7 +578,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
       
@@ -592,7 +592,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
 
@@ -606,7 +606,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
 
@@ -648,7 +648,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
 
@@ -662,7 +662,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
 
@@ -676,7 +676,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
-    value_type: U_DWORD
+    value_type: U_DWORD_R
     filters:
       - multiply: 0.1
 
@@ -686,7 +686,7 @@ sensor:
     id: FaultCode
     register_type: read
     address: 60
-    value_type: U_DWORD
+    value_type: U_DWORD_R
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -694,7 +694,7 @@ sensor:
     id: WarningCode
     register_type: read
     address: 62
-    value_type: U_DWORD
+    value_type: U_DWORD_R
 
 
 text_sensor:
