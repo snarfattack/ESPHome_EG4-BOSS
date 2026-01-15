@@ -705,7 +705,7 @@ sensor:
     register_type: read
     address: 64
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: "C"
     value_type: S_WORD
     state_class: measurement
 
@@ -716,7 +716,7 @@ sensor:
     register_type: read
     address: 65
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: "C"
     value_type: S_WORD
     state_class: measurement
     
@@ -727,7 +727,7 @@ sensor:
     register_type: read
     address: 66
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: "C"
     value_type: S_WORD
     state_class: measurement
     
@@ -738,7 +738,7 @@ sensor:
     register_type: read
     address: 67
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: "C"
     value_type: S_WORD
     state_class: measurement
 
