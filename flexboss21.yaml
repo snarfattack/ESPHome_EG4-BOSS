@@ -120,7 +120,6 @@ sensor:
     register_type: read
     value_type: U_WORD
     internal: true        # Hides this raw sensor from Home Assistant
-    update_interval: 30s  # Adjust your polling rate here
     on_value:
       then:
         - lambda: |-
