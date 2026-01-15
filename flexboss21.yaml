@@ -376,6 +376,170 @@ sensor:
     unit_of_measurement: "W"
     value_type: U_WORD
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV1 Power Generation Today"
+    id: Epv1_day
+    register_type: read
+    address: 28
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV2 Power Generation Today"
+    id: Epv2_day
+    register_type: read
+    address: 29
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+  
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV3 Power Generation Today"
+    id: Epv3_day
+    register_type: read
+    address: 30
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "On-Grid Power Generation Today"
+    id: Einv_day
+    register_type: read
+    address: 31
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AC charging Rectified Power Generation Today"
+    id: Erec_day
+    register_type: read
+    address: 32
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Charged Energy Today"
+    id: Echg_day
+    register_type: read
+    address: 33
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Discharged Energy Today"
+    id: Edischg_day
+    register_type: read
+    address: 34
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Off-Grid Power Generation Today"
+    id: Eeps_day
+    register_type: read
+    address: 35
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Export Energy to Grid Today"
+    id: Etogrid_day
+    register_type: read
+    address: 36
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Import Energy from Grid Today"
+    id: Etouser_day
+    register_type: read
+    address: 37
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Bus 1 Voltage"
+    id: Vbus1
+    register_type: read
+    address: 38
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+            
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Bus 2 Voltage"
+    id: Vbus2
+    register_type: read
+    address: 39
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
 
 
 # Ethernet Controller
