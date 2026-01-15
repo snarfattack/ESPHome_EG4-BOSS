@@ -287,8 +287,10 @@ sensor:
     register_type: read
     #register_count: 6
     address: 19
-    #unit_of_measurement: "W"
+    unit_of_measurement: "%"
     value_type: S_WORD
+    filters: 
+      - multiply: 0.001
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -373,6 +375,8 @@ sensor:
     address: 27
     unit_of_measurement: "W"
     value_type: U_WORD
+
+
 
 # Ethernet Controller
 ethernet:
