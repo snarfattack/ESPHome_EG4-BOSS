@@ -752,6 +752,132 @@ sensor:
     state_class: total_increasing
     device_class: duration
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ATS_raw
+    register_type: read
+    address: 71
+    accuracy_decimals: 0
+    internal: true
+    value_type: U_WORD
+    on_value: 
+      then:
+        - lambda: |-
+            // 1. Extract bits 0-3
+            uint16_t val1 = (uint16_t)x & 0x000F; 
+            switch (val1) {
+              case 0: id(AutoTestStart).publish_state("Not activated"); break;
+              case 1: id(AutoTestStart).publish_state("Activated"); break;
+              default: id(AutoTestStart).publish_state("Unknown"); break;
+            }
+
+            // 2. Extract bits 4-7 (Note: using a different variable name or just reusing without redeclaring)
+            uint16_t val2 = ((uint16_t)x >> 4) & 0x000F;
+            switch (val2) {
+              case 0: id(ubAutoTestStatus).publish_state("Waiting"); break;
+              case 1: id(ubAutoTestStatus).publish_state("Testing"); break;
+              case 2: id(ubAutoTestStatus).publish_state("Test fail"); break;
+              case 3: id(ubAutoTestStatus).publish_state("V Test OK"); break;
+              case 4: id(ubAutoTestStatus).publish_state("F Test OK"); break;
+              case 5: id(ubAutoTestStatus).publish_state("Test Pass"); break;
+              default: id(ubAutoTestStatus).publish_state("Unknown"); break;
+            }
+            
+            // 3. Extract bits 8-11
+            uint16_t val3 = ((uint16_t)x >> 8) & 0x000F;
+            switch (val3) {
+              case 1: id(ubAutoTestStep).publish_state("V1L Test"); break;
+              case 2: id(ubAutoTestStep).publish_state("V1H Test"); break;
+              case 3: id(ubAutoTestStep).publish_state("F1L Test"); break;
+              case 4: id(ubAutoTestStep).publish_state("F1H Test"); break;
+              case 5: id(ubAutoTestStep).publish_state("V2L Test"); break;
+              case 6: id(ubAutoTestStep).publish_state("V2H Test"); break;
+              case 7: id(ubAutoTestStep).publish_state("F2L Test"); break;
+              case 8: id(ubAutoTestStep).publish_state("F2H Test"); break;
+              default: id(ubAutoTestStep).publish_state("Unknown"); break;
+            }
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ATL_raw
+    register_type: read
+    address: 72
+    accuracy_decimals: 0
+    internal: true
+    value_type: U_WORD
+    on_value: 
+      then:
+        - lambda: |-
+            float raw = float(x);
+            int step = (int)id(ATS_raw).state;
+            switch (step) {
+              case 1:
+              case 2:
+              case 5:
+              case 6:
+                id(wAutoTestLimit).publish_state(str_sprintf("%.1fV", raw*0.1)); 
+                break;
+              case 3:
+              case 4:
+              case 7:
+              case 8:
+                id(wAutoTestLimit).publish_state(str_sprintf("%.2fHz", raw*0.01)); 
+                break;
+              default:
+                id(wAutoTestLimit).publish_state("Unknown"); 
+            }
+  
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Auto Test Default Time"
+    id: uwAutoTestDefaultTime
+    register_type: read
+    address: 73
+    accuracy_decimals: 0
+    value_type: U_WORD
+    unit_of_measurement: 'ms'
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ATV_raw
+    register_type: read
+    address: 74
+    accuracy_decimals: 0
+    internal: true
+    value_type: U_WORD
+    on_value: 
+      then:
+        - lambda: |-
+            float raw = float(x);
+            int step = (int)id(ATS_raw).state;
+            switch (step) {
+              case 1:
+              case 2:
+              case 5:
+              case 6:
+                id(wAutoTestLimit).publish_state(str_sprintf("%.1fV", raw*0.1)); 
+                break;
+              case 3:
+              case 4:
+              case 7:
+              case 8:
+                id(wAutoTestLimit).publish_state(str_sprintf("%.2fHz", raw*0.01)); 
+                break;
+              default:
+                id(wAutoTestLimit).publish_state("Unknown"); 
+            }
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Auto Test Trip Time"
+    id: uwAutoTestTripTime
+    register_type: read
+    address: 75
+    accuracy_decimals: 0
+    value_type: U_WORD
+    unit_of_measurement: 'ms'
+
+    
 text_sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -781,7 +907,26 @@ text_sensor:
       // Fallback: If the code is not recognized, show the raw hex value.
       return std::string("Unknown (0x") + x + ")";
 
+  - platform: template
+    name: "Auto Test Activated"
+    id: AutoTestStart
+  
+  - platform: template
+    name: "Auto Test Status"
+    id: ubAutoTestStatus
+  
+  - platform: template
+    name: "Auto Test Step"
+    id: ubAutoTestStep
 
+  - platform: template
+    name: "Auto Test Limit"
+    id: wAutoTestLimit
+
+  - platform: template
+    name: "Auto Test Trip Value"
+    id: uwAutoTestTripValue      
+    
 # Ethernet Controller
 ethernet:
   type: IP101
