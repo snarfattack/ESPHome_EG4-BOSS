@@ -63,6 +63,78 @@ binary_sensor:
     address: 77
     bitmask: 0x80 #(bit 8)
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Alarm CH1"
+    id: AFCIFlag_ArcAlarmCH1
+    register_type: read
+    address: 144
+    bitmask: 0x00
+    device_class: problem
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Alarm CH2"
+    id: AFCIFlag_ArcAlarmCH2
+    register_type: read
+    address: 144
+    bitmask: 0x01
+    device_class: problem
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Alarm CH3"
+    id: AFCIFlag_ArcAlarmCH3
+    register_type: read
+    address: 144
+    bitmask: 0x02
+    device_class: problem
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Alarm CH4"
+    id: AFCIFlag_ArcAlarmCH4
+    register_type: read
+    address: 144
+    bitmask: 0x03
+    device_class: problem
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Self Test Result CH1"
+    id: AFCIFlag_SelfTestResultCH1
+    register_type: read
+    address: 144
+    bitmask: 0x04
+    device_class: problem
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Self Test Result CH2"
+    id: AFCIFlag_SelfTestResultCH2
+    register_type: read
+    address: 144
+    bitmask: 0x05
+    device_class: problem
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Self Test Result CH3"
+    id: AFCIFlag_SelfTestResultCH3
+    register_type: read
+    address: 144
+    bitmask: 0x06
+    device_class: problem
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Self Test Result CH4"
+    id: AFCIFlag_SelfTestResultCH4
+    register_type: read
+    address: 144
+    bitmask: 0x07
+    device_class: problem
+    
 sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1318,6 +1390,8 @@ sensor:
     name: "Number of Parallel Inverters"
     id: ParallelNum
 
+
+
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Half BUS Voltage"
@@ -1519,7 +1593,127 @@ sensor:
     filters:
       - multiply: 0.1
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI current CH1"
+    id: AFCI_CurrCH1
+    register_type: read
+    address: 140
+    unit_of_measurement: mA
+    device_class: current
+    value_type: U_WORD
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI current CH2"
+    id: AFCI_CurrCH2
+    register_type: read
+    address: 141
+    unit_of_measurement: mA
+    device_class: current
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI current CH3"
+    id: AFCI_CurrCH3
+    register_type: read
+    address: 142
+    unit_of_measurement: mA
+    device_class: current
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI current CH4"
+    id: AFCI_CurrCH4
+    register_type: read
+    address: 143
+    unit_of_measurement: mA
+    device_class: current
+    value_type: U_WORD
+
+  #Adding this for some debugging and monitoring of the raw values... some of the AFCI values are not making sense.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Flags"
+    id: AFCIFlags
+    register_type: read
+    address: 144
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc CH1"
+    id: AFCI_ArcCH1
+    register_type: read
+    address: 145
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc CH2"
+    id: AFCI_ArcCH2
+    register_type: read
+    address: 146
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc CH3"
+    id: AFCI_ArcCH3
+    register_type: read
+    address: 147
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc CH4"
+    id: AFCI_ArcCH4
+    register_type: read
+    address: 148
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Max CH1"
+    id: AFCI_MaxArcCH1
+    register_type: read
+    address: 149
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Max CH2"
+    id: AFCI_MaxArcCH2
+    register_type: read
+    address: 150
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Max CH3"
+    id: AFCI_MaxArcCH3
+    register_type: read
+    address: 151
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AFCI Arc Max CH4"
+    id: AFCI_MaxArcCH4
+    register_type: read
+    address: 152
+    accuracy_decimals: 0
+    value_type: U_WORD
       
 
 text_sensor:
