@@ -1318,7 +1318,209 @@ sensor:
     name: "Number of Parallel Inverters"
     id: ParallelNum
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Half BUS Voltage"
+    id: VBusP
+    register_type: read
+    address: 120
+    unit_of_measurement: "V"
+    state_class: measurement
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Generator Voltage"
+    id: GenVolt
+    register_type: read
+    address: 121
+    unit_of_measurement: "V"
+    state_class: measurement
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Generator Frequency"
+    id: GenFreq
+    register_type: read
+    address: 122
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Generator Power"
+    id: GenPower
+    register_type: read
+    address: 123
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Generator Power (Day)"
+    id: Egen_day
+    register_type: read
+    address: 124
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Generator Power (Total)"
+    id: Egen_all
+    register_type: read
+    address: 125
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD_R
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Voltage L1N"
+    id: EPSVoltL1N
+    register_type: read
+    address: 127
+    unit_of_measurement: "V"
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Voltage L2N"
+    id: EPSVoltL2N
+    register_type: read
+    address: 128
+    unit_of_measurement: "V"
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Power L1N"
+    id: Peps_L1N
+    register_type: read
+    address: 129
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Power L2N"
+    id: Peps_L2N
+    register_type: read
+    address: 130
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Apprent Power L1N"
+    id: Seps_L1N
+    register_type: read
+    address: 129
+    unit_of_measurement: "VA"
+    device_class: apparent_power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Apprent Power L2N"
+    id: Seps_L2N
+    register_type: read
+    address: 130
+    unit_of_measurement: "VA"
+    device_class: apparent_power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Power L1N (Day)"
+    id: EepsL1N_day
+    register_type: read
+    address: 133
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Power L2N (Day)"
+    id: EepsL2N_day
+    register_type: read
+    address: 134
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Power L1N (Total)"
+    id: EepsL1N_all
+    register_type: read
+    address: 135
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD_R
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "EPS Power L2N (Total)"
+    id: EepsL2N_all
+    register_type: read
+    address: 137
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD_R
+    filters:
+      - multiply: 0.1
+
+
+      
 
 text_sensor:
   - platform: modbus_controller
