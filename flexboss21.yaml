@@ -256,7 +256,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Charge"
+    name: "Battery Charge Power"
     id: Pcharge
     register_type: read
     address: 10
@@ -266,7 +266,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge"
+    name: "Battery Discharge Power"
     id: Pdischarge
     register_type: read
     address: 11
@@ -292,7 +292,7 @@ sensor:
     # this is Phase S grid voltage
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "S-Phase Grid Voltage"
+    name: "Grid Voltage - S"
     id: VacS
     register_type: read
     #register_count: 4
@@ -307,7 +307,7 @@ sensor:
     # this is Phase T grid voltage
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "T-Phase Grid Voltage"
+    name: "Grid Voltage - T"
     id: VacT
     register_type: read
     #register_count: 4
@@ -378,7 +378,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "R-Phase EPS Voltage"
+    name: "EPS Voltage"
     id: VepsR
     register_type: read
     address: 20
@@ -391,7 +391,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "S-Phase EPS Voltage"
+    name: "EPS Voltage - S"
     id: VepsS
     register_type: read
     address: 20
@@ -404,7 +404,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "T-Phase EPS Voltage"
+    name: "EPS Voltage - T"
     id: VepsT
     register_type: read
     address: 20
@@ -450,7 +450,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Export power to Grid"
+    name: "Grid Export Power"
     id: Ptogrid
     register_type: read
     address: 26
@@ -460,7 +460,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Import power from Grid"
+    name: "Grid Import Power"
     id: Ptouser
     register_type: read
     address: 27
@@ -470,7 +470,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV1 Power Generation Today"
+    name: "PV1 Energy Generation (Today)"
     id: Epv1_day
     register_type: read
     address: 28
@@ -484,7 +484,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV2 Power Generation Today"
+    name: "PV2 Energy Generation (Today)"
     id: Epv2_day
     register_type: read
     address: 29
@@ -498,7 +498,7 @@ sensor:
   
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV3 Power Generation Today"
+    name: "PV3 Energy Generation (Today)"
     id: Epv3_day
     register_type: read
     address: 30
@@ -512,7 +512,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "On-Grid Power Generation Today"
+    name: "On-Grid Energy Generation (Today)"
     id: Einv_day
     register_type: read
     address: 31
@@ -526,7 +526,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "AC charging Rectified Power Generation Today"
+    name: "AC Charging Rectified Power Generation (Today)"
     id: Erec_day
     register_type: read
     address: 32
@@ -540,7 +540,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Charged Energy Today"
+    name: "Battery Charged Energy (Today)"
     id: Echg_day
     register_type: read
     address: 33
@@ -554,7 +554,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Discharged Energy Today"
+    name: "Battery Discharged Energy (Today)"
     id: Edischg_day
     register_type: read
     address: 34
@@ -568,7 +568,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Off-Grid Power Generation Today"
+    name: "Off-Grid Energy (Today)"
     id: Eeps_day
     register_type: read
     address: 35
@@ -582,7 +582,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Export Energy to Grid Today"
+    name: "Grid Export Energy (Today)"
     id: Etogrid_day
     register_type: read
     address: 36
@@ -596,7 +596,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Import Energy from Grid Today"
+    name: "Grid Import Energy (Today)"
     id: Etouser_day
     register_type: read
     address: 37
@@ -636,7 +636,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV1 cumulative power generation"
+    name: "PV1 Cumulative Energy generation"
     id: Epv1_all
     register_type: read
     address: 40
@@ -650,7 +650,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV2 cumulative power generation"
+    name: "PV2 Cumulative Energy generation"
     id: Epv2_all
     register_type: read
     address: 42
@@ -664,7 +664,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV3 cumulative power generation"
+    name: "PV3 Cumulative Energy generation"
     id: Epv3_all
     register_type: read
     address: 44
@@ -678,7 +678,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Inverter Cumulative power generation"
+    name: "Inverter Cumulative Energy generation"
     id: Einv_all
     register_type: read
     address: 46
@@ -692,7 +692,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "AC Charging Rectified Cumulative power generation"
+    name: "AC Charging Rectified Cumulative Energy generation"
     id: Erec_all
     register_type: read
     address: 48
@@ -706,7 +706,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Charge Cumulative power generation"
+    name: "Charge Cumulative Energy generation"
     id: Echg_all
     register_type: read
     address: 50
@@ -720,7 +720,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Discharge Cumulative power generation"
+    name: "Discharge Cumulative Energy generation"
     id: Edischg_all
     register_type: read
     address: 52
@@ -734,7 +734,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Off Grid Inverter Cumulative power generation"
+    name: "Off Grid Inverter Cumulative Energy generation"
     id: Eeps_all
     register_type: read
     address: 54
@@ -748,7 +748,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Export to Grid Cumulative power generation"
+    name: "Export to Grid Cumulative Energy generation"
     id: Etogrid_all
     register_type: read
     address: 56
@@ -762,7 +762,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Import from Grid Cumulative power generation"
+    name: "Import from Grid Cumulative Energy generation"
     id: Etouser_all
     register_type: read
     address: 58
@@ -1453,7 +1453,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Generator Power (Day)"
+    name: "Generator Energy (Day)"
     id: Egen_day
     register_type: read
     address: 124
@@ -1467,7 +1467,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Generator Power (Total)"
+    name: "Generator Energy (Total)"
     id: Egen_all
     register_type: read
     address: 125
@@ -1745,8 +1745,112 @@ sensor:
     device_class: power
     value_type: U_WORD
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Load Energy (Total)"
+    id: Eload_all
+    register_type: read
+    address: 172
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD_R
+    filters:
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Power On Grid - S"
+    id: PinvGridS
+    register_type: read
+    address: 180
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Power On Grid - T"
+    id: PinvGridT
+    register_type: read
+    address: 181
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Charging Rectified Power - S"
+    id: PinvChgS
+    register_type: read
+    address: 182
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Charging Rectified Power - T"
+    id: PinvChgT
+    register_type: read
+    address: 183
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Export Power - S"
+    id: PtoGridS
+    register_type: read
+    address: 184
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Export Power - T"
+    id: PtoGridT
+    register_type: read
+    address: 185
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Import Power - S"
+    id: PtoUserS
+    register_type: read
+    address: 186
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Import Power - T"
+    id: PtoUserT
+    register_type: read
+    address: 187
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Current RMS - S"
+    id: IinvRMSS
+    register_type: read
+    address: 190
+    unit_of_measurement: A
+    device_class: current
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.01
+      
     
 text_sensor:
   - platform: modbus_controller
