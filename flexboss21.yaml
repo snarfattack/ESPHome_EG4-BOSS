@@ -334,7 +334,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Inverter Grid port Output Power"
+    name: "Inverter Power On Grid"
     id: Pinv
     register_type: read
     address: 16
