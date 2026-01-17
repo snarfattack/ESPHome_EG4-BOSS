@@ -1851,6 +1851,177 @@ sensor:
     filters: 
       - multiply: 0.01
       
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Current RMS - T"
+    id: IinvRMST
+    register_type: read
+    address: 191
+    unit_of_measurement: A
+    device_class: current
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Power Factor - S"
+    id: PF_S
+    register_type: read
+    address: 192
+    unit_of_measurement: "%"
+    device_class: power_factor
+    value_type: S_WORD
+    filters: 
+      - multiply: 0.001
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Power Factor - T"
+    id: PF_T
+    register_type: read
+    address: 205
+    unit_of_measurement: "%"
+    device_class: power_factor
+    value_type: S_WORD
+    filters: 
+      - multiply: 0.001
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Voltage L1N"
+    id: VgridL1N
+    register_type: read
+    address: 193
+    unit_of_measurement: "V"
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+       - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Voltage L2N"
+    id: VgridL2N
+    register_type: read
+    address: 194
+    unit_of_measurement: "V"
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+       - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Generator Voltage L1N"
+    id: VgenL1N
+    register_type: read
+    address: 195
+    unit_of_measurement: "V"
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+       - multiply: 0.1
+       
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Generator Voltage L2N"
+    id: VgenL2N
+    register_type: read
+    address: 196
+    unit_of_measurement: "V"
+    device_class: voltage
+    accuracy_decimals: 1
+    value_type: U_WORD
+    filters:
+       - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Power L1N"
+    id: PinvL1N
+    register_type: read
+    address: 197
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Power L2N"
+    id: PinvL2N
+    register_type: read
+    address: 198
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Rectified Power L1N"
+    id: PrecL1N
+    register_type: read
+    address: 199
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Rectified Power L2N"
+    id: PrecL2N
+    register_type: read
+    address: 200
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+        
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Export Power L1N"
+    id: PtogridL1N
+    register_type: read
+    address: 201
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+        
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Export Power L2N"
+    id: PtogridL2N
+    register_type: read
+    address: 202
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Import Power L1N"
+    id: PtoUserL1N
+    register_type: read
+    address: 203
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+        
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Import Power L2N"
+    id: PtoUserL2N
+    register_type: read
+    address: 204
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+
+
+    
     
 text_sensor:
   - platform: modbus_controller
