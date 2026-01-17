@@ -1527,20 +1527,20 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Apprent Power L1N"
+    name: "EPS Apparent Power L1N"
     id: Seps_L1N
     register_type: read
-    address: 129
+    address: 131
     unit_of_measurement: "VA"
     device_class: apparent_power
     value_type: U_WORD
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Apprent Power L2N"
+    name: "EPS Apparent Power L2N"
     id: Seps_L2N
     register_type: read
-    address: 130
+    address: 132
     unit_of_measurement: "VA"
     device_class: apparent_power
     value_type: U_WORD
