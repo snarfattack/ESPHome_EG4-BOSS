@@ -877,7 +877,38 @@ sensor:
     value_type: U_WORD
     unit_of_measurement: 'ms'
 
-    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AC Input Type"
+    id: ACInputTypeFlags
+    register_type: read
+    address: 77
+    internal: true
+    on_value:
+      then:
+        lambda: |-
+          // Convert the float/int value to a 16-bit integer
+          uint16_t val = (uint16_t)x;
+          // Extract Bit 0: AC Input Type
+          if ((val >> 0) & 1) {
+            id(ACInputType).publish_state("Generator");
+          } else {
+            id(ACInputType).publish_state("Grid");
+          }
+          // Extract Bit 1: AC Couple Inverter Flow
+          if ((val >> 1) & 1) {
+            id(ACCoupleInverterFlow).publish_state("Show Flow");
+          } else {
+            id(ACCoupleInverterFlow).publish_state("No Flow");
+          }
+          // Extract Bit 2: AC Couple Enable
+          if ((val >> 2) & 1) {
+            id(ACCoupleEn).publish_state("Enabled");
+          } else {
+            id(ACCoupleEn).publish_state("Disabled");
+          }
+
+
 text_sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -926,6 +957,19 @@ text_sensor:
   - platform: template
     name: "Auto Test Trip Value"
     id: uwAutoTestTripValue      
+
+  - platform: template
+    name: "AC Input Type"
+    id: ACInputType
+
+  - platform: template
+    name: "AC Couple Inverter Flow"
+    id: ACCoupleInverterFlow
+  
+  - platform: template
+    name: "AC Couple Enabled"
+    id: ACCoupleEn
+
     
 # Ethernet Controller
 ethernet:
