@@ -2152,7 +2152,7 @@ ethernet:
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
   - platform: gpio
-    name: "LED13 Forced"
+    name: "Cloud LED"
     pin:
       number: GPIO13
       mode: OUTPUT
