@@ -540,7 +540,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Charged Energy (Today)"
+    name: "Battery Charge Energy (Today)"
     id: Echg_day
     register_type: read
     address: 33
@@ -554,7 +554,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharged Energy (Today)"
+    name: "Battery Discharge Energy (Today)"
     id: Edischg_day
     register_type: read
     address: 34
