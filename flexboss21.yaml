@@ -71,6 +71,7 @@ sensor:
     register_type: read
     address: 1
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -83,6 +84,7 @@ sensor:
     register_type: read
     address: 2
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -95,6 +97,7 @@ sensor:
     register_type: read
     address: 3
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -108,6 +111,7 @@ sensor:
     address: 4
     unit_of_measurement: "V"
     state_class: measurement
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -155,6 +159,7 @@ sensor:
     register_type: read
     address: 7
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
  
   - platform: modbus_controller
@@ -164,6 +169,7 @@ sensor:
     register_type: read
     address: 8
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -173,6 +179,7 @@ sensor:
     register_type: read
     address: 9
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -182,6 +189,7 @@ sensor:
     register_type: read
     address: 10
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -191,6 +199,7 @@ sensor:
     register_type: read
     address: 11
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
     # this is Phase R or Split Phase grid voltage
@@ -202,6 +211,7 @@ sensor:
     #register_count: 4
     address: 12
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -216,6 +226,7 @@ sensor:
     #register_count: 4
     address: 13
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -230,6 +241,7 @@ sensor:
     #register_count: 4
     address: 14
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -242,6 +254,7 @@ sensor:
     register_type: read
     address: 15
     unit_of_measurement: "Hz"
+    device_class: frequency
     accuracy_decimals: 2
     value_type: U_WORD
     filters:
@@ -252,9 +265,9 @@ sensor:
     name: "Inverter Grid port Output Power"
     id: Pinv
     register_type: read
-    #register_count: 6
     address: 16
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -262,9 +275,9 @@ sensor:
     name: "AC Charging Rectified Power"
     id: Prec
     register_type: read
-    #register_count: 6
     address: 17
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -273,7 +286,8 @@ sensor:
     id: IinvRMS
     register_type: read
     address: 18
-    unit_of_measurement: Amps
+    unit_of_measurement: A
+    device_class: current
     value_type: U_WORD
     filters: 
       - multiply: 0.01
@@ -283,9 +297,9 @@ sensor:
     name: "Power Factor"
     id: PF
     register_type: read
-    #register_count: 6
     address: 19
     unit_of_measurement: "%"
+    device_class: power_factor
     value_type: S_WORD
     filters: 
       - multiply: 0.001
@@ -297,6 +311,7 @@ sensor:
     register_type: read
     address: 20
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 1
     value_type: U_WORD
     filters:
@@ -309,6 +324,7 @@ sensor:
     register_type: read
     address: 20
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 1
     value_type: U_WORD
     filters:
@@ -321,6 +337,7 @@ sensor:
     register_type: read
     address: 20
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 1
     value_type: U_WORD
     filters:
@@ -333,6 +350,7 @@ sensor:
     register_type: read
     address: 23
     unit_of_measurement: "Hz"
+    device_class: frequency
     accuracy_decimals: 2
     value_type: U_WORD
     filters:
@@ -345,6 +363,7 @@ sensor:
     register_type: read
     address: 24
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -354,6 +373,7 @@ sensor:
     register_type: read
     address: 25
     unit_of_measurement: "VA"
+    device_class: apparent_power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -363,6 +383,7 @@ sensor:
     register_type: read
     address: 26
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -372,6 +393,7 @@ sensor:
     register_type: read
     address: 27
     unit_of_measurement: "W"
+    device_class: power
     value_type: U_WORD
 
   - platform: modbus_controller
@@ -521,6 +543,7 @@ sensor:
     register_type: read
     address: 38
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 1
     value_type: U_WORD
     filters:
@@ -533,6 +556,7 @@ sensor:
     register_type: read
     address: 39
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 1
     value_type: U_WORD
     filters:
@@ -836,6 +860,7 @@ sensor:
     accuracy_decimals: 0
     value_type: U_WORD
     unit_of_measurement: 'ms'
+    device_class: duration
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -876,6 +901,7 @@ sensor:
     accuracy_decimals: 0
     value_type: U_WORD
     unit_of_measurement: 'ms'
+    device_class: duration
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -922,7 +948,8 @@ sensor:
     id: MaxChgCurr
     register_type: read
     address: 81
-    unit_of_measurement: Amps
+    unit_of_measurement: A
+    device_class: current
     value_type: U_WORD
     filters: 
       - multiply: 0.1
@@ -933,7 +960,8 @@ sensor:
     id: MaxDischgCurr
     register_type: read
     address: 82
-    unit_of_measurement: Amps
+    unit_of_measurement: A
+    device_class: current
     value_type: U_WORD
     filters: 
       - multiply: 0.1
@@ -945,6 +973,7 @@ sensor:
     register_type: read
     address: 83
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -957,6 +986,7 @@ sensor:
     register_type: read
     address: 84
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 2
     value_type: U_WORD
     filters: 
@@ -1085,11 +1115,11 @@ sensor:
     id: BatCurrent_BMS
     register_type: read
     address: 98
-    unit_of_measurement: Amps
+    unit_of_measurement: A
+    device_class: current
     value_type: S_WORD
     filters: 
       - multiply: 0.1
-    device_class: current
     
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1116,6 +1146,7 @@ sensor:
     register_type: read
     address: 101
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 3
     value_type: U_WORD
     filters: 
@@ -1128,6 +1159,7 @@ sensor:
     register_type: read
     address: 102
     unit_of_measurement: "V"
+    device_class: voltage
     accuracy_decimals: 3
     value_type: U_WORD
     filters: 
