@@ -1213,7 +1213,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "BMS Max Cell Voltage"
+    name: "BMS Cell Max Voltage"
     id: MaxCellVolt_BMS
     register_type: read
     address: 101
@@ -1226,7 +1226,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "BMS Min Cell Voltage"
+    name: "BMS Cell Min Voltage"
     id: MinCellVolt_BMS
     register_type: read
     address: 102
@@ -1239,7 +1239,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Temperature BMS Max Cell"
+    name: "Temperature BMS Cell Max"
     id: MaxCellTemp_BMS
     register_type: read
     address: 103
@@ -1252,7 +1252,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Temperature BMS Min Cell"
+    name: "Temperature BMS Cell Min"
     id: MinCellTemp_BMS
     register_type: read
     address: 104
