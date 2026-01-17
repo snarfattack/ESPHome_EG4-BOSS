@@ -1390,7 +1390,15 @@ sensor:
     name: "Number of Parallel Inverters"
     id: ParallelNum
 
-
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Load Power On Grid (12K)"
+    id: Ploadongrid12k
+    register_type: read
+    address: 114
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1595,6 +1603,16 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
+    name: "Reactive Power"
+    id: Qinv
+    register_type: read
+    address: 139
+    unit_of_measurement: "Var"
+    device_class: reactive_power
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
     name: "AFCI current CH1"
     id: AFCI_CurrCH1
     register_type: read
@@ -1714,8 +1732,22 @@ sensor:
     address: 152
     accuracy_decimals: 0
     value_type: U_WORD
+
       
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Load Power On Grid"
+    id: Ploadongrid
+    register_type: read
+    address: 170
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+
+
+
+    
 text_sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1806,6 +1838,30 @@ text_sensor:
     name: "Phases Sequence"
     id: PhasesSequence
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Serial Number"
+    address: 115 
+    register_type: read
+    register_count: 5
+    response_size: 10
+    raw_encode: NONE 
+    lambda: |-
+      std::string serial = "";
+      // item->offset is the starting point in the 'data' vector for THIS sensor
+      size_t start = item->offset;
+      
+      // Ensure we don't read past the end of the data vector
+      for (int i = 0; i < 10 && (start + i + 1) < data.size(); i += 2) {
+          // Swap logic: Read High Byte then Low Byte (standard "swapped" string)
+          // Adjust order here if your specific device is different
+          char high_byte = (char)data[start + i + 1];
+          char low_byte = (char)data[start + i];
+          
+          if (high_byte >= 32 && high_byte <= 126) serial += high_byte;
+          if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
+      }
+      return serial;
     
 # Ethernet Controller
 ethernet:
