@@ -794,7 +794,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Internal Ring Temperature"
+    name: "Temperature Internal Ring"
     id: Tinner
     register_type: read
     address: 64
@@ -805,7 +805,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Radiator 1 Temperature"
+    name: "Temperature Radiator 1"
     id: Tradiator1
     register_type: read
     address: 65
@@ -816,7 +816,7 @@ sensor:
     
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Radiator 2 Temperature"
+    name: "Temperature Radiator 2"
     id: Tradiator2
     register_type: read
     address: 66
@@ -827,7 +827,7 @@ sensor:
     
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Temperature"
+    name: "Temperature Battery"
     id: Tbat
     register_type: read
     address: 67
@@ -1239,7 +1239,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "BMS Max Cell Temperature"
+    name: "Temperature BMS Max Cell"
     id: MaxCellTemp_BMS
     register_type: read
     address: 103
@@ -1252,7 +1252,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "BMS Min Cell Temperature"
+    name: "Temperature BMS Min Cell"
     id: MinCellTemp_BMS
     register_type: read
     address: 104
@@ -1287,7 +1287,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "T1"
+    name: "Temperature T1"
     id: T1
     register_type: read
     address: 108
@@ -1300,7 +1300,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "T2"
+    name: "Temperature T2"
     id: T2
     register_type: read
     address: 109
@@ -1313,7 +1313,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "T3"
+    name: "Temperature T3"
     id: T3
     register_type: read
     address: 110
@@ -1326,7 +1326,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "T4"
+    name: "Temperature T4"
     id: T4
     register_type: read
     address: 111
@@ -1339,7 +1339,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "T5"
+    name: "Temperature T5"
     id: T5
     register_type: read
     address: 112
