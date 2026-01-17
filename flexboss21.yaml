@@ -879,7 +879,6 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "AC Input Type"
     id: ACInputTypeFlags
     register_type: read
     address: 77
@@ -907,6 +906,386 @@ sensor:
           } else {
             id(ACCoupleEn).publish_state("Disabled");
           }
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Type and Brand"
+    id: batTypeandBrand
+    register_type: read
+    address: 80
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Max Charge Current"
+    id: MaxChgCurr
+    register_type: read
+    address: 81
+    unit_of_measurement: Amps
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Max Discharge Current"
+    id: MaxDischgCurr
+    register_type: read
+    address: 82
+    unit_of_measurement: Amps
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Recommended Charging Voltage"
+    id: ChargeVoltRef
+    register_type: read
+    address: 83
+    unit_of_measurement: "V"
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Recommended Discharge Cut-off Voltage"
+    id: DischgCutVolt
+    register_type: read
+    address: 84
+    unit_of_measurement: "V"
+    accuracy_decimals: 2
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 0"
+    id: BatStatus0_BMS
+    register_type: read
+    address: 85
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 1"
+    id: BatStatus1_BMS
+    register_type: read
+    address: 86
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 2"
+    id: BatStatus2_BMS
+    register_type: read
+    address: 87
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 3"
+    id: BatStatus3_BMS
+    register_type: read
+    address: 88
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 4"
+    id: BatStatus4_BMS
+    register_type: read
+    address: 89
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 5"
+    id: BatStatus5_BMS
+    register_type: read
+    address: 90
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 6"
+    id: BatStatus6_BMS
+    register_type: read
+    address: 91
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 7"
+    id: BatStatus7_BMS
+    register_type: read
+    address: 92
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 8"
+    id: BatStatus8_BMS
+    register_type: read
+    address: 93
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information 9"
+    id: BatStatus9_BMS
+    register_type: read
+    address: 94
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Status Information Summary"
+    id: BatStatus_INV
+    register_type: read
+    address: 95
+    accuracy_decimals: 0
+    value_type: U_WORD
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Batteries in Parallel"
+    id: BatParallelNum
+    register_type: read
+    address: 96
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Capacity"
+    id: BatCapacity
+    register_type: read
+    address: 97
+    unit_of_measurement: Ah
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Current"
+    id: BatCurrent_BMS
+    register_type: read
+    address: 98
+    unit_of_measurement: Amps
+    value_type: S_WORD
+    filters: 
+      - multiply: 0.1
+    device_class: current
+    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Fault Code"
+    id: FaultCode_BMS
+    register_type: read
+    address: 99
+    accuracy_decimals: 0
+    value_type: U_WORD
+        
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Warning Code"
+    id: WarningCode_BMS
+    register_type: read
+    address: 100
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Max Cell Voltage"
+    id: MaxCellVolt_BMS
+    register_type: read
+    address: 101
+    unit_of_measurement: "V"
+    accuracy_decimals: 3
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.001
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Min Cell Voltage"
+    id: MinCellVolt_BMS
+    register_type: read
+    address: 102
+    unit_of_measurement: "V"
+    accuracy_decimals: 3
+    value_type: U_WORD
+    filters: 
+      - multiply: 0.001
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Max Cell Temperature"
+    id: MaxCellTemp_BMS
+    register_type: read
+    address: 103
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: S_WORD
+    state_class: measurement
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Min Cell Temperature"
+    id: MinCellTemp_BMS
+    register_type: read
+    address: 104
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: S_WORD
+    state_class: measurement
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Battery Cycle Count"
+    id: CycleCnt_BMS
+    register_type: read
+    address: 106
+    accuracy_decimals: 0
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Inverter Battery Voltage Sample"
+    id: BatVoltSample_INV
+    register_type: read
+    address: 107
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    value_type: U_WORD
+    device_class: voltage
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "T1"
+    id: T1
+    register_type: read
+    address: 108
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: S_WORD
+    state_class: measurement
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "T2"
+    id: T2
+    register_type: read
+    address: 109
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: S_WORD
+    state_class: measurement
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "T3"
+    id: T3
+    register_type: read
+    address: 110
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: S_WORD
+    state_class: measurement
+    filters: 
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "T4"
+    id: T4
+    register_type: read
+    address: 111
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: S_WORD
+    state_class: measurement
+    filters: 
+      - multiply: 0.1
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "T5"
+    id: T5
+    register_type: read
+    address: 112
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: S_WORD
+    state_class: measurement
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: InverterParellelFlags
+    register_type: read
+    address: 113
+    internal: true
+    on_value:
+      then:
+        lambda: |-
+          // Convert input to an integer for bitwise operations
+          uint16_t val = (uint16_t)x;
+
+          // bit0-1: 1-master, 2-slave (Mask: 0x03)
+          int role = val & 0x03;
+          if (role == 1) id(MasterOrSlave).publish_state("Master");
+          else if (role == 2) id(MasterOrSlave).publish_state("Slave");
+          else id(MasterOrSlave).publish_state("Unknown");
+
+          // bit2-3: 1-R, 2-S, 3-T (Mask: 0x0C, then shift 2)
+          int phase = (val >> 2) & 0x03;
+          if (phase == 1) id(SingleOrThreePhase).publish_state("R");
+          else if (phase == 2) id(SingleOrThreePhase).publish_state("S");
+          else if (phase == 3) id(SingleOrThreePhase).publish_state("T");
+          else id(SingleOrThreePhase).publish_state("Unknown");
+
+          // bit4-5: 0-Positive, 1-Negative (Mask: 0x30, then shift 4)
+          int polarity = (val >> 4) & 0x03;
+          if (polarity == 0) id(PhasesSequence).publish_state("Positive");
+          else if (polarity == 1) id(PhasesSequence).publish_state("Negative");
+          else id(PhasesSequence).publish_state("Unknown");
+
+          // bit8-15 (Standard 16-bit register): Parallel Number
+          // We shift right by 6 to remove bits 0-7
+          int parallel_num = val >> 8;
+          id(ParallelNum).publish_state(parallel_num);
+
+  - platform: template
+    name: "Number of Parallel Inverters"
+    id: ParallelNum
+
 
 
 text_sensor:
@@ -969,6 +1348,35 @@ text_sensor:
   - platform: template
     name: "AC Couple Enabled"
     id: ACCoupleEn
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "BMS Firmware Update State"
+    id: BMSFWUpdateState
+    register_type: read
+    address: 105
+    raw_encode: HEXBYTES     # read the 16-bit value as a 4-char hex string
+    lambda: |-
+      // x is the hex string, for example: "0000", "0010", "00C0".
+      // Map values exactly as listed in the table; do not use bitmasking.
+      if (x == "0000") return std::string("");
+      if (x == "0001") return std::string("Upgrading");
+      if (x == "0002") return std::string("Upgrading Successful");
+      if (x == "0003") return std::string("Upgrading Failed");
+      // Fallback: If the code is not recognized, show the raw hex value.
+      return std::string("Unknown (0x") + x + ")";
+
+  - platform: template
+    name: "Master or Slave"
+    id: MasterOrSlave
+
+  - platform: template
+    name: "Single Or Three Phase"
+    id: SingleOrThreePhase
+
+  - platform: template
+    name: "Phases Sequence"
+    id: PhasesSequence
 
     
 # Ethernet Controller
