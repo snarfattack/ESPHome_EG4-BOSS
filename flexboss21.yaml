@@ -470,7 +470,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV1 Energy Generation (Today)"
+    name: "PV1 Energy (Today)"
     id: Epv1_day
     register_type: read
     address: 28
@@ -484,7 +484,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV2 Energy Generation (Today)"
+    name: "PV2 Energy (Today)"
     id: Epv2_day
     register_type: read
     address: 29
@@ -498,7 +498,7 @@ sensor:
   
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV3 Energy Generation (Today)"
+    name: "PV3 Energy (Today)"
     id: Epv3_day
     register_type: read
     address: 30
@@ -512,7 +512,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "On-Grid Energy Generation (Today)"
+    name: "On-Grid Energy (Today)"
     id: Einv_day
     register_type: read
     address: 31
@@ -636,7 +636,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV1 Cumulative Energy generation"
+    name: "PV1 Energy (Total)"
     id: Epv1_all
     register_type: read
     address: 40
@@ -650,7 +650,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV2 Cumulative Energy generation"
+    name: "PV2 Energy (Total)"
     id: Epv2_all
     register_type: read
     address: 42
@@ -664,7 +664,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "PV3 Cumulative Energy generation"
+    name: "PV3 Energy (Total)"
     id: Epv3_all
     register_type: read
     address: 44
@@ -678,7 +678,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Inverter Cumulative Energy generation"
+    name: "Inverter Energy (Total)"
     id: Einv_all
     register_type: read
     address: 46
@@ -692,7 +692,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "AC Charging Rectified Cumulative Energy generation"
+    name: "AC Charging Rectified Energy (Total)"
     id: Erec_all
     register_type: read
     address: 48
@@ -706,7 +706,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Charge Cumulative Energy generation"
+    name: "Battery Charge Energy (Total)"
     id: Echg_all
     register_type: read
     address: 50
@@ -720,7 +720,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Discharge Cumulative Energy generation"
+    name: "Battery Discharge Energy (Total)"
     id: Edischg_all
     register_type: read
     address: 52
@@ -734,7 +734,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Off Grid Inverter Cumulative Energy generation"
+    name: "Off Grid Inverter Energy (Total)"
     id: Eeps_all
     register_type: read
     address: 54
@@ -748,7 +748,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Export to Grid Cumulative Energy generation"
+    name: "Grid Export Energy (Total)"
     id: Etogrid_all
     register_type: read
     address: 56
@@ -762,7 +762,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Import from Grid Cumulative Energy generation"
+    name: "Grid Import Energy (Total)"
     id: Etouser_all
     register_type: read
     address: 58
