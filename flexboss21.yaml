@@ -1255,8 +1255,17 @@ sensor:
     value_type: U_WORD
     filters: 
       - multiply: 0.001
+    on_value: 
+      then:
+        - lambda: |-
+            id(DeltaCellVolt_BMS).publish_state(id(MaxCellVolt_BMS).state - id(MinCellVolt_BMS).state);
 
- - platform: template
+  - platform: template
+    accuracy_decimals: 3
+    unit_of_measurement: "V"
+    device_class: voltage
+    name: "BMS Voltage Cell Delta"
+    id: DeltaCellVolt_BMS   
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1283,17 +1292,6 @@ sensor:
     state_class: measurement
     filters: 
       - multiply: 0.1
-    on_value: 
-      then:
-        - lambda: |-
-            id(DeltaCellVolt_BMS).publish_state(id(MaxCellVolt_BMS).state - id(MinCellVolt_BMS).state);
-
-  - platform: template
-    accuracy_decimals: 3
-    unit_of_measurement: "V"
-    device_class: voltage
-    name: "BMS Voltage Cell Delta"
-    id: DeltaCellVolt_BMS   
     
   - platform: modbus_controller
     modbus_controller_id: inverter_1
