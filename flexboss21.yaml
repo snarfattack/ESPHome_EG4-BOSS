@@ -54,7 +54,7 @@ modbus_controller:
     address: 1        # inverter_1 Modbus address
     modbus_id: mb
     update_interval: 10s
-    command_throttle: 2ms
+    #command_throttle: 2ms
 
 binary_sensor:
   - platform: modbus_controller
