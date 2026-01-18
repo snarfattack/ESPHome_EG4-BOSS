@@ -404,7 +404,7 @@ sensor:
     name: "EPS Voltage - S"
     id: VepsS
     register_type: read
-    address: 20
+    address: 21
     unit_of_measurement: "V"
     device_class: voltage
     accuracy_decimals: 1
@@ -417,7 +417,7 @@ sensor:
     name: "EPS Voltage - T"
     id: VepsT
     register_type: read
-    address: 20
+    address: 22
     unit_of_measurement: "V"
     device_class: voltage
     accuracy_decimals: 1
@@ -840,6 +840,7 @@ sensor:
     name: "Temperature Battery"
     id: Tbat
     register_type: read
+    register_count: 2  #read register 68 as well to improve performance reading registers, but ignore it as we don't know what it is.
     address: 67
     device_class: temperature
     unit_of_measurement: "C"
@@ -979,6 +980,7 @@ sensor:
     name: "Auto Test Trip Time"
     id: uwAutoTestTripTime
     register_type: read
+    register_count: 2  #read next register as well to improve performance reading registers, but ignore it as we don't know what it is.
     address: 75
     accuracy_decimals: 0
     value_type: U_WORD
@@ -989,6 +991,7 @@ sensor:
     modbus_controller_id: inverter_1
     id: ACInputTypeFlags
     register_type: read
+    register_count: 3  #read next register as well to improve performance reading registers, but ignore it as we don't know what it is.
     address: 77
     internal: true
     on_value:
@@ -1015,6 +1018,7 @@ sensor:
             id(ACCoupleEn).publish_state("Disabled");
           }
 
+# TODO. There are two values stored here based on the luxpower modbus docs
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery Type and Brand"
@@ -1743,6 +1747,8 @@ sensor:
     accuracy_decimals: 0
     value_type: U_WORD
 
+#TODO have some more sensors to add here that I missed.
+
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Load Power On Grid"
@@ -2154,6 +2160,7 @@ text_sensor:
     name: "AC Couple Enabled"
     id: ACCoupleEn
 
+#TODO there are more sensors here to process based on the luxpower modbus documentation
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "BMS Firmware Update State"
