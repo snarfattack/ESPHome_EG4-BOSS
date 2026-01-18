@@ -1,0 +1,352 @@
+# this is a work in progress... starting to see how to talk to the battery.
+# so far, can only query 4 batteries at once, before getting Modbus errors.
+# then between the queries, all the values get blanked. So there will need 
+#  to be some type of data collection from the modbus, and transfer to another 
+#  system to process battery content to them manage the entities values.
+
+sensor:
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5000"
+    id: Bat05000
+    register_type: read
+    address: 5000
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5001"
+    id: Bat05001
+    register_type: read
+    address: 5001
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5002"
+    id: Bat05002
+    register_type: read
+    address: 5002
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5003 - Capacity"
+    id: Bat0Capacity
+    register_type: read
+    address: 5003
+    unit_of_measurement: Ah
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5004 - Recommended Charge Voltage"
+    id: Bat0RecChargeVoltage
+    register_type: read
+    address: 5004
+    value_type: U_WORD
+    unit_of_measurement: "V"
+    device_class: voltage
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5005 - Max Charge Current"
+    id: Bat0MaxChargeCurrent
+    register_type: read
+    address: 5005
+    value_type: U_WORD
+    unit_of_measurement: "A"
+    device_class: current
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5006 - Max Discharge Current"
+    id: Bat0MaxDischargeCurrent
+    register_type: read
+    address: 5006
+    value_type: U_WORD    
+    unit_of_measurement: "A"
+    device_class: current
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5007 - Recommended Discharge Cut-off Voltage"
+    id: Bat0RecDischargeCutoff
+    register_type: read
+    address: 5007
+    value_type: U_WORD    
+    unit_of_measurement: "V"
+    device_class: voltage
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5008 - Voltage"
+    id: Bat0Voltage
+    register_type: read
+    address: 5008
+    value_type: U_WORD    
+    unit_of_measurement: "V"
+    device_class: voltage
+    filters: 
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5009 - Current"
+    id: Bat0Current
+    register_type: read
+    address: 5009
+    value_type: S_WORD    
+    unit_of_measurement: "A"
+    device_class: current
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5010 - SOC"
+    id: Bat05010SOC
+    register_type: read
+    address: 5010
+    value_type: U_WORD    
+    lambda: |-
+      // Extract values from the packed 0xHHLL word
+      int raw = int(x);
+      return raw & 0xFF;  
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5010 - SOH"
+    id: Bat05010SOH
+    register_type: read
+    address: 5010
+    value_type: U_WORD  
+    lambda: |-
+      // Extract values from the packed 0xHHLL word
+      int raw = int(x);
+      return (raw >> 8) & 0xFF; // Upper 8 bits (HH)
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5011"
+    id: Bat05011
+    register_type: read
+    address: 5011
+    value_type: U_WORD    
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5012 - Cell Temp Max"
+    id: Bat05012
+    register_type: read
+    address: 5012
+    value_type: U_WORD 
+    unit_of_measurement: "C"
+    device_class: temperature
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5013 - Cell Temp Min"
+    id: Bat05013
+    register_type: read
+    address: 5013
+    value_type: U_WORD    
+    unit_of_measurement: "C"
+    device_class: temperature
+    filters: 
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5014 - Cell Voltage Max"
+    id: Bat05014
+    register_type: read
+    address: 5014
+    value_type: U_WORD    
+    unit_of_measurement: "V"
+    device_class: voltage
+    filters: 
+      - multiply: 0.001
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5015 - Cell Voltage Min"
+    id: Bat05015
+    register_type: read
+    address: 5015
+    value_type: U_WORD    
+    unit_of_measurement: "V"
+    device_class: voltage
+    filters: 
+      - multiply: 0.001
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5016 - Cell with min temp"
+    id: Bat05016min
+    register_type: read
+    address: 5016
+    value_type: U_WORD  
+    lambda: |-
+      int raw = int(x);
+      return (raw >> 8) & 0xff;
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5016 - Cell with max temp"
+    id: Bat05016max
+    register_type: read
+    address: 5016
+    value_type: U_WORD    
+    lambda: |-
+      int raw = int(x);
+      return raw & 0xff;
+  
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5017 - Cell with min volt"
+    id: Bat05017min
+    register_type: read
+    address: 5017
+    value_type: U_WORD  
+    lambda: |-
+      int raw = int(x);
+      return (raw >> 8) & 0xff;
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5017 - Cell with max volt"
+    id: Bat05017max
+    register_type: read
+    address: 5017
+    value_type: U_WORD    
+    lambda: |-
+      int raw = int(x);
+      return raw & 0xff;
+
+
+
+text_sensor:
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5018 - Firmware Version"
+    id: Bat05018
+    register_type: read
+    address: 5018
+    raw_encode: HEXBYTES 
+    lambda: |-
+      // 1. Convert the raw bytes (x) into a 16-bit integer (val)
+      uint16_t val = modbus_controller::word_from_hex_str(x, 0);
+      
+      // 2. Format as "HighByte.LowByte" with padding (e.g., 1.05)
+      return str_sprintf("%u.%02u", (val >> 8), (val & 0xFF));
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 0 5019 - Serial Number"
+    address: 5019
+    register_type: read
+    register_count: 7
+    response_size: 14
+    raw_encode: NONE 
+    lambda: |-
+      std::string serial = "";
+      // item->offset is the starting point in the 'data' vector for THIS sensor
+      size_t start = item->offset;
+      
+      // Ensure we don't read past the end of the data vector
+      for (int i = 0; i < 14 && (start + i + 1) < data.size(); i += 2) {
+          // Swap logic: Read High Byte then Low Byte (standard "swapped" string)
+          // Adjust order here if your specific device is different
+          char high_byte = (char)data[start + i + 1];
+          char low_byte = (char)data[start + i];
+          
+          if (high_byte >= 32 && high_byte <= 126) serial += high_byte;
+          if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
+      }
+      return serial;
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 1 5019 - Serial Number"
+    address: 5049
+    register_type: read
+    register_count: 7
+    response_size: 14
+    raw_encode: NONE 
+    lambda: |-
+      std::string serial = "";
+      // item->offset is the starting point in the 'data' vector for THIS sensor
+      size_t start = item->offset;
+      
+      // Ensure we don't read past the end of the data vector
+      for (int i = 0; i < 14 && (start + i + 1) < data.size(); i += 2) {
+          // Swap logic: Read High Byte then Low Byte (standard "swapped" string)
+          // Adjust order here if your specific device is different
+          char high_byte = (char)data[start + i + 1];
+          char low_byte = (char)data[start + i];
+          
+          if (high_byte >= 32 && high_byte <= 126) serial += high_byte;
+          if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
+      }
+      return serial;
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 2 5019 - Serial Number"
+    address: 5079
+    register_type: read
+    register_count: 7
+    response_size: 14
+    raw_encode: NONE 
+    lambda: |-
+      std::string serial = "";
+      // item->offset is the starting point in the 'data' vector for THIS sensor
+      size_t start = item->offset;
+      
+      // Ensure we don't read past the end of the data vector
+      for (int i = 0; i < 14 && (start + i + 1) < data.size(); i += 2) {
+          // Swap logic: Read High Byte then Low Byte (standard "swapped" string)
+          // Adjust order here if your specific device is different
+          char high_byte = (char)data[start + i + 1];
+          char low_byte = (char)data[start + i];
+          
+          if (high_byte >= 32 && high_byte <= 126) serial += high_byte;
+          if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
+      }
+      return serial;
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery 3 5019 - Serial Number"
+    address: 5109
+    register_type: read
+    register_count: 7
+    response_size: 14
+    raw_encode: NONE 
+    lambda: |-
+      std::string serial = "";
+      // item->offset is the starting point in the 'data' vector for THIS sensor
+      size_t start = item->offset;
+      
+      // Ensure we don't read past the end of the data vector
+      for (int i = 0; i < 14 && (start + i + 1) < data.size(); i += 2) {
+          // Swap logic: Read High Byte then Low Byte (standard "swapped" string)
+          // Adjust order here if your specific device is different
+          char high_byte = (char)data[start + i + 1];
+          char low_byte = (char)data[start + i];
+          
+          if (high_byte >= 32 && high_byte <= 126) serial += high_byte;
+          if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
+      }
+      return serial;
