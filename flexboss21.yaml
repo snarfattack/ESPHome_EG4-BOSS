@@ -1020,7 +1020,7 @@ sensor:
             id(ACCoupleEn).publish_state("Disabled");
           }
 
-# TODO. There are two values stored here based on the luxpower modbus docs
+# TODO. There are two values stored here, Will take some trial and error due to lack of documentation
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery Type and Brand"
@@ -1029,6 +1029,9 @@ sensor:
     address: 80
     accuracy_decimals: 0
     value_type: U_WORD
+    lambda: |-
+      int raw = int(x);
+      return raw & 0xFF; // Lower 8 bits
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1229,7 +1232,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "BMS Cell Max Voltage"
+    name: "BMS Voltage Cell Max"
     id: MaxCellVolt_BMS
     register_type: read
     address: 101
@@ -1242,7 +1245,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "BMS Cell Min Voltage"
+    name: "BMS Voltage Cell Min"
     id: MinCellVolt_BMS
     register_type: read
     address: 102
@@ -1252,6 +1255,8 @@ sensor:
     value_type: U_WORD
     filters: 
       - multiply: 0.001
+
+ - platform: template
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1278,7 +1283,18 @@ sensor:
     state_class: measurement
     filters: 
       - multiply: 0.1
+    on_value: 
+      then:
+        - lambda: |-
+            id(DeltaCellVolt_BMS).publish_state(id(MaxCellVolt_BMS).state - id(MinCellVolt_BMS).state);
 
+  - platform: template
+    accuracy_decimals: 3
+    unit_of_measurement: "V"
+    device_class: voltage
+    name: "BMS Voltage Cell Delta"
+    id: DeltaCellVolt_BMS   
+    
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "BMS Battery Cycle Count"
@@ -2171,6 +2187,22 @@ text_sensor:
   - platform: template
     name: "AC Couple Enabled"
     id: ACCoupleEn
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Communication Type"
+    id: batComType
+    register_type: read
+    address: 80
+    raw_encode: NONE
+    lambda: |-
+      // Modbus registers are 16-bit (2 bytes). 
+      // data[item->offset] is the high byte (upper 8 bits).
+      // data[item->offset + 1] is the low byte.
+      int raw = data[item->offset]; 
+      if (raw == 0) return std::string("CAN");
+      if (raw == 1) return std::string("RS485");
+      return "Unknown " + std::to_string(raw);    
 
 #TODO there are more sensors here to process based on the luxpower modbus documentation
   - platform: modbus_controller
