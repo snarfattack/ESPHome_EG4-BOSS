@@ -578,7 +578,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Off-Grid Energy (Today)"
+    name: "EPS Energy (Today)"
     id: Eeps_day
     register_type: read
     address: 35
@@ -744,7 +744,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Off Grid Inverter Energy (Total)"
+    name: "EPS Energy (Total)"
     id: Eeps_all
     register_type: read
     address: 54
@@ -1749,6 +1749,16 @@ sensor:
     accuracy_decimals: 0
     value_type: U_WORD
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AC Couple Power"
+    id: ACCouplePower
+    register_type: read
+    address: 153
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: U_WORD
+    
 #TODO have some more sensors to add here that I missed.
 
   - platform: modbus_controller
