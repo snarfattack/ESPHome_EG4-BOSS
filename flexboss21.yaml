@@ -536,7 +536,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "AC Charging Rectified Power Generation (Today)"
+    name: "AC Charging Rectified Energy (Today)"
     id: Erec_day
     register_type: read
     address: 32
@@ -1830,7 +1830,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Charging Rectified Power - S"
+    name: "AC Charging Rectified Power - S"
     id: PinvChgS
     register_type: read
     address: 182
@@ -1840,7 +1840,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Charging Rectified Power - T"
+    name: "AC Charging Rectified Power - T"
     id: PinvChgT
     register_type: read
     address: 183
