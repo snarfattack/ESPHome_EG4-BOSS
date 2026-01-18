@@ -227,6 +227,15 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
+    name: "Internal Fault"
+    id: FaultInternal
+    register_type: read
+    address: 6
+    value_type: U_WORD
+    entity_category: diagnostic
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
     name: "PV1 Power"
     id: Ppv1
     register_type: read
@@ -2071,7 +2080,17 @@ sensor:
     value_type: S_WORD
     state_class: measurement
 
+#Holding Registers ***************************************************************
 
+  - platform: template
+    name: "Version Cntl"
+    id: cntlVer
+    accuracy_decimals: 0     
+
+  - platform: template
+    name: "Version Com"
+    id: comVer
+    accuracy_decimals: 0   
     
     
 text_sensor:
@@ -2188,6 +2207,75 @@ text_sensor:
           if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
       }
       return serial;
+      
+# Holding registers ********************************************
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Serial Number - Holding"
+    address: 2
+    register_type: holding
+    register_count: 5
+    response_size: 10
+    raw_encode: NONE 
+    lambda: |-
+      std::string serial = "";
+      // item->offset is the starting point in the 'data' vector for THIS sensor
+      size_t start = item->offset;
+      
+      // Ensure we don't read past the end of the data vector
+      for (int i = 0; i < 10 && (start + i + 1) < data.size(); i += 2) {
+          // Swap logic: Read High Byte then Low Byte (standard "swapped" string)
+          // Adjust order here if your specific device is different
+          char high_byte = (char)data[start + i + 1];
+          char low_byte = (char)data[start + i];
+          
+          if (high_byte >= 32 && high_byte <= 126) serial += high_byte;
+          if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
+      }
+      return serial;  
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Firmware"
+    address: 7
+    register_type: holding
+    register_count: 8
+    response_size: 8
+    raw_encode: NONE 
+    lambda: |-
+      std::string serial = "";
+      // item->offset is the starting point in the 'data' vector for THIS sensor
+      size_t start = item->offset;
+      
+      // For the first 2 registers, render each byte as an ASCII character
+      for (int i = 0; i < 4 && (start + i + 1) < data.size(); i += 2) {
+          // Swap logic: Read High Byte then Low Byte (standard "swapped" string)
+          // Adjust order here if your specific device is different
+          char high_byte = (char)data[start + i + 1];
+          char low_byte = (char)data[start + i];
+          
+          if (high_byte >= 32 && high_byte <= 126) serial += high_byte;
+          if (low_byte >= 32 && low_byte <= 126) serial += low_byte;
+      }
+      serial += "-";
+      //For these values, render the hex value of the byte as a string
+      //This is a bit of an educated guess this is where the last half of the firmware version is coming from
+      if (start + 7 < data.size()) {
+          char hex_buf[3];
+          snprintf(hex_buf, sizeof(hex_buf), "%02X", (uint8_t)data[start + 4]);
+          serial += hex_buf;
+          snprintf(hex_buf, sizeof(hex_buf), "%02X", (uint8_t)data[start + 7]);
+          serial += hex_buf;
+      }
+
+      //Get these values and publish them into the templates to reduce modbus calls for the same registers.
+      uint8_t val = (uint8_t)data[start + 5];
+      id(comVer).publish_state(val);
+      val = (uint8_t)data[start + 6];
+      id(cntlVer).publish_state(val);
+
+      return serial;  
     
 # Ethernet Controller
 ethernet:
