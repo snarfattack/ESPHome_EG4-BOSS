@@ -60,70 +60,9 @@ binary_sensor:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "AC Couple Enabled"
-    id: ACCoupleEnabled
     register_type: read
     address: 77
-    bitmask: 0x04 
-
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Smart Load On"
-    id: SmartLoadEnOn
-    register_type: read
-    address: 77
-    bitmask: 0x10 
-
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Smart Load Flow"
-    id: SmartLoadFlow
-    register_type: read
-    address: 77
-    bitmask: 0x8
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Flow"};
-      if (val == 1) return {"Show Flow"};
-      return {"Unknown"};
-
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Eps Load Power Show"
-    id: EpsLoadPowerShow
-    register_type: read
-    address: 77
-    bitmask: 0x20
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Power Display"};
-      if (val == 1) return {"Power Display"};
-      return {"Unknown"};
-      
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Grid Load Power Show"
-    id: GridLoadPowerShow
-    register_type: read
-    address: 77
-    bitmask: 0x40
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Power Display"};
-      if (val == 1) return {"Power Display"};
-      return {"Unknown"};
-      
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Total Load Power Show"
-    id: PloadPowerShow
-    register_type: read
-    address: 77
-    bitmask: 0x80
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Power Display"};
-      if (val == 1) return {"Power Display"};
-      return {"Unknown"};
+    bitmask: 0x80 #(bit 8)
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -1049,6 +988,37 @@ sensor:
     value_type: U_WORD
     unit_of_measurement: 'ms'
     device_class: duration
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ACInputTypeFlags
+    register_type: read
+    register_count: 3  #read next register as well to improve performance reading registers, but ignore it as we don't know what it is.
+    address: 77
+    internal: true
+    on_value:
+      then:
+        lambda: |-
+          // Convert the float/int value to a 16-bit integer
+          uint16_t val = (uint16_t)x;
+          // Extract Bit 0: AC Input Type
+          if ((val >> 0) & 1) {
+            id(ACInputType).publish_state("Generator");
+          } else {
+            id(ACInputType).publish_state("Grid");
+          }
+          // Extract Bit 1: AC Couple Inverter Flow
+          if ((val >> 1) & 1) {
+            id(ACCoupleInverterFlow).publish_state("Show Flow");
+          } else {
+            id(ACCoupleInverterFlow).publish_state("No Flow");
+          }
+          // Extract Bit 2: AC Couple Enable
+          if ((val >> 2) & 1) {
+            id(ACCoupleEn).publish_state("Enabled");
+          } else {
+            id(ACCoupleEn).publish_state("Disabled");
+          }
 
 # TODO. There are two values stored here, Will take some trial and error due to lack of documentation
   - platform: modbus_controller
@@ -2204,48 +2174,17 @@ text_sensor:
     name: "Auto Test Trip Value"
     id: uwAutoTestTripValue      
 
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
+  - platform: template
     name: "AC Input Type"
     id: ACInputType
-    register_type: read
-    register_count: 3  #read next register as well to improve performance reading registers, but ignore it as we don't know what it is.
-    address: 77
-    #internal: true
-    bitmask: 0x1
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"Grid"};
-      if (val == 1) return {"Generator"};
-      return {"Unknown"};
 
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "AC Couple Inverter Flow2"
-    id: ACCoupleInverterFlow2
-    register_type: read
-    address: 77
-    bitmask: 0x2
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Flow"};
-      if (val == 1) return {"Show Flow"};
-      return {"Unknown"};
-
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Smart Load Flow"
-    id: SmartLoadFlow
-    register_type: read
-    address: 77
-    bitmask: 0x8
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Flow"};
-      if (val == 1) return {"Show Flow"};
-      return {"Unknown"};
-
-      
+  - platform: template
+    name: "AC Couple Inverter Flow"
+    id: ACCoupleInverterFlow
+  
+  - platform: template
+    name: "AC Couple Enabled"
+    id: ACCoupleEn
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
