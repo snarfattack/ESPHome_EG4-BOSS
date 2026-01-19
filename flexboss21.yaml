@@ -75,6 +75,58 @@ binary_sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
+    name: "Smart Load Flow"
+    id: SmartLoadFlow
+    register_type: read
+    address: 77
+    bitmask: 0x8
+    lambda: |-
+      int val = (data[1] & 0x01); 
+      if (val == 0) return {"No Flow"};
+      if (val == 1) return {"Show Flow"};
+      return {"Unknown"};
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Eps Load Power Show"
+    id: EpsLoadPowerShow
+    register_type: read
+    address: 77
+    bitmask: 0x20
+    lambda: |-
+      int val = (data[1] & 0x01); 
+      if (val == 0) return {"No Power Display"};
+      if (val == 1) return {"Power Display"};
+      return {"Unknown"};
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Load Power Show"
+    id: GridLoadPowerShow
+    register_type: read
+    address: 77
+    bitmask: 0x40
+    lambda: |-
+      int val = (data[1] & 0x01); 
+      if (val == 0) return {"No Power Display"};
+      if (val == 1) return {"Power Display"};
+      return {"Unknown"};
+      
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Total Load Power Show"
+    id: PloadPowerShow
+    register_type: read
+    address: 77
+    bitmask: 0x80
+    lambda: |-
+      int val = (data[1] & 0x01); 
+      if (val == 0) return {"No Power Display"};
+      if (val == 1) return {"Power Display"};
+      return {"Unknown"};
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
     name: "AFCI Arc Alarm CH1"
     id: AFCIFlag_ArcAlarmCH1
     register_type: read
@@ -2169,8 +2221,8 @@ text_sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "AC Couple Inverter Flow"
-    id: ACCoupleInverterFlow
+    name: "AC Couple Inverter Flow2"
+    id: ACCoupleInverterFlow2
     register_type: read
     address: 77
     bitmask: 0x2
@@ -2193,44 +2245,7 @@ text_sensor:
       if (val == 1) return {"Show Flow"};
       return {"Unknown"};
 
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Eps Load Power Show"
-    id: EpsLoadPowerShow
-    register_type: read
-    address: 77
-    bitmask: 0x20
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Power Display"};
-      if (val == 1) return {"Power Display"};
-      return {"Unknown"};
       
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Grid Load Power Show"
-    id: GridLoadPowerShow
-    register_type: read
-    address: 77
-    bitmask: 0x40
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Power Display"};
-      if (val == 1) return {"Power Display"};
-      return {"Unknown"};
-      
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "Total Load Power Show"
-    id: PloadPowerShow
-    register_type: read
-    address: 77
-    bitmask: 0x80
-    lambda: |-
-      int val = (data[1] & 0x01); 
-      if (val == 0) return {"No Power Display"};
-      if (val == 1) return {"Power Display"};
-      return {"Unknown"};      
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
