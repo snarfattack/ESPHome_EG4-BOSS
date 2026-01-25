@@ -2382,7 +2382,7 @@ text_sensor:
 # Ethernet Controller
 ethernet:
   type: IP101
-  id: ethernet
+  id: int_eth
   mdc_pin: GPIO23
   mdio_pin: GPIO18
   power_pin: GPIO5
