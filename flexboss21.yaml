@@ -1545,6 +1545,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
+    force_new_range: true
     name: "EPS Voltage L1N"
     id: EPSVoltL1N
     register_type: read
