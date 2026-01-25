@@ -27,7 +27,12 @@ logger:
 api:
   encryption:
     key: !secret api_key
-    
+  on_client_connected: 
+    then:
+      - switch.turn_on: led_ha_api
+  on_client_disconnected: 
+    then:
+      - switch.turn_off: led_ha_api    
 ota:
   - platform: esphome
     password: !secret ota_key
@@ -57,6 +62,21 @@ modbus_controller:
     #command_throttle: 2ms
 
 binary_sensor:
+  - platform: template
+    name: "Ethernet DHCP Active"
+    id: eth_dhcp_status
+    internal: true
+    lambda: |-
+      return id(int_eth).is_connected();
+    on_state:
+      then: 
+        - lambda: |-
+            if (id(eth_dhcp_status).state) {
+              id(led_network).turn_on();
+            } else {
+              id(led_network).turn_off();
+            };
+
   - platform: template
     name: "AC Couple Enabled"
     id: ACCoupleEnabled
@@ -2403,3 +2423,25 @@ switch:
       mode: OUTPUT
       inverted: True
     restore_mode: ALWAYS_OFF
+
+  #This will indicate it's on the network, has an IP address. This should be regardless of connection via wifi or ethernet
+  - platform: gpio
+    id: led_network
+    internal: True
+    name: "Network LED"
+    pin:
+      number: GPIO15
+      mode: OUTPUT
+      inverted: True
+    restore_mode: ALWAYS_OFF
+
+  #This effectively is the power light. It's always on when plugged into the inverter
+  - platform: gpio
+    id: led_inv
+    name: "inv LED"
+    internal: True
+    pin:
+      number: GPIO33
+      mode: OUTPUT
+      inverted: True
+    restore_mode: ALWAYS_ON
