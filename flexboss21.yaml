@@ -2393,8 +2393,11 @@ ethernet:
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
+  #This is the "cloud" LED, instead of indicating it's connected to EG4, indicate it's connected to HA
   - platform: gpio
-    name: "Cloud LED"
+    name: "HA API LED"
+    id: led_ha_api
+    internal: True
     pin:
       number: GPIO13
       mode: OUTPUT
