@@ -57,13 +57,16 @@ modbus_controller:
     #command_throttle: 2ms
 
 binary_sensor:
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
+  - platform: template
     name: "AC Couple Enabled"
-    register_type: read
-    address: 77
-    bitmask: 0x80 #(bit 8)
+    id: ACCoupleEnabled
+    #Published from Sensor, register 77
 
+  - platform: template
+    name: "Smart Load On"
+    id: SmartLoadEnOn
+    #Published from Sensor, register 77
+    
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "AFCI Arc Alarm CH1"
@@ -991,7 +994,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    id: ACInputTypeFlags
+    id: ACInputTypeFlags2
     register_type: read
     register_count: 3  #read next register as well to improve performance reading registers, but ignore it as we don't know what it is.
     address: 77
@@ -1009,16 +1012,47 @@ sensor:
           }
           // Extract Bit 1: AC Couple Inverter Flow
           if ((val >> 1) & 1) {
-            id(ACCoupleInverterFlow).publish_state("Show Flow");
-          } else {
             id(ACCoupleInverterFlow).publish_state("No Flow");
+          } else {
+            id(ACCoupleInverterFlow).publish_state("Show Flow");
           }
           // Extract Bit 2: AC Couple Enable
           if ((val >> 2) & 1) {
-            id(ACCoupleEn).publish_state("Enabled");
+            id(ACCoupleEnabled).publish_state(true);
           } else {
-            id(ACCoupleEn).publish_state("Disabled");
+            id(ACCoupleEnabled).publish_state(false);
           }
+          // Extract Bit 3: Smart Load Flow
+          if ((val >> 3) & 1) {
+            id(SmartLoadFlow).publish_state("No Flow");
+          } else {
+            id(SmartLoadFlow).publish_state("Show Flow");
+          }
+          // Extract Bit 4: Smart Load Enabled and On
+          if ((val >> 4) & 1) {
+            id(SmartLoadEnOn).publish_state(true);
+          } else {
+            id(SmartLoadEnOn).publish_state(false);
+          }
+          // Extract Bit 5: EPS Load Power Show
+          if ((val >> 5) & 1) {
+            id(EpsLoadPowerShow).publish_state("No Power Display");
+          } else {
+            id(EpsLoadPowerShow).publish_state("Power Display");
+          }
+          // Extract Bit 6: Grid Load Power Show
+          if ((val >> 6) & 1) {
+            id(GridLoadPowerShow).publish_state("No Power Display");
+          } else {
+            id(GridLoadPowerShow).publish_state("Power Display");
+          }
+          // Extract Bit 7: Total Load Power Show
+          if ((val >> 7) & 1) {
+            id(PLoadPowerShow).publish_state("No Power Display");
+          } else {
+            id(PLoadPowerShow).publish_state("Power Display");
+          }
+
 
 # TODO. There are two values stored here, Will take some trial and error due to lack of documentation
   - platform: modbus_controller
@@ -2177,15 +2211,33 @@ text_sensor:
   - platform: template
     name: "AC Input Type"
     id: ACInputType
-
+    #Published from Sensor, register 77
+    
   - platform: template
     name: "AC Couple Inverter Flow"
     id: ACCoupleInverterFlow
-  
+    #Published from Sensor, register 77
+    
   - platform: template
-    name: "AC Couple Enabled"
-    id: ACCoupleEn
+    name: "Smart Load Flow"
+    id: SmartLoadFlow
+    #Published from Sensor, register 77
 
+  - platform: template
+    name: "EPS Load Power Show"
+    id: EpsLoadPowerShow
+    #Published from Sensor, register 77
+
+  - platform: template
+    name: "Grid Load Power Show"
+    id: GridLoadPowerShow
+    #Published from Sensor, register 77
+
+  - platform: template
+    name: "Total Load Power Show"
+    id: PLoadPowerShow
+    #Published from Sensor, register 77
+    
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery Communication Type"
