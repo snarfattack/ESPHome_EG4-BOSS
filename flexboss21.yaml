@@ -2543,7 +2543,7 @@ number:
     modbus_controller_id: inverter_1
     name: "Reconnect Time"
     id: ReconnectTime
-    address: 23
+    address: 24
     register_type: holding
     unit_of_measurement: "s"
     device_class: duration
