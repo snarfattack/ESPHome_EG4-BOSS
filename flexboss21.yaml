@@ -2534,6 +2534,57 @@ number:
     # Scale the value back for the Modbus write (UI 90.0 -> Write 900)
     write_lambda: "return x * 10.0;" 
 
+  #not sure what this is for...
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Charging Power Percentage"
+    id: ChargePowerPercentCMD
+    address: 64
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 100
+    #skip_updates: ${skipUpdatesHolding}
+    step: 1
+
+  #not sure what this is for...
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Discharging Power Percentage"
+    id: DischgPowerPercentCMD
+    address: 65
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 100
+    #skip_updates: ${skipUpdatesHolding}
+    step: 1    
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AC Charge Power Rate"
+    id: ACChgPowerCMD
+    address: 66
+    register_type: holding
+    unit_of_measurement: "kW"
+    #this differs from LuxPower branded inverters which uses % instead
+    device_class: power
+    min_value: 0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AC Charging SOC Limit"
+    id: ACChgSOCLimit
+    address: 67
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 101
+    step: 1  
+    
     
 # Ethernet Controller
 ethernet:
