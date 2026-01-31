@@ -1,0 +1,578 @@
+####    USE THIS FILE AT YOUR OWN RISK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#       This exposes registers that SHOULD NOT BE TOUCHED
+#       Documenting here for completeness just in case someone needs them for so odd power company compliance.
+
+substitutions:
+  regulatoryRegistersInternal: true #Set this to true to keep HA from having these numbers and being able to adjust them unless absolutely necessary.
+
+select:
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "ReactivePowerCMDType"
+    id: ReactivePowerCMDType
+    address: 59
+    value_type: U_WORD
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    optionsmap: 
+      "Unit Power Factor": 0
+      "Fixed PF": 1
+      "Default PF Curve (American machine: Q(P))": 2
+      "Custom PF Curve": 3
+      "Capactitive Reactive Power Percentage": 4
+      "Inductive Reactive Power Percentage": 5
+      "QV Curve": 6
+      "QV Dynamic": 7
+
+number:
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Connection Allowed Voltage Limit Low"
+    id: GridVoltConnLow
+    address: 25
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300 #Not sure what the value here is, but putting a limit
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Connection Allowed Voltage Limit High"
+    id: GridVoltConnHigh
+    address: 26
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Connection Allowed Frequency Limit Low"
+    id: GridFreqConnLow
+    address: 27
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Connection Allowed Frequency Limit High"
+    id: GridFreqConnHigh
+    address: 28
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage1 Limit Low"
+    id: GridVoltLimit1Low
+    address: 29
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300 #Not sure what the value here is, but putting a limit
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage1 Limit High"
+    id: GridVoltLimit1High
+    address: 30
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage1 Limit Time Low"
+    id: GridVoltLimit1LowTime
+    address: 31
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage1 Limit Time High"
+    id: GridVoltLimit1HighTime
+    address: 32
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage2 Limit Low"
+    id: GridVoltLimit2Low
+    address: 33
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300 #Not sure what the value here is, but putting a limit
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage2 Limit High"
+    id: GridVoltLimit2High
+    address: 34
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage2 Limit Time Low"
+    id: GridVoltLimit2LowTime
+    address: 35
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage2 Limit Time High"
+    id: GridVoltLimit2HighTime
+    address: 36
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage3 Limit Low"
+    id: GridVoltLimit3Low
+    address: 37
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300 #Not sure what the value here is, but putting a limit
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage3 Limit High"
+    id: GridVoltLimit3High
+    address: 38
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage3 Limit Time Low"
+    id: GridVoltLimit3LowTime
+    address: 39
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage3 Limit Time High"
+    id: GridVoltLimit3HighTime
+    address: 40
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Voltage Moving Avg High"
+    id: GridVoltMovAvgHigh
+    address: 41
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency1 Limit Low"
+    id: GridFreqLimit1Low
+    address: 42
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency1 Limit High"
+    id: GridFreqLimit1High
+    address: 43
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency1 Limit Time Low"
+    id: GridFreqLimit1LowTime
+    address: 44
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency1 Limit Time High"
+    id: GridFreqLimit1HighTime
+    address: 45
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency2 Limit Low"
+    id: GridFreqLimit2Low
+    address: 46
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency2 Limit High"
+    id: GridFreqLimit2High
+    address: 47
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency2 Limit Time Low"
+    id: GridFreqLimit2LowTime
+    address: 48
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency2 Limit Time High"
+    id: GridFreqLimit2HighTime
+    address: 49
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency3 Limit Low"
+    id: GridFreqLimit3Low
+    address: 50
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+   
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency3 Limit High"
+    id: GridFreqLimit3High
+    address: 51
+    register_type: holding
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    min_value: 45
+    max_value: 65
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency3 Limit Time Low"
+    id: GridFreqLimit3LowTime
+    address: 52
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Protection Frequency3 Limit Time High"
+    id: GridFreqLimit3HighTime
+    address: 53
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    #max_value: 600
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.01
+    lambda: "return x * 0.01;"
+    write_lambda: "return x * 100.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Reactive Power Max Q(V) curve"
+    #USA Compliance Report Field Voltage-Reactive Power Mode Q1(%) or Q4(%)?
+    id: MaxQPercentForQV
+    address: 54
+    register_type: holding
+    unit_of_measurement: "%"
+    device_class: power_factor
+    min_value: 0
+    max_value: 100
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Reactive Power Q(V) curve undervoltage 2"
+    #USA Compliance Report Field Voltage-Reactive Power Mode V2(V)
+    id: V2L
+    address: 55
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Reactive Power Q(V) curve undervoltage 1"
+    #USA Compliance Report Field Voltage-Reactive Power Mode V1(V)
+    id: V1L
+    address: 56
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Reactive Power Q(V) curve overvoltage 1"
+    #USA Compliance Report Field Voltage-Reactive Power Mode V3(V)
+    id: V1H
+    address: 57
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Reactive Power Q(V) curve overvoltage 2"
+    #USA Compliance Report Field Voltage-Reactive Power Mode V4(V)
+    id: V2H
+    address: 58
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+
+
+
+    
