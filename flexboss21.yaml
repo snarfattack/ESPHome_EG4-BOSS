@@ -2848,7 +2848,7 @@ number:
     register_type: holding
     unit_of_measurement: "%"
     min_value: 0
-    max_value: 101
+    max_value: 100
     step: 1  
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
