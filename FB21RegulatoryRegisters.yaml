@@ -24,6 +24,35 @@ select:
       "QV Curve": 6
       "QV Dynamic": 7
 
+  #while these are not regulatory in nature, I think these likely should not be set directly. There is another setting for selecting system Grid type that likely controls these.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Off-grid Output Voltage Setting"
+    id: EPSVoltageSet
+    address: 90
+    value_type: U_WORD
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    optionsmap: 
+      "208V": 208
+      "220V": 220
+      "227V": 227
+      "230V": 230
+      "240V": 240
+
+  #while these are not regulatory in nature, I think these likely should not be set directly. There is another setting for selecting system Grid type that likely controls these.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Off-grid Output Frequency Setting"
+    id: EPSFreqSet
+    address: 91
+    value_type: U_WORD
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    optionsmap: 
+      "50Hz": 50
+      "60Hz": 60
+
 number:
   - platform: modbus_controller
     modbus_controller_id: inverter_1
