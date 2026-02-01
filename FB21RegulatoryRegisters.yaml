@@ -684,5 +684,93 @@ number:
     lambda: "return x * 0.1;"
     write_lambda: "return x * 10.0;" 
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Lock In Voltage cosphi(P)"
+    id: LockInGridVForPFCurve
+    address: 92
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 230
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Lock Out Voltage cosphi(P)"
+    id: LockOutGridVForPFCurve
+    address: 93
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 150
+    max_value: 300
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;"     
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Lock In Power Q(V)"
+    id: LockInPowerForQVCurve
+    address: 94
+    register_type: holding
+    unit_of_measurement: "%"
+    device_class: power_factor
+    min_value: 0
+    max_value: 100
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Lock Out Power Q(V)"
+    id: LockOutPowerForQVCurve
+    address: 95
+    register_type: holding
+    unit_of_measurement: "%"
+    device_class: power_factor
+    min_value: 0
+    max_value: 100
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Q(V) Delay"
+    id: DelayTimeForQVCurve
+    address: 96
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    max_value: 20
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Overfrequency Load Reduction Delay"
+    id: DelayTimeForOverFDerate
+    address: 97
+    register_type: holding
+    unit_of_measurement: "s"
+    device_class: duration
+    min_value: 0
+    max_value: 10
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 1
+
+    
     
