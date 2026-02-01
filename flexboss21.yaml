@@ -2427,6 +2427,119 @@ sensor:
                 .hour = (uint8_t)(val & 0xFF)
               };
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgStart1Raw
+    address: 84
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: ForcedDischgStart1
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgEnd1Raw
+    address: 85
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: ForcedDischgEnd1
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgStart2Raw
+    address: 86
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: ForcedDischgStart2
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgEnd2Raw
+    address: 87
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: ForcedDischgEnd2
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgStart3Raw
+    address: 88
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: ForcedDischgStart3
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgEnd3Raw
+    address: 89
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: ForcedDischgEnd3
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
               
     
 text_sensor:
@@ -2850,6 +2963,32 @@ number:
     min_value: 0
     max_value: 100
     step: 1  
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Forced Discharge Mode Power Rate"
+    id: ForcedDischgPowerCMD
+    address: 82
+    register_type: holding
+    unit_of_measurement: "kW"
+    #this differs from LuxPower branded inverters which uses % instead
+    device_class: power
+    min_value: 0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Forced Discharge Mode SOC Limit"
+    id: ForcedDischgSOCLimit
+    address: 83
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 100
+    step: 1  
+    
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
@@ -3448,4 +3587,100 @@ datetime:
                 esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 81, packed_value);
               controller->queue_command(set_command);
 
+  - platform: template
+    id: ForcedDischgStart1
+    name: "Forced Discharge Mode T1 Start"
+    type: time
+    optimistic: true
+    set_action:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 84, packed_value);
+              controller->queue_command(set_command);
 
+  - platform: template
+    id: ForcedDischgEnd1
+    name: "Forced Discharge Mode T1 Stop"
+    type: time
+    optimistic: true
+    set_action:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 85, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: ForcedDischgStart2
+    name: "Forced Discharge Mode T2 Start"
+    type: time
+    optimistic: true
+    set_action:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 86, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: ForcedDischgEnd2
+    name: "Forced Discharge Mode T2 Stop"
+    type: time
+    optimistic: true
+    set_action:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 87, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: ForcedDischgStart3
+    name: "Forced Discharge Mode T3 Start"
+    type: time
+    optimistic: true
+    set_action:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 88, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: ForcedDischgEnd3
+    name: "Forced Discharge Mode T3 Stop"
+    type: time
+    optimistic: true
+    set_action:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 89, packed_value);
+              controller->queue_command(set_command);
+
+              
