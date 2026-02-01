@@ -3261,7 +3261,7 @@ datetime:
     name: "AC Charge Mode T1 Start"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3277,7 +3277,7 @@ datetime:
     name: "AC Charge Mode T1 Stop"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3293,7 +3293,7 @@ datetime:
     name: "AC Charge Mode T2 Start"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3309,7 +3309,7 @@ datetime:
     name: "AC Charge Mode T2 Stop"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3325,7 +3325,7 @@ datetime:
     name: "AC Charge Mode T3 Start"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3341,7 +3341,7 @@ datetime:
     name: "AC Charge Mode T3 Stop"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3357,7 +3357,7 @@ datetime:
     name: "PV Priority Charge Mode T1 Start"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3373,7 +3373,7 @@ datetime:
     name: "PV Priority Charge Mode T1 Stop"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3389,7 +3389,7 @@ datetime:
     name: "PV Priority Charge Mode T2 Start"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3405,7 +3405,7 @@ datetime:
     name: "PV Priority Charge Mode T2 Stop"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3421,7 +3421,7 @@ datetime:
     name: "PV Priority Charge Mode T3 Start"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
@@ -3437,7 +3437,7 @@ datetime:
     name: "PV Priority Charge Mode T3 Stop"
     type: time
     optimistic: true
-    on_value:
+    set_action:
       then:
         - lambda: |-
               uint16_t h = (uint16_t)x.hour;
