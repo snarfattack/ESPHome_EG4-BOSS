@@ -2598,6 +2598,73 @@ number:
     min_value: 0
     max_value: 101
     step: 1  
+
+  # --- AC Charge Times ---
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ACChgStart1Raw
+    address: 68
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ACChgStart1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ACChgEnd1Raw
+    address: 69
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ACChgEnd1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ACChgStart2Raw
+    address: 70
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ACChgStart2
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ACChgEnd2Raw
+    address: 71
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ACChgEnd2
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ACChgStart3Raw
+    address: 72
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ACChgStart3
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ACChgEnd3Raw
+    address: 73
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ACChgEnd3
     
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -2624,6 +2691,73 @@ number:
     max_value: 100
     step: 1  
 
+  # --- PV Charge Times ---
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgStart1Raw
+    address: 76
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: PVChgStart1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgEnd1Raw
+    address: 77
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: PVChgEnd1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgStart2Raw
+    address: 78
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: PVChgStart2
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgEnd2Raw
+    address: 79
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: PVChgEnd2
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgStart3Raw
+    address: 80
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: PVChgStart3
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgEnd3Raw
+    address: 81
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: PVChgEnd3
+
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Forced Discharge Mode Power Rate"
@@ -2649,6 +2783,73 @@ number:
     max_value: 100
     step: 1  
     
+  # --- Forced Discharge Times ---
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgStart1Raw
+    address: 84
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ForcedDischgStart1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgEnd1Raw
+    address: 85
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ForcedDischgEnd1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgStart2Raw
+    address: 86
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ForcedDischgStart2
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgEnd2Raw
+    address: 87
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ForcedDischgEnd2
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgStart3Raw
+    address: 88
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ForcedDischgStart3
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: ForcedDischgEnd3Raw
+    address: 89
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - component.update: ForcedDischgEnd3
+
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
@@ -3055,6 +3256,439 @@ switch:
                 value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 15);'
 
 datetime:
+  # --- AC Charge Mode Times ---
+  - platform: template
+    id: ACChgStart1
+    name: "AC Charge Mode T1 Start"
+    type: time
+    lambda: &time_lambda |-
+      if (!id(ACChgStart1Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ACChgStart1Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ACChgStart1Raw).state;
+            then:
+              - number.set:
+                  id: ACChgStart1Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
 
+  - platform: template
+    id: ACChgEnd1
+    name: "AC Charge Mode T1 Stop"
+    type: time
+    lambda: |-
+      if (!id(ACChgEnd1Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ACChgEnd1Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ACChgEnd1Raw).state;
+            then:
+              - number.set:
+                  id: ACChgEnd1Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ACChgStart2
+    name: "AC Charge Mode T2 Start"
+    type: time
+    lambda: |-
+      if (!id(ACChgStart2Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ACChgStart2Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ACChgStart2Raw).state;
+            then:
+              - number.set:
+                  id: ACChgStart2Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ACChgEnd2
+    name: "AC Charge Mode T2 Stop"
+    type: time
+    lambda: |-
+      if (!id(ACChgEnd2Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ACChgEnd2Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ACChgEnd2Raw).state;
+            then:
+              - number.set:
+                  id: ACChgEnd2Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ACChgStart3
+    name: "AC Charge Mode T3 Start"
+    type: time
+    lambda: |-
+      if (!id(ACChgStart3Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ACChgStart3Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ACChgStart3Raw).state;
+            then:
+              - number.set:
+                  id: ACChgStart3Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ACChgEnd3
+    name: "AC Charge Mode T3 Stop"
+    type: time
+    lambda: |-
+      if (!id(ACChgEnd3Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ACChgEnd3Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ACChgEnd3Raw).state;
+            then:
+              - number.set:
+                  id: ACChgEnd3Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  # --- PV Priority Charge Mode Times ---
+  - platform: template
+    id: PVChgStart1
+    name: "PV Priority Charge Mode T1 Start"
+    type: time
+    lambda: |-
+      if (!id(PVChgStart1Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(PVChgStart1Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(PVChgStart1Raw).state;
+            then:
+              - number.set:
+                  id: PVChgStart1Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: PVChgEnd1
+    name: "PV Priority Charge Mode T1 Stop"
+    type: time
+    lambda: |-
+      if (!id(PVChgEnd1Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(PVChgEnd1Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(PVChgEnd1Raw).state;
+            then:
+              - number.set:
+                  id: PVChgEnd1Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: PVChgStart2
+    name: "PV Priority Charge Mode T2 Start"
+    type: time
+    lambda: |-
+      if (!id(PVChgStart2Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(PVChgStart2Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(PVChgStart2Raw).state;
+            then:
+              - number.set:
+                  id: PVChgStart2Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: PVChgEnd2
+    name: "PV Priority Charge Mode T2 Stop"
+    type: time
+    lambda: |-
+      if (!id(PVChgEnd2Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(PVChgEnd2Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(PVChgEnd2Raw).state;
+            then:
+              - number.set:
+                  id: PVChgEnd2Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: PVChgStart3
+    name: "PV Priority Charge Mode T3 Start"
+    type: time
+    lambda: |-
+      if (!id(PVChgStart3Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(PVChgStart3Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(PVChgStart3Raw).state;
+            then:
+              - number.set:
+                  id: PVChgStart3Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: PVChgEnd3
+    name: "PV Priority Charge Mode T3 Stop"
+    type: time
+    lambda: |-
+      if (!id(PVChgEnd3Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(PVChgEnd3Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(PVChgEnd3Raw).state;
+            then:
+              - number.set:
+                  id: PVChgEnd3Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  # --- Forced Discharge Mode Times ---
+  - platform: template
+    id: ForcedDischgStart1
+    name: "Forced Discharge Mode T1 Start"
+    type: time
+    lambda: |-
+      if (!id(ForcedDischgStart1Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ForcedDischgStart1Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ForcedDischgStart1Raw).state;
+            then:
+              - number.set:
+                  id: ForcedDischgStart1Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ForcedDischgEnd1
+    name: "Forced Discharge Mode T1 Stop"
+    type: time
+    lambda: |-
+      if (!id(ForcedDischgEnd1Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ForcedDischgEnd1Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ForcedDischgEnd1Raw).state;
+            then:
+              - number.set:
+                  id: ForcedDischgEnd1Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ForcedDischgStart2
+    name: "Forced Discharge Mode T2 Start"
+    type: time
+    lambda: |-
+      if (!id(ForcedDischgStart2Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ForcedDischgStart2Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ForcedDischgStart2Raw).state;
+            then:
+              - number.set:
+                  id: ForcedDischgStart2Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ForcedDischgEnd2
+    name: "Forced Discharge Mode T2 Stop"
+    type: time
+    lambda: |-
+      if (!id(ForcedDischgEnd2Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ForcedDischgEnd2Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ForcedDischgEnd2Raw).state;
+            then:
+              - number.set:
+                  id: ForcedDischgEnd2Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ForcedDischgStart3
+    name: "Forced Discharge Mode T3 Start"
+    type: time
+    lambda: |-
+      if (!id(ForcedDischgStart3Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ForcedDischgStart3Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ForcedDischgStart3Raw).state;
+            then:
+              - number.set:
+                  id: ForcedDischgStart3Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
+
+  - platform: template
+    id: ForcedDischgEnd3
+    name: "Forced Discharge Mode T3 Stop"
+    type: time
+    lambda: |-
+      if (!id(ForcedDischgEnd3Raw).has_state()) return {};
+      uint16_t val = (uint16_t)id(ForcedDischgEnd3Raw).state;
+      esphome::ESPTime time_val;
+      time_val.hour = (uint8_t)(val & 0xFF);
+      time_val.minute = (uint8_t)(val >> 8);
+      time_val.second = 0;
+      return time_val;
+    set_action:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                uint16_t new_raw = (uint16_t)((x.minute << 8) | (x.hour & 0xFF));
+                return new_raw != (uint16_t)id(ForcedDischgEnd3Raw).state;
+            then:
+              - number.set:
+                  id: ForcedDischgEnd3Raw
+                  value: !lambda "return (uint16_t)((x.minute << 8) | (x.hour & 0xFF));"
 
               
