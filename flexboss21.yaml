@@ -3118,7 +3118,7 @@ switch:
                 value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 9);'
 
   - platform: template
-    name: "Forced Discharge Enable"
+    name: "Forced Discharge Mode Enable"
     id: FuncEn_ForcedDischgEn
     lambda: |-
       if (!id(FuncEn_RawValue).has_state()) return {}; 
