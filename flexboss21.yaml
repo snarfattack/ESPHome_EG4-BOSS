@@ -51,6 +51,18 @@ uart:
   baud_rate: 19200
   parity: NONE
   stop_bits: 1
+    
+# Ethernet Controller
+ethernet:
+  type: IP101
+  id: int_eth
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  power_pin: GPIO5
+  phy_addr: 1
+  clk:
+    pin: GPIO0
+    mode: CLK_OUT
 
 # Configure Modbus (which runs on top of RS485)
 modbus:
@@ -2301,6 +2313,119 @@ sensor:
                 .hour = (uint8_t)(val & 0xFF)
               };
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgStart1Raw
+    address: 76
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: PVChgStart1
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgEnd1Raw
+    address: 77
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: PVChgEnd1
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgStart2Raw
+    address: 78
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: PVChgStart2
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgEnd2Raw
+    address: 79
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: PVChgEnd2
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgStart3Raw
+    address: 80
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: PVChgStart3
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    id: PVChgEnd3Raw
+    address: 81
+    register_type: holding
+    value_type: U_WORD
+    internal: true 
+    on_value:
+      then:
+        - datetime.time.set:
+            id: PVChgEnd3
+            time: !lambda |-
+              uint16_t val = (uint16_t)x;
+              return {
+                .second = 0,
+                .minute = (uint8_t)(val >> 8),
+                .hour = (uint8_t)(val & 0xFF)
+              };
 
               
     
@@ -2701,18 +2826,30 @@ number:
     max_value: 101
     step: 1  
     
-    
-# Ethernet Controller
-ethernet:
-  type: IP101
-  id: int_eth
-  mdc_pin: GPIO23
-  mdio_pin: GPIO18
-  power_pin: GPIO5
-  phy_addr: 1
-  clk:
-    pin: GPIO0
-    mode: CLK_OUT
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV Priority Charge Mode Power Rate"
+    id: ChgFirstPowerCMD
+    address: 74
+    register_type: holding
+    unit_of_measurement: "kW"
+    #this differs from LuxPower branded inverters which uses % instead
+    device_class: power
+    min_value: 0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "PV Priority Charge Mode SOC Limit"
+    id: ChgFirstSOCLimit
+    address: 75
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 101
+    step: 1  
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
@@ -3215,5 +3352,100 @@ datetime:
                 esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 73, packed_value);
               controller->queue_command(set_command);
 
+  - platform: template
+    id: PVChgStart1
+    name: "PV Priority Charge Mode T1 Start"
+    type: time
+    optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 76, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: PVChgEnd1
+    name: "PV Priority Charge Mode T1 Stop"
+    type: time
+    optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 77, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: PVChgStart2
+    name: "PV Priority Charge Mode T2 Start"
+    type: time
+    optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 78, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: PVChgEnd2
+    name: "PV Priority Charge Mode T2 Stop"
+    type: time
+    optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 79, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: PVChgStart3
+    name: "PV Priority Charge Mode T3 Start"
+    type: time
+    optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 80, packed_value);
+              controller->queue_command(set_command);
+
+  - platform: template
+    id: PVChgEnd3
+    name: "PV Priority Charge Mode T3 Stop"
+    type: time
+    optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+              uint16_t h = (uint16_t)x.hour;
+              uint16_t m = (uint16_t)x.minute;
+              uint16_t packed_value = (uint16_t)((m << 8) | (h & 0xFF));
+              esphome::modbus_controller::ModbusController *controller = id(inverter_1);
+              esphome::modbus_controller::ModbusCommandItem set_command = 
+                esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 81, packed_value);
+              controller->queue_command(set_command);
 
 
