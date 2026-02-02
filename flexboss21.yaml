@@ -3233,7 +3233,7 @@ switch:
                 value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 14);'
 
   - platform: template
-    name: "Grid Sell Enable"
+    name: "Grid Sell Back Enable"
     id: FuncEn_FeedInGridEn
     lambda: |-
       if (!id(FuncEn_RawValue).has_state()) return {}; 
