@@ -2511,6 +2511,61 @@ select:
       "PV 2&3": 6
       "PV 1&2&3": 7
 
+  # Not able to verify this, unused as far as I can tell.
+  - platform: template
+    name: "L2N CT Reuse"
+    id: FuncEn1_L2NCTReuse
+    internal: true
+    options: 
+      - "none"
+      - "SpecLoad"
+      - "AC Couple Power"
+    set_action: 
+      - number.set:
+          id: FuncEn1_RawValue
+          value: !lambda |-
+            int idx = id(FuncEn1_L2NCTReuse).index_of(x).value_or(0);
+            int current = (int)id(FuncEn1_RawValue).state;
+            return (float)((current & ~0x0300) | (idx << 8));
+
+  - platform: template
+    name: "CT Sample Ratio"
+    id: FuncEn1_CTSampleRatio
+    optimistic: true
+    options:
+      - "1/1000"
+      - "1/3000"
+      - "1/2000"
+      - "1/4000"
+      - "1/6000"
+    set_action:
+      - number.set:
+          id: FuncEn1_RawValue
+          value: !lambda |-
+            uint16_t val = (uint16_t)id(FuncEn1_RawValue).state;
+            val &= ~((1 << 5) | (1 << 6) | (1 << 12) | (1 << 13));
+            int index =id(FuncEn1_CTSampleRatio).index_of(x).value_or(0);
+            if (index & 0x01) val |= (1 << 5);
+            if (index & 0x02) val |= (1 << 6);
+            if (index & 0x04) val |= (1 << 12);
+            if (index & 0x08) val |= (1 << 13); 
+            return (float)val;
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Set System Type"
+    id: SetSystemType
+    address: 112
+    value_type: U_WORD
+    skip_updates: ${skipUpdatesHolding}
+    optionsmap: 
+      "No Parallel": 0
+      "Single Phase Parallel Primary": 1
+      "Parallel Secondary": 2
+      "3 Phase Primary": 3
+      "2*208 Primary": 4
+
+      
 number:
   #this option is useless to read and change... for documentation only
   #- platform: modbus_controller
@@ -2523,13 +2578,7 @@ number:
   #  min_value: 0
   #  max_value: 150
 
-  - platform: modbus_controller
-    modbus_controller_id: inverter_1
-    name: "FuncEnRawValue"
-    id: FuncEn_RawValue
-    register_type: holding
-    address: 21
-    internal: true
+
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -3008,6 +3057,55 @@ number:
     write_lambda: "return x * 10.0;" 
     internal: true
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "FuncEn1RawValue"
+    id: FuncEn1_RawValue
+    register_type: holding
+    address: 110
+    #internal: true
+    on_value:
+      then:
+        - switch.template.publish:
+            id: FuncEn1_ubPVGridOffEn
+            state: !lambda 'return (bool)((int)x & (1 << 0));'
+        - switch.template.publish:
+            id: FuncEn1_ubFastZeroExport
+            state: !lambda 'return (bool)((int)x & (1 << 1));'
+        - switch.template.publish:
+            id: FuncEn1_ubMicroGridEn
+            state: !lambda 'return (bool)((int)x & (1 << 2));'
+        - switch.template.publish:
+            id: FuncEn1_ubBatShared
+            state: !lambda 'return (bool)((int)x & (1 << 3));'
+        - switch.template.publish:
+            id: FuncEn1_ubChgLastEn
+            state: !lambda 'return (bool)((int)x & (1 << 4));'
+        - switch.template.publish:
+            id: FuncEn1_ubBuzzerEn
+            state: !lambda 'return (bool)((int)x & (1 << 7));'
+        - lambda: |-
+            int val = ((int)x >> 8) & 0x03;
+            auto option = id(FuncEn1_L2NCTReuse).at(val);
+            if (option.has_value()) { id(FuncEn1_L2NCTReuse).publish_state(option.value()); }
+        - switch.template.publish:
+            id: FuncEn1_ubTakeLoadTogether
+            state: !lambda 'return (bool)((int)x & (1 << 10));'                       
+        - switch.template.publish:
+            id: FuncEn1_ubConsistentCheckMask
+            state: !lambda 'return (bool)((int)x & (1 << 11));'
+        - switch.template.publish:
+            id: FuncEn1_ubAbsoluteZeroExport
+            state: !lambda 'return (bool)((int)x & (1 << 14));'
+        - switch.template.publish:
+            id: FuncEn1_EcoModeEn
+            state: !lambda 'return (bool)((int)x & (1 << 15));'
+        - lambda: |-
+            int i = ((int)x >> 5 & 3) | ((int)x >> 10 & 12);
+            auto opts = id(FuncEn1_CTSampleRatio).at(i);
+            if (opts.has_value()) { id(FuncEn1_CTSampleRatio).publish_state(opts.value()); }
+
+            
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
@@ -3044,374 +3142,17 @@ switch:
       inverted: True
     restore_mode: ALWAYS_ON
 
-  - platform: template
-    name: "EPS Power Backup"
-    id: FuncEn_EPSEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return (bool)((int)id(FuncEn_RawValue).state & (1 << 0));
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 0);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 0);'
 
 
-  - platform: template
-    name: "Overfrequency Load Reduction Enable"
-    id: FuncEn_OVFLoadDerateEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 1) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 1);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 1);'
 
-  - platform: template
-    name: "DRMS Enable"
-    id: FuncEn_DRMSEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 2) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 2);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 2);'
 
-  - platform: template
-    name: "Low Voltage Ride-through Enable"
-    id: FuncEn_LVRTEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 3) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 3);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 3);'
 
-  - platform: template
-    name: "Anti Islanding Enable"
-    id: FuncEn_AntiIslandEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 4) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 4);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 4);'
 
-  - platform: template
-    name: "Ground Neutral Detection Enable"
-    id: FuncEn_NeutralDetectEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 5) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 5);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 5);'
 
-  - platform: template
-    name: "On-grid Power Soft Start Enable"
-    id: FuncEn_GridOnPowerSSEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 6) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 6);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 6);'
 
-  - platform: template
-    name: "AC Charge Mode Enable"
-    id: FuncEn_ACChargeEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 7) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 7);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 7);'
 
-  - platform: template
-    name: "Seamless Off-grid mode switching enable"
-    id: FuncEn_SWSeamlesslyEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 8) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 8);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 8);'
 
-  - platform: template
-    name: "Power On - Standby Off"
-    id: FuncEn_SetToStandby
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 9) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 9);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 9);'
 
-  - platform: template
-    name: "Forced Discharge Mode Enable"
-    id: FuncEn_ForcedDischgEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 10) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 10);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 10);'
-
-  - platform: template
-    name: "Forced Charge Enable"
-    id: FuncEn_ForcedChgEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 11) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 11);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 11);'
-
-  - platform: template
-    name: "ISO Enable"
-    id: FuncEn_ISOEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 12) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 12);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 12);'
-
-  - platform: template
-    name: "GFCI Enable"
-    id: FuncEn_GFCIEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 13) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 13);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 13);'
-
-  - platform: template
-    name: "DCI Enable"
-    id: FuncEn_DCIEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 14) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 14);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 14);'
-
-  - platform: template
-    name: "Grid Sell Back Enable (Changing Resets Max Power)"
-    id: FuncEn_FeedInGridEn
-    lambda: |-
-      if (!id(FuncEn_RawValue).has_state()) return {}; 
-      return ( (int)id(FuncEn_RawValue).state & (1 << 15) );
-    turn_on_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state | (1 << 15);'
-    turn_off_action:
-      - if:
-          condition:
-            lambda: 'return id(FuncEn_RawValue).has_state();'
-          then:
-            - number.set:
-                id: FuncEn_RawValue
-                value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 15);'
 
   #This is an 18kPV parameter?
   - platform: modbus_controller
@@ -3422,6 +3163,221 @@ switch:
     register_type: holding
     skip_updates: ${skipUpdatesHolding}
     internal: true
+
+  #This throws an error and flips back off when I try to enable it. I'm assuming this can't be enabled unless the battery setting is set to none first.
+  - platform: template
+    name: "EPS No Batteries (Likely requires Battery Type set to none First)"
+    id: FuncEn1_ubPVGridOffEn
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 0);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 0);'
+
+  - platform: template
+    name: "Grid Sell Fast Zero Export"
+    id: FuncEn1_ubFastZeroExport
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 1);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 1);'
+
+  #Based on LuxPower documentation, this allows the inverter to use the Grid port as a generator port.
+  #Appears to be use-able in concert with the Dry Ports, but it's too cold right now to see if those work.
+  - platform: template
+    name: "Micro Grid Enable"
+    id: FuncEn1_ubMicroGridEn
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 2);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 2);'
+
+  - platform: template
+    name: "Battery Shared"
+    id: FuncEn1_ubBatShared
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 3);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 3);'
+
+  - platform: template
+    name: "Battery Charge Last"
+    id: FuncEn1_ubChgLastEn
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 4);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 4);'
+
+  #Tried flipping this, did not feel the relays on the FB click. Will come back to explore this further when it's not so frigid outside
+  - platform: template
+    name: "Buzzer or Dry Contactor Control"
+    id: FuncEn1_ubBuzzerEn
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 7);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 7);'
+
+  #This option is there... does stuff, but is unused by the EG4 platform
+  - platform: template
+    name: "Take Load Together On-grid"
+    id: FuncEn1_ubTakeLoadTogether
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 10);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 10);'
+
+  #no clue what this may be for.
+  - platform: template
+    name: "Consistent Check Mask"
+    id: FuncEn1_ubConsistentCheckMask
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 11);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 11);'
+
+  #no clue what this may be for
+  - platform: template
+    name: "Absolute Zero Export"
+    id: FuncEn1_ubAbsoluteZeroExport
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 14);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 14);'
+
+  #no clue what his may be for
+  - platform: template
+    name: "EcoMode"
+    id: FuncEn1_EcoModeEn
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state | (1 << 15);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(FuncEn1_RawValue).has_state();'
+          then:
+            - number.set:
+                id: FuncEn1_RawValue
+                value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 15);'
+
 
 datetime:
   # --- AC Charge Mode Times ---
