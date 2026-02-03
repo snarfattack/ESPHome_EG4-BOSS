@@ -916,9 +916,9 @@ sensor:
             // 1. Extract bits 0-3
             uint16_t val1 = (uint16_t)x & 0x000F; 
             switch (val1) {
-              case 0: id(AutoTestStart).publish_state("Not activated"); break;
-              case 1: id(AutoTestStart).publish_state("Activated"); break;
-              default: id(AutoTestStart).publish_state("Unknown"); break;
+              case 0: id(ubAutoTestStart).publish_state("Not activated"); break;
+              case 1: id(ubAutoTestStart).publish_state("Activated"); break;
+              default: id(ubAutoTestStart).publish_state("Unknown"); break;
             }
 
             // 2. Extract bits 4-7 (Note: using a different variable name or just reusing without redeclaring)
@@ -2233,7 +2233,7 @@ text_sensor:
 
   - platform: template
     name: "Auto Test Activated"
-    id: AutoTestStart
+    id: ubAutoTestStart
   
   - platform: template
     name: "Auto Test Status"
