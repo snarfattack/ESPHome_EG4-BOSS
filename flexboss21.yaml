@@ -2850,6 +2850,164 @@ number:
       then:
         - component.update: ForcedDischgEnd3
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Lead Acid Absorb Voltage"
+    id: LAChargeVoltRef
+    address: 99
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 50.0
+    max_value: 59.0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Discharge Volt Cut Off Off-grid"
+    id: CutVoltForDischg
+    address: 100
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 40.0
+    max_value: 52.0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Charge Current Limit"
+    id: ChargeCurr
+    address: 101
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    unit_of_measurement: A
+    device_class: current
+    min_value: 0
+    max_value: 250
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Discharge Current Limit"
+    id: DischgCurr
+    address: 102
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    unit_of_measurement: A
+    device_class: current
+    min_value: 0
+    max_value: 250
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Grid Sell Back Max Power"
+    id: MaxBackFlow
+    address: 103
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    unit_of_measurement: "kW"
+    #this differs from LuxPower branded inverters which uses % instead
+    device_class: power
+    min_value: 0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  #this is an 18kPV parameter?
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "DischgChgSWCMD"
+    id: DischgChgSWCMD
+    address: 104
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    value_type: U_WORD
+    internal: true
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Discharge SOC Cut Off On-Grid"
+    id: EOD
+    address: 105
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 10
+    max_value: 90
+    skip_updates: ${skipUpdatesHolding}
+    step: 1
+
+  #these appear unused
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "TemprLowerLimitDischg"
+    id: TemprLowerLimitDischg
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    address: 106
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #these appear unused
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "TemprUpperLimitDischg"
+    id: TemprUpperLimitDischg
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    address: 107
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #these appear unused
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "TemprLowerLimitChg"
+    id: TemprLowerLimitChg
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    address: 108
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #these appear unused
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "TemprUpperLimitChg"
+    id: TemprUpperLimitChg
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    address: 109
+    device_class: temperature
+    unit_of_measurement: "C"
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
@@ -3254,6 +3412,16 @@ switch:
             - number.set:
                 id: FuncEn_RawValue
                 value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 15);'
+
+  #This is an 18kPV parameter?
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "AutoTestStart"
+    id: AutoTestStart
+    address: 98
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    internal: true
 
 datetime:
   # --- AC Charge Mode Times ---
