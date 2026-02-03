@@ -3045,7 +3045,7 @@ switch:
     restore_mode: ALWAYS_ON
 
   - platform: template
-    name: "Off-grid mode enable"
+    name: "EPS Power Backup"
     id: FuncEn_EPSEn
     lambda: |-
       if (!id(FuncEn_RawValue).has_state()) return {}; 
