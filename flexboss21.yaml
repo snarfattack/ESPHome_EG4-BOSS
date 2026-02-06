@@ -2531,7 +2531,6 @@ select:
   - platform: template
     name: "CT Sample Ratio"
     id: FuncEn1_CTSampleRatio
-    optimistic: true
     options:
       - "1/1000"
       - "1/3000"
