@@ -3117,7 +3117,7 @@ number:
     id: FuncEn1_RawValue
     register_type: holding
     address: 110
-    #internal: true
+    internal: true
     on_value:
       then:
         - switch.template.publish:
