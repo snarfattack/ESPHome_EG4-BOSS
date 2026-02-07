@@ -3212,8 +3212,60 @@ number:
     write_lambda: "return x * 1000.0;" 
     internal: True
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Start Discharge When Grid Import Power Above"
+    id: PtoUserStartdischg
+    address: 116
+    register_type: holding
+    unit_of_measurement: "W"
+    device_class: power
+    min_value: 0
+    step: 1
 
-    
+  #Don't see this exposed by EG4. seems to be set to 65486W
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Start Charging When Grid Import Power Below"
+    id: PtoUserStartchg
+    address: 117
+    register_type: holding
+    unit_of_measurement: "W"
+    device_class: power
+    min_value: 0
+    step: 1
+    internal: true
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Discharge Derate At"
+    id: VbatStartDerating
+    address: 118
+    register_type: holding
+    skip_updates: ${skipUpdatesHolding}
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "CT Power Offset"
+    id: wCT_PowerOffset
+    address: 119
+    register_type: holding
+    unit_of_measurement: "W"
+    device_class: power
+    value_type: S_WORD
+    min_value: -1000
+    max_value: 1000
+    step: 1
+
+
+
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
