@@ -2974,7 +2974,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Lead Acid Absorb Voltage"
+    name: "Battery Open Loop Absorb Voltage"
     id: LAChargeVoltRef
     address: 99
     register_type: holding
