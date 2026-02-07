@@ -2464,8 +2464,11 @@ text_sensor:
       } else {
           tz_offset = "Z"; // Fallback to UTC if timezone unavailable
       }
-
       return str_sprintf("20%02d-%02d-%02dT%02d:%02d:%02d%s", year, month, day, hours, minutes, seconds, tz_offset.c_str());
+
+  - platform: template
+    name: "Grid Detected Phases"
+    id: SetComposedPhase_onGridDetectedPhase
 
 select:
   # this option map does not appear correct as it's defaulted to a value of 1. Commenting out for how as it's not important to ongoing operations
@@ -2564,6 +2567,22 @@ select:
       "3 Phase Primary": 3
       "2*208 Primary": 4
 
+  - platform: template
+    name: "Grid Set Composed Phase"
+    id: SetComposedPhase_offGridComposedPhase
+    options:
+      - "Clear Detected Phases"
+      - "Phase R (U)"
+      - "Phase S (V)"
+      - "Phase T (W)"
+    set_action:
+      then:
+      - number.set:
+          id: SetComposedPhase
+          value: !lambda |-
+            int idx = id(SetComposedPhase_offGridComposedPhase).index_of(x).value_or(0);
+            int current = (int)id(SetComposedPhase).state;
+            return (float)((current & ~0xFF) | idx);
       
 number:
   #this option is useless to read and change... for documentation only
@@ -3159,7 +3178,42 @@ number:
             auto opts = id(FuncEn1_CTSampleRatio).at(i);
             if (opts.has_value()) { id(FuncEn1_CTSampleRatio).publish_state(opts.value()); }
 
-            
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "SetComposedPhase"
+    id: SetComposedPhase
+    register_type: holding
+    address: 113
+    internal: true
+    on_value: 
+      then:
+        - lambda: |-
+            uint16_t val = (uint16_t)x;
+            int val_0_7 = (val & 0xFF);
+            int val_8_15 = (val >> 8) & 0xFF;
+            auto option = id(SetComposedPhase_offGridComposedPhase).at(val_0_7);
+            if (option.has_value()) { id(SetComposedPhase_offGridComposedPhase).publish_state(option.value()); }
+            option = id(SetComposedPhase_offGridComposedPhase).at(val_8_15);
+            if (option.has_value()) {id(SetComposedPhase_onGridDetectedPhase).publish_state(option.value()); }
+
+  #I don't see where EG4 exposes this, and the value doesn't match up with MODBUS documentation
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Over-Frequency Load Derate Start Point"
+    id: OVFDerateStartPoint
+    register_type: holding
+    address: 115
+    unit_of_measurement: "Hz"
+    device_class: frequency
+    step: 0.01
+    min_value: 50
+    max_value: 62
+    lambda: "return x * 0.001;"
+    write_lambda: "return x * 1000.0;" 
+    internal: True
+
+
+    
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
 switch:
@@ -3740,6 +3794,15 @@ switch:
                 id: FuncEn1_RawValue
                 value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 15);'
 
+  #Not sure this is exposed by EG4... in modbus documentation.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Clear Parallel Alarm"
+    id: ClearFunction
+    address: 114
+    register_type: holding
+    internal: true
+    
 
 datetime:
   # --- AC Charge Mode Times ---
