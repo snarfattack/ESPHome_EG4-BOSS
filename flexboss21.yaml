@@ -3055,7 +3055,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge Volt Cut Off Off-grid"
+    name: "Battery Discharge Volt Cutoff Off-grid"
     id: CutVoltForDischg
     address: 100
     register_type: holding
@@ -3122,7 +3122,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge SOC Cut Off On-Grid"
+    name: "Battery Discharge SOC Cutoff On-Grid"
     id: EOD
     address: 105
     register_type: holding
