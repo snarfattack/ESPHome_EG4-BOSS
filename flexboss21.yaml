@@ -3127,8 +3127,8 @@ number:
     address: 105
     register_type: holding
     unit_of_measurement: "%"
-    min_value: 10
-    max_value: 90
+    min_value: 0
+    max_value: 100
     skip_updates: ${skipUpdatesHolding}
     step: 1
 
