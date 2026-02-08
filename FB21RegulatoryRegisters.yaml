@@ -805,7 +805,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Over-Frequency Load Derate End Point"
+    name: "Overfrequency Load Derate End Point"
     id: OVFDerateEndPoint
     register_type: holding
     address: 124
