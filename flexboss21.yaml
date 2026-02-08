@@ -3780,12 +3780,11 @@ switch:
                 id: FuncEn1_RawValue
                 value: !lambda 'return (int)id(FuncEn1_RawValue).state & ~(1 << 1);'
 
-  #Based on LuxPower documentation, this allows the inverter to use the Grid port as a generator port.
-  #Appears to be use-able in concert with the Dry Ports, but it's too cold right now to see if those work.
+  #This is a setting on the old EG4 settings page, this allows the inverter to use the Grid port as a generator port.
+  #Appears to be use-able in concert with the Dry Ports/buzzer, but it's too cold right now to see if those work.
   - platform: template
     name: "Micro Grid Enable"
     id: FuncEn1_ubMicroGridEn
-    internal: true
     turn_on_action:
       - if:
           condition:
