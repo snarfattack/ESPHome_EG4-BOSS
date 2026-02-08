@@ -2721,7 +2721,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Start PV Volt"
+    name: "PV Input Start Volt"
     id: StartPVVolt
     address: 22
     register_type: holding
