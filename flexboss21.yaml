@@ -3570,7 +3570,7 @@ switch:
                 value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 7);'
 
   - platform: template
-    name: "Seamless Off-Grid Mode Switching Enable"
+    name: "EPS Seamless Switching"
     id: FuncEn_SWSeamlesslyEn
     turn_on_action:
       - if:
