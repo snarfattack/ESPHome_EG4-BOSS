@@ -3055,7 +3055,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge Volt Cutoff Off-grid"
+    name: "Battery Discharge Volt Cutoff Off-Grid"
     id: CutVoltForDischg
     address: 100
     register_type: holding
@@ -3576,7 +3576,7 @@ switch:
                 value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 7);'
 
   - platform: template
-    name: "Seamless Off-grid mode switching enable"
+    name: "Seamless Off-Grid Mode Switching Enable"
     id: FuncEn_SWSeamlesslyEn
     turn_on_action:
       - if:
