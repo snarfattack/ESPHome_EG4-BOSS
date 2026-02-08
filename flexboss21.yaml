@@ -2583,7 +2583,73 @@ select:
             int idx = id(SetComposedPhase_offGridComposedPhase).index_of(x).value_or(0);
             int current = (int)id(SetComposedPhase).state;
             return (float)((current & ~0xFF) | idx);
-      
+
+  - platform: template
+    name: "AC Charge Based On"
+    id: stSysEnable_ACChargeType
+    options: 
+      - "Time"
+      - "SOC/Volt"
+      - "Time and SOC/Volt"
+    set_action: 
+      - number.set:
+          id: stSysEnable_RawValue
+          value: !lambda |-
+            int idx = id(stSysEnable_ACChargeType).index_of(x).value_or(0);
+            int current = (int)id(stSysEnable_RawValue).state;
+            return (float)((current & ~0x000E) | ((idx & 0x07) << 1));
+
+  #Flexboss does not seem to use this control bit for this.
+  - platform: template
+    name: "Battery Discharge Control"
+    id: stSysEnable_DischgCtrlType
+    internal: true
+    options: 
+      - "Volt"
+      - "SOC"
+      - "Volt & SOC"
+    set_action: 
+      - number.set:
+          id: stSysEnable_RawValue
+          value: !lambda |-
+            int idx = id(stSysEnable_DischgCtrlType).index_of(x).value_or(0);
+            int current = (int)id(stSysEnable_RawValue).state;
+            return (float)((current & ~0x0300) | (idx << 4));
+
+  #Don't see that anything is using this
+  - platform: template
+    name: "On Grid EOD Type"
+    id: stSysEnable_OnGridEODType
+    internal: true
+    options: 
+      - "Volt"
+      - "SOC"
+    set_action: 
+      - number.set:
+          id: stSysEnable_RawValue
+          value: !lambda |-
+            int idx = id(stSysEnable_OnGridEODType).index_of(x).value_or(0);
+            int current = (int)id(stSysEnable_RawValue).state;
+            return (uint16_t)((current & ~(1 << 6)) | (idx << 6));
+
+  #FlexBoss doesn't have support for Generator... Maybe used on others
+  - platform: template
+    name: "Gen Charge Type"
+    id: stSysEnable_GenChargeType
+    internal: true
+    options: 
+      - "Batt Volt"
+      - "SOC"
+    set_action: 
+      - number.set:
+          id: stSysEnable_RawValue
+          value: !lambda |-
+            int idx = id(stSysEnable_GenChargeType).index_of(x).value_or(0);
+            int current = (int)id(stSysEnable_RawValue).state;
+            return (uint16_t)((current & ~(1 << 7)) | (idx << 7));
+
+
+
 number:
   #this option is useless to read and change... for documentation only
   #- platform: modbus_controller
@@ -3264,6 +3330,37 @@ number:
     max_value: 1000
     step: 1
 
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "stSysEnable_RawValue"
+    id: stSysEnable_RawValue
+    register_type: holding
+    address: 120
+    internal: true
+    on_value:
+      then:
+        - switch.template.publish:
+            id: stSysEnable_HalfHourACChrStartEn
+            state: !lambda 'return (bool)((int)x & (1 << 0));'
+        - switch.template.publish:
+            id: stSysEnable_SeparateZeroExportEn
+            state: !lambda 'return (bool)((int)x & (1 << 8));'
+        - lambda: |-
+            int val = ((int)x >> 1) & 0x07;
+            auto option = id(stSysEnable_ACChargeType).at(val);
+            if (option.has_value()) { id(stSysEnable_ACChargeType).publish_state(option.value()); }
+        - lambda: |-
+            int val = ((int)x >> 4) & 0x03;
+            auto option = id(stSysEnable_DischgCtrlType).at(val);
+            if (option.has_value()) { id(stSysEnable_DischgCtrlType).publish_state(option.value()); }
+        - lambda: |-
+            int val = ((int)x >> 6) & 0x01;
+            auto option = id(stSysEnable_OnGridEODType).at(val);
+            if (option.has_value()) { id(stSysEnable_OnGridEODType).publish_state(option.value()); }
+        - lambda: |-
+            int val = ((int)x >> 7) & 0x01;
+            auto option = id(stSysEnable_GenChargeType).at(val);
+            if (option.has_value()) { id(stSysEnable_GenChargeType).publish_state(option.value()); }
 
 
 
@@ -3854,7 +3951,53 @@ switch:
     address: 114
     register_type: holding
     internal: true
-    
+
+  #Not sure where this is used, but can't find it on the FlexBoss
+  - platform: template
+    name: "AC Charge Half Hour Start"
+    id: stSysEnable_HalfHourACChrStartEn
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(stSysEnable_RawValue).has_state();'
+          then:
+            - number.set:
+                id: stSysEnable_RawValue
+                value: !lambda 'return (int)id(stSysEnable_RawValue).state | (1 << 0);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(stSysEnable_RawValue).has_state();'
+          then:
+            - number.set:
+                id: stSysEnable_RawValue
+                value: !lambda 'return (int)id(stSysEnable_RawValue).state & ~(1 << 0);'
+  
+  #Not sure where this is used, but doesn't appear to work on a flexboss
+  - platform: template
+    name: "Separate Zero Export"
+    id: stSysEnable_SeparateZeroExportEn
+    internal: true
+    turn_on_action:
+      - if:
+          condition:
+            lambda: 'return id(stSysEnable_RawValue).has_state();'
+          then:
+            - number.set:
+                id: stSysEnable_RawValue
+                value: !lambda 'return (int)id(stSysEnable_RawValue).state | (1 << 8);'
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(stSysEnable_RawValue).has_state();'
+          then:
+            - number.set:
+                id: stSysEnable_RawValue
+                value: !lambda 'return (int)id(stSysEnable_RawValue).state & ~(1 << 8);'
+
+
+
 
 datetime:
   # --- AC Charge Mode Times ---
