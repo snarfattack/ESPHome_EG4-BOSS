@@ -772,5 +772,18 @@ number:
     internal: ${regulatoryRegistersInternal}
     step: 1
 
-    
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Reactive Power Max Q(V) curve"
+    #USA Compliance Report Field Voltage-Reactive Power Mode Q2(%)?
+    id: MinQPercentForQV
+    address: 121
+    register_type: holding
+    unit_of_measurement: "%"
+    device_class: power_factor
+    min_value: 0
+    max_value: 100
+    skip_updates: ${skipUpdatesHolding}
+    internal: ${regulatoryRegistersInternal}
+    step: 1
     
