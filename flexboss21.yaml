@@ -852,7 +852,7 @@ sensor:
     register_type: read
     address: 64
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
 
@@ -863,7 +863,7 @@ sensor:
     register_type: read
     address: 65
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     
@@ -874,7 +874,7 @@ sensor:
     register_type: read
     address: 66
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     
@@ -886,7 +886,7 @@ sensor:
     register_count: 2  #read register 68 as well to improve performance reading registers, but ignore it as we don't know what it is.
     address: 67
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
 
@@ -1346,7 +1346,7 @@ sensor:
     register_type: read
     address: 103
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     filters: 
@@ -1359,7 +1359,7 @@ sensor:
     register_type: read
     address: 104
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     filters: 
@@ -1394,7 +1394,7 @@ sensor:
     register_type: read
     address: 108
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     filters: 
@@ -1407,7 +1407,7 @@ sensor:
     register_type: read
     address: 109
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     filters: 
@@ -1420,7 +1420,7 @@ sensor:
     register_type: read
     address: 110
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     filters: 
@@ -1433,7 +1433,7 @@ sensor:
     register_type: read
     address: 111
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     filters: 
@@ -1446,7 +1446,7 @@ sensor:
     register_type: read
     address: 112
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     filters: 
@@ -2159,7 +2159,7 @@ sensor:
     register_type: read
     address: 214
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
 
@@ -2170,7 +2170,7 @@ sensor:
     register_type: read
     address: 215
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
     
@@ -2181,7 +2181,7 @@ sensor:
     register_type: read
     address: 216
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: S_WORD
     state_class: measurement
 
@@ -3141,7 +3141,7 @@ number:
     skip_updates: ${skipUpdatesHolding}
     address: 106
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: U_WORD
     step: 0.1
     lambda: "return x * 0.1;"
@@ -3157,7 +3157,7 @@ number:
     skip_updates: ${skipUpdatesHolding}
     address: 107
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: U_WORD
     step: 0.1
     lambda: "return x * 0.1;"
@@ -3173,7 +3173,7 @@ number:
     skip_updates: ${skipUpdatesHolding}
     address: 108
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: U_WORD
     step: 0.1
     lambda: "return x * 0.1;"
@@ -3189,7 +3189,7 @@ number:
     skip_updates: ${skipUpdatesHolding}
     address: 109
     device_class: temperature
-    unit_of_measurement: C
+    unit_of_measurement: "°C"
     value_type: U_WORD
     step: 0.1
     lambda: "return x * 0.1;"
