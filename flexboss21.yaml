@@ -2778,7 +2778,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "AC Charge Mode SOC Limit"
+    name: "AC Charge Mode SOC Stop"
     id: ACChgSOCLimit
     address: 67
     register_type: holding
