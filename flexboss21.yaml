@@ -3368,7 +3368,88 @@ number:
     max_value: 100
     skip_updates: ${skipUpdatesHolding}
     step: 1
+    
+  #Duplicate, appears unused compared to the other one.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "ChargePowerPercentCMD"
+    id: ChargePowerPercentCMD2
+    address: 138
+    register_type: holding
+    internal: true
+    skip_updates: 0
+    value_type: U_WORD
 
+  #Duplicate, appears unused compared to the other one.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "DischgPowerPercentCMD"
+    id: DischgPowerPercentCMD2
+    address: 139
+    register_type: holding
+    internal: true
+    skip_updates: 0
+    value_type: U_WORD
+  
+  #Duplicate, appears unused compared to the other one.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "ACChgPowerCMD"
+    id: ACChgPowerCMD2
+    address: 140
+    register_type: holding
+    internal: true
+    skip_updates: 0
+    value_type: U_WORD
+  
+  #Duplicate, appears unused compared to the other one.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "ChgFirstPowerCMD"
+    id: ChgFirstPowerCMD2
+    address: 141
+    register_type: holding
+    internal: true
+    skip_updates: 0
+    value_type: U_WORD
+  
+  #Duplicate, appears unused compared to the other one.
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "ForcedDischgPowerCMD"
+    id: ForcedDischgPowerCMD2
+    address: 142
+    register_type: holding
+    internal: true
+    skip_updates: 0
+    value_type: U_WORD
+  
+  #Not sure what this is used for
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "ActivePowerPercentCMD"
+    id: ActivePowerPercentCMD
+    address: 143
+    register_type: holding
+    skip_updates: 0
+    value_type: U_WORD
+  
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Battery Open Loop Float Charge Voltage"
+    id: FloatChargeVolt
+    address: 144
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    skip_updates: 0
+    value_type: U_WORD 
+    min_value: 50.0
+    max_value: 56.0           
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    
 
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
