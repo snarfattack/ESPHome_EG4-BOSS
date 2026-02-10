@@ -3288,15 +3288,15 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge Derate At"
+    name: "Battery Open Loop Ongrid Voltage Discharge Derate"
     id: VbatStartDerating
     address: 118
     register_type: holding
     skip_updates: ${skipUpdatesHolding}
     unit_of_measurement: "V"
     device_class: voltage
-    min_value: 0.0
-    max_value: 100.0
+    min_value: 38.0
+    max_value: 59.0
     step: 0.1
     lambda: "return x * 0.1;"
     write_lambda: "return x * 10.0;" 
