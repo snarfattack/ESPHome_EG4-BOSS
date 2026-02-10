@@ -851,7 +851,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Lock Out Power Q(V)"
+    name: "UVF Derate Ratio"
     id: UVFDerateRatio
     address: 136
     register_type: holding
