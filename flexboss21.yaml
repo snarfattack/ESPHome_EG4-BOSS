@@ -314,7 +314,10 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
-
+    on_value:
+      then:
+        - component.update: batterypowerflow
+        
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Battery Discharge Power"
@@ -324,6 +327,19 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
+    on_value:
+      then:
+        - component.update: batterypowerflow
+        
+  - platform: template  
+    name: "Battery Power Flow"
+    id: batterypowerflow
+    unit_of_measurement: "W"
+    device_class: power
+    state_class: measurement
+    lambda: |-
+      if (std::isnan(id(Pcharge).state) || std::isnan(id(Pdischarge).state)) { return NAN; }
+      return id(Pcharge).state - id(Pdischarge).state;
 
     # this is Phase R or Split Phase grid voltage
   - platform: modbus_controller
