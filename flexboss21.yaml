@@ -284,7 +284,10 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
- 
+     on_value:
+      then:
+        - component.update: Ppv
+        
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV2 Power"
@@ -294,7 +297,10 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
-
+    on_value:
+      then:
+        - component.update: Ppv
+        
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "PV3 Power"
@@ -304,6 +310,20 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
+    on_value:
+      then:
+        - component.update: Ppv
+        
+  - platform: template
+    name: "PV Power"
+    id: Ppv
+    unit_of_measurement: "W"
+    device_class: power
+    state_class: measurement
+    update_interval: never
+    lambda: |-
+      if (std::isnan(id(Ppv1).state) || std::isnan(id(Ppv2).state)) || std::isnan(id(Ppv3).state)) { return NAN; }
+      return id(Ppv1).state + id(Ppv2).state + id(Ppv3).state;
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -580,7 +600,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Energy On-Grid (Today)"
+    name: "Inverter Energy (Today)"
     id: Einv_day
     register_type: read
     address: 31
@@ -1509,6 +1529,7 @@ sensor:
     name: "Number of Parallel Inverters"
     id: ParallelNum
 
+  #Does not appear to be used on the Flexboss
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Load Power On Grid (12K)"
@@ -1518,6 +1539,7 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
+    internal: true
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
