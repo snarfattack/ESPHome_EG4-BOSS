@@ -337,6 +337,7 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     state_class: measurement
+    update_interval: never
     lambda: |-
       if (std::isnan(id(Pcharge).state) || std::isnan(id(Pdischarge).state)) { return NAN; }
       return id(Pcharge).state - id(Pdischarge).state;
