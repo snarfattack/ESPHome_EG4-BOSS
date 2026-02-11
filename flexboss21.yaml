@@ -315,7 +315,7 @@ sensor:
         - component.update: Ppv
         
   - platform: template
-    name: "PV Power"
+    name: "Solar Power"
     id: Ppv
     unit_of_measurement: "W"
     device_class: power
@@ -466,7 +466,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Voltage Off-Grid (EPS)"
+    name: "Load Voltage Off Grid (EPS)"
     id: VepsR
     register_type: read
     address: 20
@@ -479,7 +479,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Voltage Off-Grid (EPS) - S"
+    name: "Load Voltage Off Grid (EPS) - S"
     id: VepsS
     register_type: read
     address: 21
@@ -492,7 +492,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Voltage Off-Grid (EPS) - T"
+    name: "Load Voltage Off Grid (EPS) - T"
     id: VepsT
     register_type: read
     address: 22
@@ -505,7 +505,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Frequency Off-Grid (EPS)"
+    name: "Load Frequency Off Grid (EPS)"
     id: Feps
     register_type: read
     address: 23
@@ -518,7 +518,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Power Off-Grid (EPS)"
+    name: "Load Power Off Grid (EPS)"
     id: Peps
     register_type: read
     address: 24
@@ -528,7 +528,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Apparent Power Off-Grid (EPS)"
+    name: "Load Apparent Power Off Grid (EPS)"
     id: Seps
     register_type: read
     address: 25
@@ -656,7 +656,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Energy Off-Grid (EPS) (Today)"
+    name: "Load Energy Off Grid (EPS) (Today)"
     id: Eeps_day
     register_type: read
     address: 35
@@ -822,7 +822,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Energy Off-Grid (EPS) (Total)"
+    name: "Load Energy Off Grid (EPS) (Total)"
     id: Eeps_all
     register_type: read
     address: 54
@@ -2269,18 +2269,18 @@ text_sensor:
       if (x == "0000") return std::string("Standby");
       if (x == "0001") return std::string("Fault");
       if (x == "0002") return std::string("Programming");
-      if (x == "0004") return std::string("PV On-Grid");
+      if (x == "0004") return std::string("PV On Grid");
       if (x == "0008") return std::string("PV Charge");
-      if (x == "000c") return std::string("PV Charge + On-Grid");
-      if (x == "0010") return std::string("Battery On-Grid");
-      if (x == "0014") return std::string("PV + Battery On-Grid");
+      if (x == "000c") return std::string("PV Charge + On Grid");
+      if (x == "0010") return std::string("Battery On Grid");
+      if (x == "0014") return std::string("PV + Battery On Grid");
       if (x == "0020") return std::string("AC Charge");
       if (x == "0028") return std::string("PV + AC Charge");
-      if (x == "0040") return std::string("Battery Off-Grid");
-      if (x == "0060") return std::string("Off-Grid + Battery Charging (AC-Coupled)");
-      if (x == "0080") return std::string("PV Off-Grid (Not Recommended)");
-      if (x == "0088") return std::string("PV Charge + Off-Grid");
-      if (x == "00c0") return std::string("PV + Battery Off-Grid");
+      if (x == "0040") return std::string("Battery Off Grid");
+      if (x == "0060") return std::string("Off Grid + Battery Charging (AC-Coupled)");
+      if (x == "0080") return std::string("PV Off Grid (Not Recommended)");
+      if (x == "0088") return std::string("PV Charge + Off Grid");
+      if (x == "00c0") return std::string("PV + Battery Off Grid");
       // Fallback: If the code is not recognized, show the raw hex value.
       return std::string("Unknown (0x") + x + ")";
 
@@ -3108,7 +3108,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge Volt Cutoff Off-Grid"
+    name: "Battery Discharge Volt Cutoff Off Grid"
     id: CutVoltForDischg
     address: 100
     register_type: holding
@@ -3175,7 +3175,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge SOC Cutoff On-Grid"
+    name: "Battery Discharge SOC Cutoff On Grid"
     id: EOD
     address: 105
     register_type: holding
@@ -3412,7 +3412,7 @@ number:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Battery Discharge SOC Cutoff Off-Grid"
+    name: "Battery Discharge SOC Cutoff Off Grid"
     id: SOCLowLimitForEPSDischg
     address: 125
     register_type: holding
@@ -3664,7 +3664,7 @@ switch:
                 value: !lambda 'return (int)id(FuncEn_RawValue).state & ~(1 << 5);'
 
   - platform: template
-    name: "On-grid Power Soft Start Enable"
+    name: "On Grid Power Soft Start Enable"
     id: FuncEn_GridOnPowerSSEn
     turn_on_action:
       - if:
@@ -4000,7 +4000,7 @@ switch:
 
   #This option is there... does stuff, but is unused by the EG4 platform
   - platform: template
-    name: "Take Load Together On-grid"
+    name: "Take Load Together On Grid"
     id: FuncEn1_ubTakeLoadTogether
     internal: true
     turn_on_action:
