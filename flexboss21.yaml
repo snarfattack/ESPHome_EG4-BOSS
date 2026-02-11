@@ -322,7 +322,7 @@ sensor:
     state_class: measurement
     #update_interval: never
     lambda: |-
-      if (std::isnan(id(Ppv1).state) || std::isnan(id(Ppv2).state)) || std::isnan(id(Ppv3).state)) { return NAN; }
+      if (std::isnan(id(Ppv1).state) || std::isnan(id(Ppv2).state) || std::isnan(id(Ppv3).state)) { return NAN; }
       return id(Ppv1).state + id(Ppv2).state + id(Ppv3).state;
 
   - platform: modbus_controller
