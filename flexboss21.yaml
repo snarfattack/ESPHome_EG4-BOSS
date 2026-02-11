@@ -446,7 +446,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Voltage"
+    name: "Load Off-Grid (EPS) Voltage"
     id: VepsR
     register_type: read
     address: 20
@@ -459,7 +459,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Voltage - S"
+    name: "Load Off-Grid (EPS) Voltage - S"
     id: VepsS
     register_type: read
     address: 21
@@ -472,7 +472,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Voltage - T"
+    name: "Load Off-Grid (EPS) Voltage - T"
     id: VepsT
     register_type: read
     address: 22
@@ -485,7 +485,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Port Frequency"
+    name: "Load Off-Grid (EPS) Frequency"
     id: Feps
     register_type: read
     address: 23
@@ -498,7 +498,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Port Power"
+    name: "Load Off-Grid (EPS) Power"
     id: Peps
     register_type: read
     address: 24
@@ -508,7 +508,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Apparent Power"
+    name: "Load Off-Grid (EPS) Apparent Power"
     id: Seps
     register_type: read
     address: 25
@@ -580,7 +580,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "On-Grid Energy (Today)"
+    name: "Load Energy On-Grid (Today)"
     id: Einv_day
     register_type: read
     address: 31
@@ -636,7 +636,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Energy (Today)"
+    name: "Load Off-Grid (EPS) Energy (Today)"
     id: Eeps_day
     register_type: read
     address: 35
@@ -802,7 +802,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "EPS Energy (Total)"
+    name: "Load Off-Grid (EPS) Energy (Total)"
     id: Eeps_all
     register_type: read
     address: 54
@@ -1877,7 +1877,21 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Energy (Total)"
+    name: "Load Energy On Grid (Today)"
+    id: Eload_day
+    register_type: read
+    address: 171
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 1
+    value_type: U_DWORD
+    filters:
+      - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: inverter_1
+    name: "Load Energy On Grid (Total)"
     id: Eload_all
     register_type: read
     address: 172
