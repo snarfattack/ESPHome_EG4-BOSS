@@ -466,7 +466,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Voltage"
+    name: "Load Voltage Off-Grid (EPS)"
     id: VepsR
     register_type: read
     address: 20
@@ -479,7 +479,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Voltage - S"
+    name: "Load Voltage Off-Grid (EPS) - S"
     id: VepsS
     register_type: read
     address: 21
@@ -492,7 +492,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Voltage - T"
+    name: "Load Voltage Off-Grid (EPS) - T"
     id: VepsT
     register_type: read
     address: 22
@@ -505,7 +505,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Frequency"
+    name: "Load Frequency Off-Grid (EPS)"
     id: Feps
     register_type: read
     address: 23
@@ -518,7 +518,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Power"
+    name: "Load Power Off-Grid (EPS)"
     id: Peps
     register_type: read
     address: 24
@@ -528,7 +528,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Apparent Power"
+    name: "Load Apparent Power Off-Grid (EPS)"
     id: Seps
     register_type: read
     address: 25
@@ -656,7 +656,7 @@ sensor:
       
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Energy (Today)"
+    name: "Load Energy Off-Grid (EPS) (Today)"
     id: Eeps_day
     register_type: read
     address: 35
@@ -822,7 +822,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Load Off-Grid (EPS) Energy (Total)"
+    name: "Load Energy Off-Grid (EPS) (Total)"
     id: Eeps_all
     register_type: read
     address: 54
