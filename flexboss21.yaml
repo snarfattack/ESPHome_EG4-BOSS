@@ -320,7 +320,7 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     state_class: measurement
-    update_interval: never
+    #update_interval: never
     lambda: |-
       if (std::isnan(id(Ppv1).state) || std::isnan(id(Ppv2).state)) || std::isnan(id(Ppv3).state)) { return NAN; }
       return id(Ppv1).state + id(Ppv2).state + id(Ppv3).state;
@@ -357,7 +357,7 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     state_class: measurement
-    update_interval: never
+    #update_interval: never
     lambda: |-
       if (std::isnan(id(Pcharge).state) || std::isnan(id(Pdischarge).state)) { return NAN; }
       return id(Pcharge).state - id(Pdischarge).state;
