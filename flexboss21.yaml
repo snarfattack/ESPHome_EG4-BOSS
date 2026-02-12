@@ -521,7 +521,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
-    name: "Inverter Off Grid (EPS)"
+    name: "Inverter Power Off Grid (EPS)"
     id: Peps
     register_type: read
     address: 24
