@@ -2429,17 +2429,17 @@ text_sensor:
 
   - platform: template
     name: "EPS Load Power Show"
-    id: EpsShow
+    id: EpsLoadPowerShow
     #Published from Sensor, register 77
 
   - platform: template
     name: "Grid Load Power Show"
-    id: GridShow
+    id: GridLoadPowerShow
     #Published from Sensor, register 77
 
   - platform: template
     name: "Total Load Power Show"
-    id: PShow
+    id: PLoadPowerShow
     #Published from Sensor, register 77
     
   - platform: modbus_controller
