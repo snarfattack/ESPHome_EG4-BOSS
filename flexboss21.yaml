@@ -429,9 +429,6 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
-    on_value:
-      then:
-        - component.update: LoadPower
         
   - platform: modbus_controller
     modbus_controller_id: inverter_1
@@ -528,7 +525,10 @@ sensor:
     unit_of_measurement: "W"
     device_class: power
     value_type: U_WORD
-
+    on_value:
+      then:
+        - component.update: LoadPower
+        
   - platform: modbus_controller
     modbus_controller_id: inverter_1
     name: "Inverter Apparent Power Off Grid (EPS)"
@@ -1974,8 +1974,8 @@ sensor:
     state_class: measurement
     update_interval: never
     lambda: |-
-      if (std::isnan(id(Ploadongrid).state) || std::isnan(id(Pinv).state)) { return NAN; }
-      return id(Ploadongrid).state + id(Pinv).state;
+      if (std::isnan(id(Ploadongrid).state) || std::isnan(id(Peps).state)) { return NAN; }
+      return id(Ploadongrid).state + id(Peps).state;
 
   - platform: modbus_controller
     modbus_controller_id: inverter_1
