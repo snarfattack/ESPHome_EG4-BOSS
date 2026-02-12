@@ -1997,7 +1997,7 @@ sensor:
   - platform: template  
     name: "Load Energy (Today)"
     id: LoadEnergy_day
-    unit_of_measurement: "KWh"
+    unit_of_measurement: "kWh"
     device_class: energy
     state_class: total_increasing
     update_interval: never
