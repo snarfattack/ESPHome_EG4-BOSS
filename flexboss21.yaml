@@ -630,7 +630,7 @@ sensor:
   - platform: template
     name: "PV Energy (Today)"
     id: Epv_day
-    unit_of_measurement: "kW"
+    unit_of_measurement: "kWh"
     device_class: energy
     state_class: total_increasing
     update_interval: never
@@ -819,7 +819,7 @@ sensor:
   - platform: template
     name: "PV Energy (Total)"
     id: Epv_all
-    unit_of_measurement: "kW"
+    unit_of_measurement: "kWh"
     device_class: energy
     state_class: total_increasing
     update_interval: never
