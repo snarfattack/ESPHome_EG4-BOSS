@@ -3711,7 +3711,7 @@ number:
     device_class: duration
     internal: true
 
-#Intentionally skipping 152-157 as these are duplicates of prior registers and not used
+  #Intentionally skipping 152-157 as these are duplicates of prior registers and not used
   - platform: modbus_controller
     modbus_controller_id: inv_hold
     internal: true
@@ -3886,13 +3886,21 @@ number:
     min_value: 40
     max_value: 56
     register_type: holding
-    register_count: 7 #Skipping 170-175 as they are battery SOC calibration curves. Not exposed by EG4.
     device_class: voltage
     unit_of_measurement: "V"    
     value_type: U_WORD
     step: 0.1
     lambda: "return x * 0.1;"
     write_lambda: "return x * 10.0;" 
+  
+  #Intentionally skipping 170-175 as they are battery SOC calibration curves. Not exposed by EG4.
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    internal: true
+    id: skip170
+    register_type: holding
+    address: 170
+    response_size: 12
 
   - platform: modbus_controller
     modbus_controller_id: inv_hold
@@ -3913,7 +3921,6 @@ number:
     id: GenRatePower
     address: 177
     register_type: holding
-    register_count: 2 #skipping 178 as it appears unused and no documentation for what it may do.
     unit_of_measurement: "kW"
     device_class: power
     step: 0.1
@@ -3921,6 +3928,13 @@ number:
     write_lambda: "return x * 10.0;" 
     internal: true
 
+  #Intentionally skipping 178 as it appears unused and no documentation for what it may do.
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    internal: true
+    id: skip178
+    register_type: holding
+    address: 178
 
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
