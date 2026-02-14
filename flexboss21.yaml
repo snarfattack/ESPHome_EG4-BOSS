@@ -3714,6 +3714,7 @@ number:
 #Intentionally skipping 152-157 as these are duplicates of prior registers and not used
   - platform: modbus_controller
     modbus_controller_id: inv_hold
+    internal: true
     register_type: holding
     address: 152
     response_size: 12
