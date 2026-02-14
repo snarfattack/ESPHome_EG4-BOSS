@@ -78,7 +78,7 @@ modbus_controller:
     modbus_id: mb
     update_interval: 10s
 
- - id: inv_hold
+  - id: inv_hold
     address: 1
     modbus_id: mb
     update_interval: 4h
