@@ -77,11 +77,15 @@ modbus_controller:
     address: 1        # inverter_1 Modbus address
     modbus_id: mb
     update_interval: 10s
+    command_throttle: 5ms
 
   - id: inv_hold
     address: 1
     modbus_id: mb
     update_interval: ${holdingrefresh}
+    #offline_skip_updates: 20
+    command_throttle: 5ms
+    max_cmd_retries: 3
 
 binary_sensor:
   - platform: template
