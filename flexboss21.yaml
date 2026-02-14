@@ -2524,7 +2524,6 @@ text_sensor:
     name: "Serial Number - Holding"
     address: 2
     register_type: holding
-
     register_count: 5
     response_size: 10
     raw_encode: NONE 
@@ -2550,7 +2549,6 @@ text_sensor:
     name: "Firmware"
     address: 7
     register_type: holding
-
     register_count: 8
     response_size: 8
     raw_encode: NONE 
@@ -2594,7 +2592,6 @@ text_sensor:
     id: inverter_time
     device_class: timestamp
     register_type: holding
-
     address: 12
     register_count: 3
     response_size: 6
@@ -2638,7 +2635,7 @@ text_sensor:
 select:
   # this option map does not appear correct as it's defaulted to a value of 1. Commenting out for how as it's not important to ongoing operations
   #- platform: modbus_controller
-  #  modbus_controller_id: inv_read
+  #  modbus_controller_id: inv_hold
   #  name: "Language"
   #  id: inv_language
   #  address: 16
@@ -2650,7 +2647,7 @@ select:
 
   #this option map does not appear correct. Commenting out for how as it's not important to ongoing operations
   #- platform: modbus_controller
-  #  modbus_controller_id: inv_read
+  #  modbus_controller_id: inv_hold
   #  name: "Device Type"
   #  id: DTC_DeviceType
   #  address: 19
@@ -2663,12 +2660,11 @@ select:
     #[14:08:22.586][E][modbus_controller.select:035]: No option found for mapping 10284
 
   - platform: modbus_controller
-    modbus_controller_id: inv_read
+    modbus_controller_id: inv_hold
     name: "PV Input Model"
     id: pvInputModel
     address: 20
     value_type: U_WORD
-
     optionsmap: 
       "No PV": 0
       "PV1 Only": 1
@@ -2719,12 +2715,11 @@ select:
             return (float)val;
 
   - platform: modbus_controller
-    modbus_controller_id: inv_read
+    modbus_controller_id: inv_hold
     name: "Set System Type"
     id: SetSystemType
     address: 112
     value_type: U_WORD
-
     optionsmap: 
       "No Parallel": 0
       "Single Phase Parallel Primary": 1
