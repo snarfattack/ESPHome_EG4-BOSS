@@ -87,6 +87,14 @@ modbus_controller:
     command_throttle: 5ms
     max_cmd_retries: 3
 
+button:
+  - platform: template
+    name: "Read Hold Registers"
+    icon: "mdi:refresh"
+    on_press:
+      then:
+        - component.update: inv_hold 
+
 binary_sensor:
   - platform: template
     name: "Ethernet DHCP Active"
@@ -2812,7 +2820,31 @@ select:
             int current = (int)id(stSysEnable_RawValue).state;
             return (uint16_t)((current & ~(1 << 7)) | (idx << 7));
 
+  #not sure if this is even used in the FlexBoss
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Output Priority Config"
+    id: OutputPrioConfig
+    address: 145
+    value_type: U_WORD
+    internal: true
+    optionsmap: 
+      "Battery First": 0
+      "PV First": 1
+      "AC First": 2
 
+  #not sure if this is even used in the FlexBoss
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Line Mode"
+    id: LineMode
+    address: 146
+    value_type: U_WORD
+    internal: true
+    optionsmap: 
+      "APL (90-208V 20ms)": 0
+      "UPS (170-280V 10ms)": 1
+      "GEN (90-280V 20ms)": 2
 
 number:
   #this option is useless to read and change... for documentation only
@@ -3516,9 +3548,20 @@ number:
     unit_of_measurement: "%"
     min_value: 0
     max_value: 100
-
     step: 1
-    
+
+  # this value is changing... not sure what it does.
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Special Load Compensate Max"
+    id: SpecLoadCompensate
+    address: 137
+    internal: true
+    register_type: holding
+    unit_of_measurement: "W"
+    device_class: power
+    step: 1
+
   #Duplicate, appears unused compared to the other one.
   - platform: modbus_controller
     modbus_controller_id: inv_hold
@@ -3600,6 +3643,276 @@ number:
     lambda: "return x * 0.1;"
     write_lambda: "return x * 10.0;" 
     
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Battery Open Loop Capacity"
+    id: OLBatCapacity
+    register_type: holding
+    address: 147
+    unit_of_measurement: Ah
+    value_type: U_WORD
+
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Battery Open Loop Voltage Nominal"
+    id: BatteryNominalVoltage
+    address: 148
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 40.0
+    max_value: 59.0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #don't think this is valid/used
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Battery Open Loop Voltage Equalization"
+    id: BatteryEqualizationVoltage
+    address: 149
+    register_type: holding
+    unit_of_measurement: "V"
+    device_class: voltage
+    min_value: 50.0
+    max_value: 59.0
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #don't think this is valid/used
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Battery Open Loop Balancing Interval"
+    id: EqualizationInterval
+    register_type: holding
+    address: 150
+    min_value: 0
+    max_value: 365
+    unit_of_measurement: 'd'
+    device_class: duration
+    internal: true
+
+  #don't think this is valid/used
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Battery Open Loop Balancing Duration"
+    id: EqualizationTime
+    register_type: holding
+    address: 151
+    register_count: 7 #Intentionally skipping 152-157 as these are duplicates of prior registers and not used
+    min_value: 0
+    max_value: 24
+    unit_of_measurement: 'h'
+    device_class: duration
+    internal: true
+
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "AC Charge Mode Volt Start"
+    id: ACChgStartVolt
+    address: 158
+    min_value: 38.5
+    max_value: 52.0
+    register_type: holding
+    device_class: voltage
+    unit_of_measurement: "V"    
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "AC Charge Mode Volt Stop"
+    id: ACChgEndVolt
+    address: 159
+    min_value: 48.0
+    max_value: 59.0
+    register_type: holding
+    device_class: voltage
+    unit_of_measurement: "V"
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "AC Charge Mode SOC Start"
+    id: ACChgStartSOC
+    address: 160
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 90
+    step: 1  
+
+  #already defined in address 67...  This is unused  
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "AC Charge Mode SOC Stop"
+    id: ACChgEndSOC
+    address: 161
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 101
+    step: 1
+    internal: true
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "BatLowVoltage"
+    id: BatLowVoltage
+    address: 162
+    min_value: 40.0
+    max_value: 50.0
+    register_type: holding
+    device_class: voltage
+    unit_of_measurement: "V"    
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "BatLowBackVoltage"
+    id: BatLowBackVoltage
+    address: 163
+    min_value: 42
+    max_value: 52
+    register_type: holding
+    device_class: voltage
+    unit_of_measurement: "V"    
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "BatLowSOC"
+    id: BatLowSOC
+    address: 164
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 90
+    step: 1  
+    internal: true
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "BatLowBackSOC"
+    id: BatLowBackSOC
+    address: 165
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 20
+    max_value: 100
+    step: 1  
+    internal: true
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "BatLowtoUtilityVoltage"
+    id: BatLowtoUtilityVoltage
+    address: 166
+    min_value: 44.4
+    max_value: 51.4
+    register_type: holding
+    device_class: voltage
+    unit_of_measurement: "V"    
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "BatLowtoUtilitySOC"
+    id: BatLowtoUtilitySOC
+    address: 167
+    register_type: holding
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 100
+    step: 1  
+    internal: true
+
+  #this appears to be unused
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "AC Charge Current from AC"
+    id: ACChargeBatCurrent
+    address: 168
+    register_type: holding
+    unit_of_measurement: "A"
+    device_class: current
+    min_value: 0
+    max_value: 140
+    step: 1 
+    internal: true
+
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Battery Discharge Volt Cutoff On-Grid"
+    id: OngridEODVoltage
+    address: 169
+    min_value: 40
+    max_value: 56
+    register_type: holding
+    register_count: 7 #Skipping 170-175 as they are battery SOC calibration curves. Not exposed by EG4.
+    device_class: voltage
+    unit_of_measurement: "V"    
+    value_type: U_WORD
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Grid Import Max Power"
+    id: MaxGridInputPower
+    address: 176
+    register_type: holding
+    unit_of_measurement: "kW"
+    device_class: power
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+
+  #not used in the flexboss as it has no Gen port. Assuming based on other controls this is actually in kW, not W like the modbus doc says.
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Generator Input Rated Power"
+    id: GenRatePower
+    address: 177
+    register_type: holding
+    register_count: 2 #skipping 178 as it appears unused and no documentation for what it may do.
+    unit_of_measurement: "kW"
+    device_class: power
+    step: 0.1
+    lambda: "return x * 0.1;"
+    write_lambda: "return x * 10.0;" 
+    internal: true
+
 
 
 # This is here to ensure that the LED for 'Cloud' isn't half-lit
