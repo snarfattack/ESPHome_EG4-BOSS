@@ -73,11 +73,15 @@ modbus:
     inverted: true
 
 modbus_controller:
-  - id: inverter_1
+  - id: inv_read
     address: 1        # inverter_1 Modbus address
     modbus_id: mb
     update_interval: 10s
-    #command_throttle: 2ms
+
+ - id: inv_hold
+    address: 1
+    modbus_id: mb
+    update_interval: 4h
 
 binary_sensor:
   - platform: template
@@ -106,7 +110,7 @@ binary_sensor:
     #Published from Sensor, register 77
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Alarm CH1"
     id: AFCIFlag_ArcAlarmCH1
     register_type: read
@@ -115,7 +119,7 @@ binary_sensor:
     device_class: problem
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Alarm CH2"
     id: AFCIFlag_ArcAlarmCH2
     register_type: read
@@ -124,7 +128,7 @@ binary_sensor:
     device_class: problem
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Alarm CH3"
     id: AFCIFlag_ArcAlarmCH3
     register_type: read
@@ -133,7 +137,7 @@ binary_sensor:
     device_class: problem
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Alarm CH4"
     id: AFCIFlag_ArcAlarmCH4
     register_type: read
@@ -142,7 +146,7 @@ binary_sensor:
     device_class: problem
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Self Test Result CH1"
     id: AFCIFlag_SelfTestResultCH1
     register_type: read
@@ -151,7 +155,7 @@ binary_sensor:
     device_class: problem
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Self Test Result CH2"
     id: AFCIFlag_SelfTestResultCH2
     register_type: read
@@ -160,7 +164,7 @@ binary_sensor:
     device_class: problem
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Self Test Result CH3"
     id: AFCIFlag_SelfTestResultCH3
     register_type: read
@@ -169,7 +173,7 @@ binary_sensor:
     device_class: problem
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Self Test Result CH4"
     id: AFCIFlag_SelfTestResultCH4
     register_type: read
@@ -179,7 +183,7 @@ binary_sensor:
     
 sensor:
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV1 Voltage"
     id: Vpv1
     register_type: read
@@ -192,7 +196,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV2 Voltage"
     id: Vpv2
     register_type: read
@@ -205,7 +209,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV3 Voltage"
     id: Vpv3
     register_type: read
@@ -218,7 +222,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Voltage"
     id: Vbat
     register_type: read
@@ -232,7 +236,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     id: raw_battery_status
     address: 5
     register_type: read
@@ -267,7 +271,7 @@ sensor:
     accuracy_decimals: 0
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Internal Fault"
     id: FaultInternal
     register_type: read
@@ -276,7 +280,7 @@ sensor:
     entity_category: diagnostic
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV1 Power"
     id: Ppv1
     register_type: read
@@ -289,7 +293,7 @@ sensor:
         - component.update: Ppv
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV2 Power"
     id: Ppv2
     register_type: read
@@ -302,7 +306,7 @@ sensor:
         - component.update: Ppv
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV3 Power"
     id: Ppv3
     register_type: read
@@ -326,7 +330,7 @@ sensor:
       return id(Ppv1).state + id(Ppv2).state + id(Ppv3).state;
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Charge Power"
     id: Pcharge
     register_type: read
@@ -339,7 +343,7 @@ sensor:
         - component.update: batterypowerflow
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Discharge Power"
     id: Pdischarge
     register_type: read
@@ -364,7 +368,7 @@ sensor:
 
     # this is Phase R or Split Phase grid voltage
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Voltage"
     id: VacR
     register_type: read
@@ -379,7 +383,7 @@ sensor:
 
     # this is Phase S grid voltage
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Voltage - S"
     id: VacS
     register_type: read
@@ -394,7 +398,7 @@ sensor:
 
     # this is Phase T grid voltage
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Voltage - T"
     id: VacT
     register_type: read
@@ -408,7 +412,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Frequency"
     id: Fac
     register_type: read
@@ -421,7 +425,7 @@ sensor:
       - multiply: 0.01
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Power On Grid"
     id: Pinv
     register_type: read
@@ -431,7 +435,7 @@ sensor:
     value_type: U_WORD
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AC Charging Rectified Power"
     id: Prec
     register_type: read
@@ -441,7 +445,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Current RMS"
     id: IinvRMS
     register_type: read
@@ -453,7 +457,7 @@ sensor:
       - multiply: 0.01
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Power Factor"
     id: PF
     register_type: read
@@ -465,7 +469,7 @@ sensor:
       - multiply: 0.001
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Voltage Off Grid (EPS)"
     id: VepsR
     register_type: read
@@ -478,7 +482,7 @@ sensor:
        - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Voltage Off Grid (EPS) - S"
     id: VepsS
     register_type: read
@@ -491,7 +495,7 @@ sensor:
        - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Voltage Off Grid (EPS) - T"
     id: VepsT
     register_type: read
@@ -504,7 +508,7 @@ sensor:
        - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Frequency Off Grid (EPS)"
     id: Feps
     register_type: read
@@ -517,7 +521,7 @@ sensor:
       - multiply: 0.01
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Power Off Grid (EPS)"
     id: Peps
     register_type: read
@@ -530,7 +534,7 @@ sensor:
         - component.update: LoadPower
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Apparent Power Off Grid (EPS)"
     id: Seps
     register_type: read
@@ -540,7 +544,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Export Power"
     id: Ptogrid
     register_type: read
@@ -553,7 +557,7 @@ sensor:
         - component.update: gridpowerflow
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Import Power"
     id: Ptouser
     register_type: read
@@ -577,7 +581,7 @@ sensor:
       return id(Ptogrid).state - id(Ptouser).state;
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV1 Energy (Today)"
     id: Epv1_day
     register_type: read
@@ -594,7 +598,7 @@ sensor:
         - component.update: Epv_day
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV2 Energy (Today)"
     id: Epv2_day
     register_type: read
@@ -611,7 +615,7 @@ sensor:
         - component.update: Epv_day
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV3 Energy (Today)"
     id: Epv3_day
     register_type: read
@@ -639,7 +643,7 @@ sensor:
       return id(Epv1_day).state + id(Epv2_day).state + id(Epv3_day).state;
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Energy (Today)"
     id: Einv_day
     register_type: read
@@ -653,7 +657,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AC Charging Rectified Energy (Today)"
     id: Erec_day
     register_type: read
@@ -667,7 +671,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Charge Energy (Today)"
     id: Echg_day
     register_type: read
@@ -681,7 +685,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Discharge Energy (Today)"
     id: Edischg_day
     register_type: read
@@ -695,7 +699,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Load Energy Off Grid (EPS) (Today)"
     id: Eeps_day
     register_type: read
@@ -712,7 +716,7 @@ sensor:
         - component.update: LoadEnergy_day
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Export Energy (Today)"
     id: Etogrid_day
     register_type: read
@@ -726,7 +730,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Import Energy (Today)"
     id: Etouser_day
     register_type: read
@@ -740,7 +744,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Bus 1 Voltage"
     id: Vbus1
     register_type: read
@@ -753,7 +757,7 @@ sensor:
       - multiply: 0.1
             
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Bus 2 Voltage"
     id: Vbus2
     register_type: read
@@ -766,7 +770,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV1 Energy (Total)"
     id: Epv1_all
     register_type: read
@@ -783,7 +787,7 @@ sensor:
         - component.update: Epv_all
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV2 Energy (Total)"
     id: Epv2_all
     register_type: read
@@ -800,7 +804,7 @@ sensor:
         - component.update: Epv_all
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV3 Energy (Total)"
     id: Epv3_all
     register_type: read
@@ -828,7 +832,7 @@ sensor:
       return id(Epv1_all).state + id(Epv2_all).state + id(Epv3_all).state;
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Energy (Total)"
     id: Einv_all
     register_type: read
@@ -842,7 +846,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AC Charging Rectified Energy (Total)"
     id: Erec_all
     register_type: read
@@ -856,7 +860,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Charge Energy (Total)"
     id: Echg_all
     register_type: read
@@ -870,7 +874,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Discharge Energy (Total)"
     id: Edischg_all
     register_type: read
@@ -884,7 +888,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Load Energy Off Grid (EPS) (Total)"
     id: Eeps_all
     register_type: read
@@ -901,7 +905,7 @@ sensor:
         - component.update: LoadEnergy_all
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Export Energy (Total)"
     id: Etogrid_all
     register_type: read
@@ -915,7 +919,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Import Energy (Total)"
     id: Etouser_all
     register_type: read
@@ -929,7 +933,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Fault Codes"
     id: FaultCode
     register_type: read
@@ -939,7 +943,7 @@ sensor:
     entity_category: diagnostic
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Warning Code"
     id: WarningCode
     register_type: read
@@ -949,7 +953,7 @@ sensor:
     entity_category: diagnostic
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature Internal Ring"
     id: Tinner
     register_type: read
@@ -960,7 +964,7 @@ sensor:
     state_class: measurement
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature Radiator 1"
     id: Tradiator1
     register_type: read
@@ -971,7 +975,7 @@ sensor:
     state_class: measurement
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature Radiator 2"
     id: Tradiator2
     register_type: read
@@ -982,7 +986,7 @@ sensor:
     state_class: measurement
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature Battery"
     id: Tbat
     register_type: read
@@ -994,7 +998,7 @@ sensor:
     state_class: measurement
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Runtime"
     id: RunningTime
     register_type: read
@@ -1006,7 +1010,7 @@ sensor:
     device_class: duration
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     id: ATS_raw
     register_type: read
     address: 71
@@ -1051,7 +1055,7 @@ sensor:
             }
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     id: ATL_raw
     register_type: read
     address: 72
@@ -1081,7 +1085,7 @@ sensor:
             }
   
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Auto Test Default Time"
     id: uwAutoTestDefaultTime
     register_type: read
@@ -1092,7 +1096,7 @@ sensor:
     device_class: duration
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     id: ATV_raw
     register_type: read
     address: 74
@@ -1122,7 +1126,7 @@ sensor:
             }
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Auto Test Trip Time"
     id: uwAutoTestTripTime
     register_type: read
@@ -1134,7 +1138,7 @@ sensor:
     device_class: duration
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     id: ACInputTypeFlags2
     register_type: read
     register_count: 3  #read next register as well to improve performance reading registers, but ignore it as we don't know what it is.
@@ -1197,7 +1201,7 @@ sensor:
 
 # TODO. There are two values stored here, Will take some trial and error due to lack of documentation
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Type and Brand"
     id: batTypeandBrand
     register_type: read
@@ -1209,7 +1213,7 @@ sensor:
       return raw & 0xFF; // Lower 8 bits
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Max Charge Current"
     id: MaxChgCurr
     register_type: read
@@ -1221,7 +1225,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Max Discharge Current"
     id: MaxDischgCurr
     register_type: read
@@ -1233,7 +1237,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Recommended Charging Voltage"
     id: ChargeVoltRef
     register_type: read
@@ -1246,7 +1250,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Recommended Discharge Cut-off Voltage"
     id: DischgCutVolt
     register_type: read
@@ -1259,7 +1263,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 0"
     id: BatStatus0_BMS
     register_type: read
@@ -1268,7 +1272,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 1"
     id: BatStatus1_BMS
     register_type: read
@@ -1277,7 +1281,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 2"
     id: BatStatus2_BMS
     register_type: read
@@ -1286,7 +1290,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 3"
     id: BatStatus3_BMS
     register_type: read
@@ -1295,7 +1299,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 4"
     id: BatStatus4_BMS
     register_type: read
@@ -1304,7 +1308,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 5"
     id: BatStatus5_BMS
     register_type: read
@@ -1313,7 +1317,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 6"
     id: BatStatus6_BMS
     register_type: read
@@ -1322,7 +1326,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 7"
     id: BatStatus7_BMS
     register_type: read
@@ -1331,7 +1335,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 8"
     id: BatStatus8_BMS
     register_type: read
@@ -1340,7 +1344,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information 9"
     id: BatStatus9_BMS
     register_type: read
@@ -1349,7 +1353,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Status Information Summary"
     id: BatStatus_INV
     register_type: read
@@ -1358,7 +1362,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Batteries in Parallel"
     id: BatParallelNum
     register_type: read
@@ -1367,7 +1371,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Capacity"
     id: BatCapacity
     register_type: read
@@ -1376,7 +1380,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Current"
     id: BatCurrent_BMS
     register_type: read
@@ -1388,7 +1392,7 @@ sensor:
       - multiply: 0.1
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Fault Code"
     id: FaultCode_BMS
     register_type: read
@@ -1397,7 +1401,7 @@ sensor:
     value_type: U_WORD
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Warning Code"
     id: WarningCode_BMS
     register_type: read
@@ -1406,7 +1410,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Voltage Cell Max"
     id: MaxCellVolt_BMS
     register_type: read
@@ -1419,7 +1423,7 @@ sensor:
       - multiply: 0.001
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Voltage Cell Min"
     id: MinCellVolt_BMS
     register_type: read
@@ -1443,7 +1447,7 @@ sensor:
     id: DeltaCellVolt_BMS   
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature BMS Cell Max"
     id: MaxCellTemp_BMS
     register_type: read
@@ -1456,7 +1460,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature BMS Cell Min"
     id: MinCellTemp_BMS
     register_type: read
@@ -1469,7 +1473,7 @@ sensor:
       - multiply: 0.1
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Battery Cycle Count"
     id: CycleCnt_BMS
     register_type: read
@@ -1478,7 +1482,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Battery Voltage Sample"
     id: BatVoltSample_INV
     register_type: read
@@ -1491,7 +1495,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature T1"
     id: T1
     register_type: read
@@ -1504,7 +1508,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature T2"
     id: T2
     register_type: read
@@ -1517,7 +1521,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature T3"
     id: T3
     register_type: read
@@ -1530,7 +1534,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature T4"
     id: T4
     register_type: read
@@ -1543,7 +1547,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature T5"
     id: T5
     register_type: read
@@ -1556,7 +1560,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     id: InverterParellelFlags
     register_type: read
     address: 113
@@ -1597,7 +1601,7 @@ sensor:
 
   #Does not appear to be used on the Flexboss
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Load Power On Grid (12K)"
     id: Ploadongrid12k
     register_type: read
@@ -1608,7 +1612,7 @@ sensor:
     internal: true
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Half BUS Voltage"
     id: VBusP
     register_type: read
@@ -1622,7 +1626,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Generator Voltage"
     id: GenVolt
     register_type: read
@@ -1636,7 +1640,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Generator Frequency"
     id: GenFreq
     register_type: read
@@ -1649,7 +1653,7 @@ sensor:
       - multiply: 0.01
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Generator Power"
     id: GenPower
     register_type: read
@@ -1659,7 +1663,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Generator Energy (Day)"
     id: Egen_day
     register_type: read
@@ -1673,7 +1677,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Generator Energy (Total)"
     id: Egen_all
     register_type: read
@@ -1687,7 +1691,7 @@ sensor:
       - multiply: 0.1
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     force_new_range: true
     name: "EPS Voltage L1N"
     id: EPSVoltL1N
@@ -1701,7 +1705,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Voltage L2N"
     id: EPSVoltL2N
     register_type: read
@@ -1714,7 +1718,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Power L1N"
     id: Peps_L1N
     register_type: read
@@ -1724,7 +1728,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Power L2N"
     id: Peps_L2N
     register_type: read
@@ -1734,7 +1738,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Apparent Power L1N"
     id: Seps_L1N
     register_type: read
@@ -1744,7 +1748,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Apparent Power L2N"
     id: Seps_L2N
     register_type: read
@@ -1754,7 +1758,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Power L1N (Day)"
     id: EepsL1N_day
     register_type: read
@@ -1768,7 +1772,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Power L2N (Day)"
     id: EepsL2N_day
     register_type: read
@@ -1782,7 +1786,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Power L1N (Total)"
     id: EepsL1N_all
     register_type: read
@@ -1796,7 +1800,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "EPS Power L2N (Total)"
     id: EepsL2N_all
     register_type: read
@@ -1810,7 +1814,7 @@ sensor:
       - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Reactive Power"
     id: Qinv
     register_type: read
@@ -1820,7 +1824,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI current CH1"
     id: AFCI_CurrCH1
     register_type: read
@@ -1830,7 +1834,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI current CH2"
     id: AFCI_CurrCH2
     register_type: read
@@ -1840,7 +1844,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI current CH3"
     id: AFCI_CurrCH3
     register_type: read
@@ -1850,7 +1854,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI current CH4"
     id: AFCI_CurrCH4
     register_type: read
@@ -1861,7 +1865,7 @@ sensor:
 
   #Adding this for some debugging and monitoring of the raw values... some of the AFCI values are not making sense.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Flags"
     id: AFCIFlags
     register_type: read
@@ -1870,7 +1874,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc CH1"
     id: AFCI_ArcCH1
     register_type: read
@@ -1879,7 +1883,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc CH2"
     id: AFCI_ArcCH2
     register_type: read
@@ -1888,7 +1892,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc CH3"
     id: AFCI_ArcCH3
     register_type: read
@@ -1897,7 +1901,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc CH4"
     id: AFCI_ArcCH4
     register_type: read
@@ -1906,7 +1910,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Max CH1"
     id: AFCI_MaxArcCH1
     register_type: read
@@ -1915,7 +1919,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Max CH2"
     id: AFCI_MaxArcCH2
     register_type: read
@@ -1924,7 +1928,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Max CH3"
     id: AFCI_MaxArcCH3
     register_type: read
@@ -1933,7 +1937,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AFCI Arc Max CH4"
     id: AFCI_MaxArcCH4
     register_type: read
@@ -1942,7 +1946,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AC Couple Power"
     id: ACCouplePower
     register_type: read
@@ -1954,7 +1958,7 @@ sensor:
 #TODO have some more sensors to add here that I missed.
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Load Power On Grid"
     id: Ploadongrid
     register_type: read
@@ -1978,7 +1982,7 @@ sensor:
       return id(Ploadongrid).state + id(Peps).state;
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Load Energy On Grid (Today)"
     id: Eload_day
     register_type: read
@@ -2006,7 +2010,7 @@ sensor:
       return id(Eload_day).state + id(Eeps_day).state;
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Load Energy On Grid (Total)"
     id: Eload_all
     register_type: read
@@ -2034,7 +2038,7 @@ sensor:
       return id(Eload_all).state + id(Eeps_all).state;
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Switch State"
     id: SwitchState
     register_type: read
@@ -2043,7 +2047,7 @@ sensor:
     value_type: U_WORD
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Power On Grid - S"
     id: PinvGridS
     register_type: read
@@ -2053,7 +2057,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Power On Grid - T"
     id: PinvGridT
     register_type: read
@@ -2063,7 +2067,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AC Charging Rectified Power - S"
     id: PinvChgS
     register_type: read
@@ -2073,7 +2077,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "AC Charging Rectified Power - T"
     id: PinvChgT
     register_type: read
@@ -2083,7 +2087,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Export Power - S"
     id: PtoGridS
     register_type: read
@@ -2093,7 +2097,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Export Power - T"
     id: PtoGridT
     register_type: read
@@ -2103,7 +2107,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Import Power - S"
     id: PtoUserS
     register_type: read
@@ -2113,7 +2117,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Import Power - T"
     id: PtoUserT
     register_type: read
@@ -2123,7 +2127,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Current RMS - S"
     id: IinvRMSS
     register_type: read
@@ -2135,7 +2139,7 @@ sensor:
       - multiply: 0.01
       
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Current RMS - T"
     id: IinvRMST
     register_type: read
@@ -2147,7 +2151,7 @@ sensor:
       - multiply: 0.01
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Power Factor - S"
     id: PF_S
     register_type: read
@@ -2159,7 +2163,7 @@ sensor:
       - multiply: 0.001
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Power Factor - T"
     id: PF_T
     register_type: read
@@ -2171,7 +2175,7 @@ sensor:
       - multiply: 0.001
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Voltage L1N"
     id: VgridL1N
     register_type: read
@@ -2184,7 +2188,7 @@ sensor:
        - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Voltage L2N"
     id: VgridL2N
     register_type: read
@@ -2197,7 +2201,7 @@ sensor:
        - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Generator Voltage L1N"
     id: VgenL1N
     register_type: read
@@ -2210,7 +2214,7 @@ sensor:
        - multiply: 0.1
        
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Generator Voltage L2N"
     id: VgenL2N
     register_type: read
@@ -2223,7 +2227,7 @@ sensor:
        - multiply: 0.1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Power L1N"
     id: PinvL1N
     register_type: read
@@ -2233,7 +2237,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Inverter Power L2N"
     id: PinvL2N
     register_type: read
@@ -2243,7 +2247,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Rectified Power L1N"
     id: PrecL1N
     register_type: read
@@ -2253,7 +2257,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Rectified Power L2N"
     id: PrecL2N
     register_type: read
@@ -2263,7 +2267,7 @@ sensor:
     value_type: U_WORD
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Export Power L1N"
     id: PtogridL1N
     register_type: read
@@ -2273,7 +2277,7 @@ sensor:
     value_type: U_WORD
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Export Power L2N"
     id: PtogridL2N
     register_type: read
@@ -2283,7 +2287,7 @@ sensor:
     value_type: U_WORD
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Import Power L1N"
     id: PtoUserL1N
     register_type: read
@@ -2293,7 +2297,7 @@ sensor:
     value_type: U_WORD
         
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Grid Import Power L2N"
     id: PtoUserL2N
     register_type: read
@@ -2303,7 +2307,7 @@ sensor:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Remaining Charge Time"
     id: RemainingChargeTime
     register_type: read
@@ -2314,7 +2318,7 @@ sensor:
     device_class: duration
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature INDC"
     id: Tindc
     register_type: read
@@ -2325,7 +2329,7 @@ sensor:
     state_class: measurement
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature DCDCL"
     id: Tdcdcl
     register_type: read
@@ -2336,7 +2340,7 @@ sensor:
     state_class: measurement
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Temperature DCDCH"
     id: Tdcdch
     register_type: read
@@ -2365,7 +2369,7 @@ sensor:
     
 text_sensor:
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Working Mode"
     id: state
     register_type: read
@@ -2443,7 +2447,7 @@ text_sensor:
     #Published from Sensor, register 77
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Battery Communication Type"
     id: batComType
     register_type: read
@@ -2460,7 +2464,7 @@ text_sensor:
 
 #TODO there are more sensors here to process based on the luxpower modbus documentation
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "BMS Firmware Update State"
     id: BMSFWUpdateState
     register_type: read
@@ -2489,7 +2493,7 @@ text_sensor:
     id: PhasesSequence
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Serial Number"
     address: 115 
     register_type: read
@@ -2516,11 +2520,11 @@ text_sensor:
 # Holding registers ********************************************
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Serial Number - Holding"
     address: 2
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
+
     register_count: 5
     response_size: 10
     raw_encode: NONE 
@@ -2542,11 +2546,11 @@ text_sensor:
       return serial;  
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Firmware"
     address: 7
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
+
     register_count: 8
     response_size: 8
     raw_encode: NONE 
@@ -2585,12 +2589,12 @@ text_sensor:
       return serial;  
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Inverter Time"
     id: inverter_time
     device_class: timestamp
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
+
     address: 12
     register_count: 3
     response_size: 6
@@ -2634,7 +2638,7 @@ text_sensor:
 select:
   # this option map does not appear correct as it's defaulted to a value of 1. Commenting out for how as it's not important to ongoing operations
   #- platform: modbus_controller
-  #  modbus_controller_id: inverter_1
+  #  modbus_controller_id: inv_read
   #  name: "Language"
   #  id: inv_language
   #  address: 16
@@ -2646,7 +2650,7 @@ select:
 
   #this option map does not appear correct. Commenting out for how as it's not important to ongoing operations
   #- platform: modbus_controller
-  #  modbus_controller_id: inverter_1
+  #  modbus_controller_id: inv_read
   #  name: "Device Type"
   #  id: DTC_DeviceType
   #  address: 19
@@ -2659,12 +2663,12 @@ select:
     #[14:08:22.586][E][modbus_controller.select:035]: No option found for mapping 10284
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "PV Input Model"
     id: pvInputModel
     address: 20
     value_type: U_WORD
-    skip_updates: ${skipUpdatesHolding}
+
     optionsmap: 
       "No PV": 0
       "PV1 Only": 1
@@ -2715,12 +2719,12 @@ select:
             return (float)val;
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_read
     name: "Set System Type"
     id: SetSystemType
     address: 112
     value_type: U_WORD
-    skip_updates: ${skipUpdatesHolding}
+
     optionsmap: 
       "No Parallel": 0
       "Single Phase Parallel Primary": 1
@@ -2814,7 +2818,7 @@ select:
 number:
   #this option is useless to read and change... for documentation only
   #- platform: modbus_controller
-  #  modbus_controller_id: inverter_1
+  #  modbus_controller_id: inv_hold
   #  name: "MODBUS Address"
   #  id: ComAddr
   #  address: 15
@@ -2824,7 +2828,7 @@ number:
   #  max_value: 150
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "FuncEnRawValue"
     id: FuncEn_RawValue
     register_type: holding
@@ -2881,7 +2885,7 @@ number:
           state: !lambda 'return (bool)((int)x & (1 << 15));'
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "PV Input Start Volt"
     id: StartPVVolt
     address: 22
@@ -2890,7 +2894,7 @@ number:
     device_class: voltage
     min_value: 140.0
     max_value: 500.0
-    skip_updates: ${skipUpdatesHolding}
+
     step: 0.1
     # Scale the value for display (Read 900 -> Show 90.0)
     lambda: "return x * 0.1;"
@@ -2899,7 +2903,7 @@ number:
 
   #not sure what this is for...
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Charging Power Percentage"
     id: ChargePowerPercentCMD
     address: 64
@@ -2907,12 +2911,11 @@ number:
     unit_of_measurement: "%"
     min_value: 0
     max_value: 100
-    #skip_updates: ${skipUpdatesHolding}
     step: 1
 
   #not sure what this is for...
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Discharging Power Percentage"
     id: DischgPowerPercentCMD
     address: 65
@@ -2920,11 +2923,10 @@ number:
     unit_of_measurement: "%"
     min_value: 0
     max_value: 100
-    #skip_updates: ${skipUpdatesHolding}
     step: 1    
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "AC Charge Mode Power Rate"
     id: ACChgPowerCMD
     address: 66
@@ -2938,7 +2940,7 @@ number:
     write_lambda: "return x * 10.0;" 
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "AC Charge Mode SOC Stop"
     id: ACChgSOCLimit
     address: 67
@@ -2950,7 +2952,7 @@ number:
 
   # --- AC Charge Times ---
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ACChgStart1Raw
     address: 68
     register_type: holding
@@ -2961,7 +2963,7 @@ number:
         - component.update: ACChgStart1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ACChgEnd1Raw
     address: 69
     register_type: holding
@@ -2972,7 +2974,7 @@ number:
         - component.update: ACChgEnd1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ACChgStart2Raw
     address: 70
     register_type: holding
@@ -2983,7 +2985,7 @@ number:
         - component.update: ACChgStart2
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ACChgEnd2Raw
     address: 71
     register_type: holding
@@ -2994,7 +2996,7 @@ number:
         - component.update: ACChgEnd2
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ACChgStart3Raw
     address: 72
     register_type: holding
@@ -3005,7 +3007,7 @@ number:
         - component.update: ACChgStart3
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ACChgEnd3Raw
     address: 73
     register_type: holding
@@ -3016,7 +3018,7 @@ number:
         - component.update: ACChgEnd3
     
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "PV Priority Charge Mode Power Rate"
     id: ChgFirstPowerCMD
     address: 74
@@ -3030,7 +3032,7 @@ number:
     write_lambda: "return x * 10.0;" 
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "PV Priority Charge Mode SOC Limit"
     id: ChgFirstSOCLimit
     address: 75
@@ -3042,7 +3044,7 @@ number:
 
   # --- PV Charge Times ---
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: PVChgStart1Raw
     address: 76
     register_type: holding
@@ -3053,7 +3055,7 @@ number:
         - component.update: PVChgStart1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: PVChgEnd1Raw
     address: 77
     register_type: holding
@@ -3064,7 +3066,7 @@ number:
         - component.update: PVChgEnd1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: PVChgStart2Raw
     address: 78
     register_type: holding
@@ -3075,7 +3077,7 @@ number:
         - component.update: PVChgStart2
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: PVChgEnd2Raw
     address: 79
     register_type: holding
@@ -3086,7 +3088,7 @@ number:
         - component.update: PVChgEnd2
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: PVChgStart3Raw
     address: 80
     register_type: holding
@@ -3097,7 +3099,7 @@ number:
         - component.update: PVChgStart3
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: PVChgEnd3Raw
     address: 81
     register_type: holding
@@ -3108,7 +3110,7 @@ number:
         - component.update: PVChgEnd3
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Forced Discharge Mode Power Rate"
     id: ForcedDischgPowerCMD
     address: 82
@@ -3122,7 +3124,7 @@ number:
     write_lambda: "return x * 10.0;" 
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Forced Discharge Mode SOC Limit"
     id: ForcedDischgSOCLimit
     address: 83
@@ -3134,7 +3136,7 @@ number:
     
   # --- Forced Discharge Times ---
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ForcedDischgStart1Raw
     address: 84
     register_type: holding
@@ -3145,7 +3147,7 @@ number:
         - component.update: ForcedDischgStart1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ForcedDischgEnd1Raw
     address: 85
     register_type: holding
@@ -3156,7 +3158,7 @@ number:
         - component.update: ForcedDischgEnd1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ForcedDischgStart2Raw
     address: 86
     register_type: holding
@@ -3167,7 +3169,7 @@ number:
         - component.update: ForcedDischgStart2
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ForcedDischgEnd2Raw
     address: 87
     register_type: holding
@@ -3178,7 +3180,7 @@ number:
         - component.update: ForcedDischgEnd2
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ForcedDischgStart3Raw
     address: 88
     register_type: holding
@@ -3189,7 +3191,7 @@ number:
         - component.update: ForcedDischgStart3
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     id: ForcedDischgEnd3Raw
     address: 89
     register_type: holding
@@ -3200,12 +3202,11 @@ number:
         - component.update: ForcedDischgEnd3
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Open Loop Voltage Absorb"
     id: LAChargeVoltRef
     address: 99
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     unit_of_measurement: "V"
     device_class: voltage
     min_value: 50.0
@@ -3215,12 +3216,11 @@ number:
     write_lambda: "return x * 10.0;" 
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Discharge Volt Cutoff Off Grid"
     id: CutVoltForDischg
     address: 100
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     unit_of_measurement: "V"
     device_class: voltage
     min_value: 40.0
@@ -3230,12 +3230,11 @@ number:
     write_lambda: "return x * 10.0;" 
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Charge Current Limit"
     id: ChargeCurr
     address: 101
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     unit_of_measurement: A
     device_class: current
     min_value: 0
@@ -3243,12 +3242,11 @@ number:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Discharge Current Limit"
     id: DischgCurr
     address: 102
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     unit_of_measurement: A
     device_class: current
     min_value: 0
@@ -3256,12 +3254,11 @@ number:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Grid Sell Back Max Power"
     id: MaxBackFlow
     address: 103
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     unit_of_measurement: "kW"
     #this differs from LuxPower branded inverters which uses % instead
     device_class: power
@@ -3272,17 +3269,16 @@ number:
 
   #this is an 18kPV parameter?
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "DischgChgSWCMD"
     id: DischgChgSWCMD
     address: 104
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     value_type: U_WORD
     internal: true
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Discharge SOC Cutoff On Grid"
     id: EOD
     address: 105
@@ -3290,16 +3286,14 @@ number:
     unit_of_measurement: "%"
     min_value: 0
     max_value: 100
-    skip_updates: ${skipUpdatesHolding}
     step: 1
 
   #these appear unused
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "TemprLowerLimitDischg"
     id: TemprLowerLimitDischg
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     address: 106
     device_class: temperature
     unit_of_measurement: "°C"
@@ -3311,11 +3305,10 @@ number:
 
   #these appear unused
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "TemprUpperLimitDischg"
     id: TemprUpperLimitDischg
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     address: 107
     device_class: temperature
     unit_of_measurement: "°C"
@@ -3327,11 +3320,10 @@ number:
 
   #these appear unused
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "TemprLowerLimitChg"
     id: TemprLowerLimitChg
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     address: 108
     device_class: temperature
     unit_of_measurement: "°C"
@@ -3343,11 +3335,10 @@ number:
 
   #these appear unused
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "TemprUpperLimitChg"
     id: TemprUpperLimitChg
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     address: 109
     device_class: temperature
     unit_of_measurement: "°C"
@@ -3358,7 +3349,7 @@ number:
     internal: true
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "FuncEn1RawValue"
     id: FuncEn1_RawValue
     register_type: holding
@@ -3406,7 +3397,7 @@ number:
             if (opts.has_value()) { id(FuncEn1_CTSampleRatio).publish_state(opts.value()); }
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "SetComposedPhase"
     id: SetComposedPhase
     register_type: holding
@@ -3424,7 +3415,7 @@ number:
             if (option.has_value()) {id(SetComposedPhase_onGridDetectedPhase).publish_state(option.value()); }
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Start Discharge When Grid Import Power Above"
     id: PtoUserStartdischg
     address: 116
@@ -3436,7 +3427,7 @@ number:
 
   #Don't see this exposed by EG4. seems to be set to 65486W
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Start Charging When Grid Import Power Below"
     id: PtoUserStartchg
     address: 117
@@ -3448,12 +3439,11 @@ number:
     internal: true
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Open Loop Ongrid Voltage Discharge Derate"
     id: VbatStartDerating
     address: 118
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     unit_of_measurement: "V"
     device_class: voltage
     min_value: 38.0
@@ -3463,7 +3453,7 @@ number:
     write_lambda: "return x * 10.0;" 
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "CT Power Offset"
     id: wCT_PowerOffset
     address: 119
@@ -3476,7 +3466,7 @@ number:
     step: 1
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "stSysEnable_RawValue"
     id: stSysEnable_RawValue
     register_type: holding
@@ -3509,7 +3499,7 @@ number:
 
   #Not sure what this does or how it's used.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Maintenance Count"
     id: MaintenanceCount
     address: 122
@@ -3519,7 +3509,7 @@ number:
     value_type: U_WORD
 
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Discharge SOC Cutoff Off Grid"
     id: SOCLowLimitForEPSDischg
     address: 125
@@ -3527,12 +3517,12 @@ number:
     unit_of_measurement: "%"
     min_value: 0
     max_value: 100
-    skip_updates: ${skipUpdatesHolding}
+
     step: 1
     
   #Duplicate, appears unused compared to the other one.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "ChargePowerPercentCMD"
     id: ChargePowerPercentCMD2
     address: 138
@@ -3543,7 +3533,7 @@ number:
 
   #Duplicate, appears unused compared to the other one.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "DischgPowerPercentCMD"
     id: DischgPowerPercentCMD2
     address: 139
@@ -3554,7 +3544,7 @@ number:
   
   #Duplicate, appears unused compared to the other one.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "ACChgPowerCMD"
     id: ACChgPowerCMD2
     address: 140
@@ -3565,7 +3555,7 @@ number:
   
   #Duplicate, appears unused compared to the other one.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "ChgFirstPowerCMD"
     id: ChgFirstPowerCMD2
     address: 141
@@ -3576,7 +3566,7 @@ number:
   
   #Duplicate, appears unused compared to the other one.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "ForcedDischgPowerCMD"
     id: ForcedDischgPowerCMD2
     address: 142
@@ -3587,7 +3577,7 @@ number:
   
   #Not sure what this is used for
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "ActivePowerPercentCMD"
     id: ActivePowerPercentCMD
     address: 143
@@ -3596,7 +3586,7 @@ number:
     value_type: U_WORD
   
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Battery Open Loop Voltage Float Charge"
     id: FloatChargeVolt
     address: 144
@@ -3973,12 +3963,11 @@ switch:
 
   #This is an 18kPV parameter?
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "AutoTestStart"
     id: AutoTestStart
     address: 98
     register_type: holding
-    skip_updates: ${skipUpdatesHolding}
     internal: true
 
   #This throws an error and flips back off when I try to enable it. I'm assuming this can't be enabled unless the battery setting is set to none first.
@@ -4196,7 +4185,7 @@ switch:
 
   #Not sure this is exposed by EG4... in modbus documentation.
   - platform: modbus_controller
-    modbus_controller_id: inverter_1
+    modbus_controller_id: inv_hold
     name: "Clear Parallel Alarm"
     id: ClearFunction
     address: 114
