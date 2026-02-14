@@ -3715,6 +3715,7 @@ number:
   - platform: modbus_controller
     modbus_controller_id: inv_hold
     internal: true
+    id: skip152
     register_type: holding
     address: 152
     response_size: 12
