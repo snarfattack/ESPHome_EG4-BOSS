@@ -1,7 +1,7 @@
 substitutions:
   name: "flexboss21"
   friendly_name: "FlexBOSS21"
-  skipUpdatesHolding: 5
+  holdingrefresh: 4h
   
 esphome:
   name: "${name}"
@@ -81,7 +81,7 @@ modbus_controller:
   - id: inv_hold
     address: 1
     modbus_id: mb
-    update_interval: 4h
+    update_interval: ${holdingrefresh}
 
 binary_sensor:
   - platform: template
