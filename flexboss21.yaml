@@ -23,6 +23,7 @@ esp32:
 # Enable logging
 logger:
     level: INFO
+    baud_rate: 0
 
 # Enable Home Assistant API
 api:
@@ -77,14 +78,14 @@ modbus_controller:
     address: 1        # inverter_1 Modbus address
     modbus_id: mb
     update_interval: 10s
-    command_throttle: 500ms
+    command_throttle: 50ms
 
   - id: inv_hold
     address: 1
     modbus_id: mb
     update_interval: ${holdingrefresh}
     #offline_skip_updates: 20
-    command_throttle: 500ms
+    command_throttle: 50ms
     max_cmd_retries: 3
 
 button:
