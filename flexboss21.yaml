@@ -84,7 +84,7 @@ modbus_controller:
     modbus_id: mb
     update_interval: ${holdingrefresh}
     #offline_skip_updates: 20
-    command_throttle: 5ms
+    command_throttle: 10ms
     max_cmd_retries: 3
 
 button:
@@ -2561,7 +2561,7 @@ text_sensor:
     name: "Firmware"
     address: 7
     register_type: holding
-    register_count: 8
+    register_count: 5
     response_size: 8
     raw_encode: NONE 
     lambda: |-
@@ -2645,30 +2645,30 @@ text_sensor:
     id: SetComposedPhase_onGridDetectedPhase
 
 select:
-  # this option map does not appear correct as it's defaulted to a value of 1. Commenting out for how as it's not important to ongoing operations
-  #- platform: modbus_controller
-  #  modbus_controller_id: inv_hold
-  #  name: "Language"
-  #  id: inv_language
-  #  address: 16
-  #  internal: True
-  #  value_type: U_WORD
-  #  optionsmap: 
-  #    "English": 0
-  #    "German": 1
+  # this option map does not appear correct as it's defaulted to a value of 1. 
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Language"
+    id: inv_language
+    address: 16
+    internal: True
+    value_type: U_WORD
+    optionsmap: 
+      "English": 0
+      "German": 1
 
-  #this option map does not appear correct. Commenting out for how as it's not important to ongoing operations
-  #- platform: modbus_controller
-  #  modbus_controller_id: inv_hold
-  #  name: "Device Type"
-  #  id: DTC_DeviceType
-  #  address: 19
-  #  internal: True
-  #  value_type: U_WORD
-  #  optionsmap: 
-  #    "Default": 0
-  #    "XOLTA": 3
-  #    "Unknown": 10284
+  #this option map does not appear correct.
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "Device Type"
+    id: DTC_DeviceType
+    address: 19
+    internal: True
+    value_type: U_WORD
+    optionsmap: 
+      "Default": 0
+      "XOLTA": 3
+      "Unknown": 10284
     #[14:08:22.586][E][modbus_controller.select:035]: No option found for mapping 10284
 
   - platform: modbus_controller
@@ -2848,15 +2848,16 @@ select:
 
 number:
   #this option is useless to read and change... for documentation only
-  #- platform: modbus_controller
-  #  modbus_controller_id: inv_hold
-  #  name: "MODBUS Address"
-  #  id: ComAddr
-  #  address: 15
-  #  register_type: holding
-  #  step: 1
-  #  min_value: 0
-  #  max_value: 150
+  - platform: modbus_controller
+    modbus_controller_id: inv_hold
+    name: "MODBUS Address"
+    id: ComAddr
+    address: 15
+    register_type: holding
+    step: 1
+    min_value: 0
+    max_value: 150
+    internal: true
 
   - platform: modbus_controller
     modbus_controller_id: inv_hold
