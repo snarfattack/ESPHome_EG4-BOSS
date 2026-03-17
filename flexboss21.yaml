@@ -248,40 +248,29 @@ sensor:
     filters: 
       - multiply: 0.1
 
-  - platform: modbus_controller
-    modbus_controller_id: inv_read
-    id: raw_battery_status
-    address: 5
-    register_type: read
-    value_type: U_WORD
-    internal: true        # Hides this raw sensor from Home Assistant
-    on_value:
-      then:
-        - lambda: |-
-            // Extract values from the packed 0xHHLL word
-            int raw = int(x);
-            int soc_val = raw & 0xFF;        // Lower 8 bits (LL)
-            int soh_val = (raw >> 8) & 0xFF; // Upper 8 bits (HH)
-            
-            // Push values to the template sensors
-            id(SOC).publish_state(soc_val);
-            id(SOH).publish_state(soh_val);
-
   - platform: template
     name: "Battery State of Charge"
     id: SOC
+    register_type: read
+    address: 5    
     unit_of_measurement: "%"
     device_class: battery
     state_class: measurement
     accuracy_decimals: 0
+    value_type: U_WORD
+    lambda: return data[item->offset + 1];
 
   - platform: template
     name: "Battery State of Health"
     id: SOH
+    register_type: read
+    address: 5    
     unit_of_measurement: "%"
     device_class: battery
     state_class: measurement
     accuracy_decimals: 0
+    value_type: U_WORD
+    lambda: return data[item->offset];
 
   - platform: modbus_controller
     modbus_controller_id: inv_read
