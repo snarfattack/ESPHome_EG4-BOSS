@@ -2406,7 +2406,7 @@ text_sensor:
     id: FaultCode
     register_type: read
     address: 60
-    value_type: U_DWORD_R
+    register_count: 2
     entity_category: diagnostic
     icon: mdi:alert    
     lambda: |-
@@ -2425,7 +2425,7 @@ text_sensor:
     icon: mdi:alert
     register_type: read
     address: 62
-    value_type: U_DWORD_R
+    register_count: 2
     entity_category: diagnostic
     lambda: |-
       char result[20];
